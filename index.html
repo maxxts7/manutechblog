@@ -501,6 +501,8 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 </div>
 
 <p>The path forward has two parts. First, de-noise the compliance direction &mdash; train linear probes instead of using raw PCA, identify and subtract out confounds like response length and topic. Second, develop detection axes that track output harmfulness rather than behavioural mode, targeting the fictional-framing blind spot directly. This is the path from "shows promising signal" to "works reliably as an intervention."</p>
+
+<p>A natural extension is to factorise detection itself the same way we factorised detection from correction. Instead of gating on a single assistant axis, use <em>two</em> detection axes: one for behavioural mode (the existing assistant axis) and one for output harmfulness. A prompt would trigger correction if <em>either</em> axis fires. This directly addresses the fictional framing blind spot &mdash; even when the model stays firmly in helpful-assistant mode, a harmfulness axis could flag that the content being generated is dangerous. Our own dataset provides evidence that this is needed: fictional framing prompts consistently avoided refusal under both single-axis and cross-axis capping precisely because the assistant-axis projection remained high, leaving the detection gate closed. A two-axis detection scheme would catch what the current architecture structurally cannot.</p>
 </section>
 
 <!-- ================================================================ -->
