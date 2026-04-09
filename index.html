@@ -374,8 +374,10 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <h2>Factoring the problem</h2>
 
 <div class="callout trivia">
-<div class="callout-label">Where the axes come from</div>
-<p>The assistant axis is not trained &mdash; it is extracted from the model's existing representations by contrasting "helpful assistant" behaviour with other modes. It was pre-computed by Lu et al. and published as a downloadable vector. The compliance axis is computed the same way, but contrasting refusing outputs with compliant ones. Both axes are just directions already present in the model's geometry.</p>
+<div class="callout-label">Contrast vectors</div>
+<p>Both axes are <strong>contrast vectors</strong> &mdash; directions extracted from the model's own representations by subtracting the mean activations of one behaviour from another. The assistant axis is computed as:</p>
+<pre><code>axis = mean(default_assistant_activations) - mean(role_playing_activations)</code></pre>
+<p>Activations are taken from the post-MLP residual stream, averaged over all response tokens, at every layer independently. Lu et al. pre-computed this vector and published it as a downloadable artifact. The compliance axis is computed the same way, but contrasting refusing outputs with compliant ones. Technically, contrast vectors roughly approximate a linear probe trained to discriminate between the two conditions &mdash; but they are far cheaper to compute, requiring only forward passes and a mean difference rather than gradient-based optimisation. Both axes are directions already present in the model's geometry; the contrast procedure simply identifies them.</p>
 </div>
 
 <p>The modification is straightforward. Keep the assistant axis for detection &mdash; it is well-studied and comes with pre-computed vectors. But compute a second direction, a <strong>compliance axis</strong>, specifically for correction.</p>
