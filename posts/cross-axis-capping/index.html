@@ -282,8 +282,8 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>But Zhao et al. (2025) found something that complicates this picture. They showed that language models encode harmfulness and refusal as separate concepts on distinct directional axes. Steering harmfulness changes the model's assessment of risk. Steering refusal changes whether the model acts on that assessment. These are different computations running in parallel inside the model.</p>
 
 <div class="callout question">
-<div class="callout-label">The key question</div>
-<p>If the direction that best detects jailbreaks is different from the direction that best induces refusal, why would you use one direction for both? What would happen if you separated them?</p>
+<div class="callout-label">The research question</div>
+<p>What is the empirical effect on jailbreak refusal rates of replacing single-axis activation capping with a two-axis approach that separates detection from correction?</p>
 </div>
 
 <p>This creates a tension. The assistant axis is good at detecting when the model has left its default mode &mdash; but that might not be the right direction to push along when correcting. The direction that best answers "is this a jailbreak?" need not be the same direction that best answers "how do I make this model refuse?" Using one axis for both jobs is a design constraint, not a necessity.</p>
@@ -415,6 +415,11 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>At each generation step, the system checks two conditions. First: does the assistant-axis projection fall below its threshold? This is the detection gate. If the model is still in normal assistant mode, nothing happens. Second, only if the gate has fired: does the compliance-axis projection fall below its own threshold? If so, push the hidden state along the compliance axis until it reaches the threshold. Two axes, two thresholds, independently tunable. The mathematical formulation is in <a href="#appendix-math">Appendix A1</a>.</p>
 </section>
 
+<div class="callout trivia">
+<div class="callout-label">A note on methodology</div>
+<p>During exploration the priority was fast iteration and proof-of-existence rather than principled axis selection, and many candidate directions were tried before settling on the compliance axis. Without a prior model of how the activation space is distributed, it is not obvious what a principled methodology would even look like &mdash; so proceeding by search is a defensible, if arguable, position.</p>
+</div>
+
 <!-- ================================================================ -->
 <section>
 <h2>Results</h2>
@@ -518,16 +523,20 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <p>Factoring detection from correction works. On a single model with 100 jailbreak prompts, cross-axis capping nearly doubles the refusal rate at no capability cost. The improvement is one-directional &mdash; 29 prompts flipped from compliance to refusal, none went the other way &mdash; so this is a pure safety gain rather than a trade. The compliance axis, computed from just 50 refusing and 50 compliant examples, carries enough signal to meaningfully change outcomes.</p>
 
-<p>These are exploratory results. The sample is small (error bars on 62.5% with n=88 are roughly &plusmn;10 percentage points), the model is a single architecture (Qwen3-32B), and the threshold was not optimised. The compliance axis was computed from 100 examples in a 5,120-dimensional space &mdash; it is under-determined and noisy. The same data was used for both axis construction and threshold calibration, so the calibration is technically contaminated; because the threshold is a single scalar, this is unlikely to invalidate the headline result, but it does mean the few cases of capability degradation observed at generation time could plausibly be removed by a cleaner threshold sweep. Even uncorrected, the cross-axis degradation was lower than the single-axis baseline. Better calibration of the assistant axis would also lift the single-axis numbers somewhat &mdash; but on the evidence here, it is unlikely to close the gap.</p>
-
-<p>The fictional-framing limitation is arguably the more important finding, and it surfaced incidentally. It points at something about the geometry of safety in these models: behavioural mode and output harmfulness are genuinely different dimensions. A model can sit firmly in helpful-assistant mode while producing harmful content, and any detection scheme that tracks mode rather than content will be structurally blind to this. So what would it take to close that blind spot?</p>
-
 <div class="callout question">
 <div class="callout-label">Closing the blind spot</div>
 <p>The natural extension is to factorise detection itself, the same way we factorised detection from correction. Instead of gating on a single assistant axis, use two detection axes &mdash; one for behavioural mode, one for output harmfulness &mdash; and trigger correction if either fires. Our own data argues for this: the fictional-framing prompts slipped past both single- and cross-axis capping precisely because the assistant-axis projection stayed high, leaving the gate closed. A second detection axis tuned to harmfulness would catch what the current architecture, by construction, cannot.</p>
 </div>
 
-<p>A note on methodology: during exploration the priority was fast iteration and proof-of-existence rather than principled axis selection, and many candidate directions were tried before settling on the compliance axis. Without a prior model of how the activation space is distributed, it is not obvious what a principled methodology would even look like &mdash; so proceeding by search is a defensible, if arguable, position.</p>
+<h3>Limitations</h3>
+
+<p>These are exploratory results. The sample is small (error bars on 62.5% with n=88 are roughly &plusmn;10 percentage points), the model is a single architecture (Qwen3-32B), and the threshold was not optimised. The compliance axis was computed from 100 examples in a 5,120-dimensional space &mdash; it is under-determined and noisy. The same data was used for both axis construction and threshold calibration, so the calibration is technically contaminated; because the threshold is a single scalar, this is unlikely to invalidate the headline result, but it does mean the few cases of capability degradation observed at generation time could plausibly be removed by a cleaner threshold sweep. Even uncorrected, the cross-axis degradation was lower than the single-axis baseline. Better calibration of the assistant axis would also lift the single-axis numbers somewhat &mdash; but on the evidence here, it is unlikely to close the gap.</p>
+
+<h3>Future directions</h3>
+
+<p>The fictional-framing limitation is arguably the more important finding, and it surfaced incidentally. It points at something about the geometry of safety in these models: behavioural mode and output harmfulness are genuinely different dimensions. A model can sit firmly in helpful-assistant mode while producing harmful content, and any detection scheme that tracks mode rather than content will be structurally blind to this. So the new research question would be what would it take to close that blind spot?</p>
+
+
 </section>
 
 <!-- ================================================================ -->
