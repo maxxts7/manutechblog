@@ -48,11 +48,18 @@ article { max-width: 720px; margin: 0 auto; padding: 3.5rem 1.5rem 5rem; }
 /* ── Header ── */
 header { margin-bottom: 3.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
 header h1 { font-size: 2.4rem; font-weight: 800; line-height: 1.15; margin: 0 0 0.6rem; letter-spacing: -0.03em; color: var(--text); }
-header .subtitle { font-size: 1.05rem; color: var(--text-secondary); margin: 0.2rem 0 1.2rem; font-weight: 400; line-height: 1.5; }
-header .meta { font-size: 0.78rem; color: var(--gray-400); letter-spacing: 0.03em; text-transform: uppercase; }
+header .subtitle { font-size: 1.05rem; color: var(--text-secondary); margin: 0.2rem 0 1.6rem; font-weight: 400; line-height: 1.5; }
+header .author-line { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+header .author-name { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+header .meta-date { font-size: 0.82rem; color: var(--gray-400); }
+header .github-link { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--gray-400); text-decoration: none; transition: color 0.15s; }
+header .github-link:hover { color: var(--text); }
+header .github-link svg { width: 16px; height: 16px; fill: currentColor; }
+header .meta-note { font-size: 0.82rem; color: var(--gray-400); margin: 0.75rem 0 0; font-style: italic; }
+header .meta-note strong { color: var(--text-secondary); font-weight: 600; font-style: normal; }
 
 /* ── Typography ── */
-h2 { font-size: 1.5rem; font-weight: 700; margin: 3.5rem 0 1.2rem; letter-spacing: -0.02em; }
+h2 { font-size: 1.5rem; font-weight: 700; margin: 3.5rem 0 1.2rem; letter-spacing: -0.02em; padding-left: 0.75rem; border-left: 3px solid var(--blue); }
 p { margin: 0 0 1.25rem; }
 strong { font-weight: 600; }
 a { color: var(--blue); text-decoration: none; }
@@ -223,34 +230,45 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <article>
 
 <header>
-  <h1>Cross-Axis Capping<br><span style="font-size:0.5em;letter-spacing:-0.01em;color:var(--text-secondary);line-height:2">What happens when you stop using one axis for two jobs</span></h1>
+  <h1>Cross-Axis Capping: What happens when you stop using one axis for two jobs</h1>
   <p class="subtitle">Separating jailbreak detection from correction in activation space</p>
-  <p class="meta">Exploratory study &middot; Qwen3-32B &middot; 100 jailbreak + 50 benign prompts &middot; April 2026</p>
+  <div class="author-line">
+    <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
+    <span class="meta-date">April 2026</span>
+    <a href="https://github.com/maxxts7/cross-capping" class="github-link"><svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+  </div>
+  <p class="meta-note">Carried out as part of the <strong>BlueDot Impact</strong> Technical AI Safety sprint. Compute funded by a Rapid Grant.</p>
 </header>
 
 <!-- ================================================================ -->
 <section>
 <h2>How models say no</h2>
 
-<p>When a language model refuses a harmful request, the decision is not made at the final output layer. It happens earlier, deep inside the model's intermediate representations.</p>
+<p>When a language model declines a harmful request, that decision isn't made at the moment of output. It emerges much earlier, within the model's internal computations.</p>
 
-<p>At each layer of a transformer, every token is represented as a vector in a high-dimensional space &mdash; 5,120 dimensions for the model used here (Qwen3-32B). These vectors encode everything the model "knows" at that point in the computation: the meaning of the text so far, the context, and &mdash; critically &mdash; the model's internal state about how to respond. Whether the model is in its default helpful mode, playing a character, or preparing to refuse a request corresponds to different regions in this space.</p>
-
-<p>This is not metaphor. Arditi et al. (2024) showed that refusal in language models is mediated by a single direction in activation space. Remove that direction and the model loses the ability to refuse. Zou et al. (2023) demonstrated that internal representations can be steered by adding vectors, changing the model's behaviour without retraining. And Lu et al. (2026) identified an "assistant axis" &mdash; a direction that separates default, helpful-assistant behaviour from other behavioural modes.</p>
-
-<p>These findings suggest a practical intervention. If you can monitor a model's hidden states during generation and detect when they drift toward a jailbroken state, you can correct them in real time. This is <strong>activation capping</strong>: at each generation step, project the hidden state onto a known direction, check whether it has crossed a threshold, and if so, push it back. The model never knows it has been corrected. From the outside, it simply refuses.</p>
-
-<p>The question is which direction to use &mdash; and whether one direction is enough.</p>
+<p>At every layer of a transformer, each token is represented as a vector &mdash; a point in a space with thousands of dimensions (5,120, in the case of Qwen3-32B). These vectors carry everything the model has processed up to that point: the meaning of the input, the surrounding context, and the model's implicit orientation toward a response. Whether it's operating in its default helpful mode, adopting a persona, or preparing to push back on a request, each of these states corresponds to a distinct region of that high-dimensional space.</p>
 
 <div class="callout trivia">
 <div class="callout-label">Dimensions in context</div>
 <p>Qwen3-32B's hidden states live in 5,120-dimensional space. A single "axis" is one direction in that space &mdash; like choosing one compass bearing in a room with 5,120 independent directions. The fact that safety-relevant behaviour can be captured by just one or two directions, out of thousands, is itself a striking finding about how these models organise information.</p>
 </div>
+
+<p>This isn't an abstraction. Research has made it concrete. Arditi et al. (2024) found that refusal behaviour is governed by a single direction in activation space &mdash; eliminate that direction, and the model can no longer refuse. Zou et al. (2023) showed that adding vectors to a model's internal representations can steer its behaviour without any retraining. And Lu et al. (2026) identified what they called an "assistant axis": a direction that separates the model's default, cooperative mode from other behavioural states.</p>
+
+<p>Taken together, these findings point toward a practical approach. If you can observe a model's hidden states during generation and detect when they begin drifting toward a jailbroken configuration, you can intervene in real time &mdash; projecting the hidden state onto a known direction, checking whether it has crossed a threshold, and nudging it back if so. The model itself is unaware of the correction. To an outside observer, it simply declines.</p>
+
+<p>The open question is which direction to monitor &mdash; and whether a single direction is ever sufficient.</p>
 </section>
 
 <!-- ================================================================ -->
 <section>
+
 <h2>One axis, two jobs</h2>
+
+<div class="callout trivia">
+<div class="callout-label">A note on capping</div>
+<p>Activation capping is a lightweight intervention: pick a direction in the residual stream that correlates with compliance, then clamp the projection along that direction whenever it exceeds a threshold. No fine-tuning, no retraining &mdash; just a per-token ceiling applied during the forward pass. The trade-off is the obvious one: cap too aggressively and benign generations degrade; cap too loosely and jailbreaks slip through. The whole question is where to put the ceiling, and along which direction.</p>
+</div>
 
 <p>Lu et al.'s assistant axis provides a natural candidate. It captures the difference between "the model is acting as a helpful assistant" and "the model has been pushed out of its default mode." When a jailbreak succeeds, the model's projection onto this axis drops &mdash; it is no longer fully in assistant mode.</p>
 
@@ -377,12 +395,15 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <div class="callout-label">Contrast vectors</div>
 <p>Both axes are <strong>contrast vectors</strong> &mdash; directions extracted from the model's own representations by subtracting the mean activations of one behaviour from another. The assistant axis is computed as:</p>
 <pre><code>axis = mean(default_assistant_activations) - mean(role_playing_activations)</code></pre>
-<p>Activations are taken from the post-MLP residual stream, averaged over all response tokens, at every layer independently. Lu et al. pre-computed this vector and published it as a downloadable artifact. The compliance axis is computed the same way, but contrasting refusing outputs with compliant ones. Technically, contrast vectors roughly approximate a linear probe trained to discriminate between the two conditions &mdash; but they are far cheaper to compute, requiring only forward passes and a mean difference rather than gradient-based optimisation. Both axes are directions already present in the model's geometry; the contrast procedure simply identifies them.</p>
+<p>Technically, contrast vectors roughly approximate a linear probe trained to discriminate between the two conditions &mdash; but they are far cheaper to compute, requiring only forward passes on a fair number of examples and a mean difference rather than gradient-based optimisation. Both axes are directions already present in the model's geometry; the contrast procedure simply identifies them.</p>
 </div>
 
 <p>The modification is straightforward. Keep the assistant axis for detection &mdash; it is well-studied and comes with pre-computed vectors. But compute a second direction, a <strong>compliance axis</strong>, specifically for correction.</p>
 
-<p>The compliance axis is derived from the model's own behaviour. Take 50 prompts the model refuses (bare harmful requests from JailbreakBench) and 50 prompts the model complies with (successfully jailbroken versions of those same requests from WildJailbreak). Run each through the model and collect the hidden-state vectors. Apply PCA to the combined set. The first principal component &mdash; the direction of maximum variation between refusing and complying &mdash; becomes the compliance axis.</p>
+<ul>
+<li><strong>Assistant axis (detection):</strong> Constructed by contrasting default helpful-assistant activations against role-playing activations: <code>mean(assistant) &minus; mean(role_playing)</code>. Pre-computed by Lu et al. and published as a downloadable artifact. Its job is to answer: <em>has the model left its default helpful mode?</em> When the projection onto this axis drops below a threshold, the detection gate fires.</li>
+<li><strong>Compliance axis (correction):</strong> Constructed the same way as the assistant axis, by contrasting two behavioural conditions: <code>axis = mean(refusing_activations) &minus; mean(compliant_activations)</code>. PCA is then applied to extract PC1 &mdash; the most sensitive component of that direction. 50 prompts the model refuses (bare harmful requests from JailbreakBench) and 50 it complies with (jailbroken versions from WildJailbreak) are run through the model to produce the activation sets. Its job is to answer: <em>should the model refuse or comply?</em> When the gate has fired and the projection onto this axis is below threshold, the correction pushes the hidden state toward refusal.</li>
+</ul>
 
 <p>The two axes are related but mostly independent. Their cosine similarity is 0.156 &mdash; they share roughly 16% of their direction, with the rest capturing distinct information. This confirms the intuition: detecting that a jailbreak is happening and knowing how to push toward refusal are overlapping but separable tasks.</p>
 
@@ -393,7 +414,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <section>
 <h2>Results</h2>
 
-<p>All results use the PCA compliance axis, evaluated by Claude Sonnet 4.6 as an LLM judge. The judge refused to classify 12&ndash;13 of the most harmful jailbreak prompts (returning no label), so jailbreak percentages are computed over the 87&ndash;88 prompts that received a valid classification. For benign prompts, only the 34 (of 50) where the detection gate actually fired are included &mdash; the remaining 16 were never modified and are excluded from capability evaluation.</p>
+<p>All results use the PC1 compliance axis, evaluated by Claude Sonnet 4.6 as an LLM judge. The judge refused to classify 12&ndash;13 of the most harmful jailbreak prompts (returning no label), so jailbreak percentages are computed over the 87&ndash;88 prompts that received a valid classification. For benign prompts, only the 34 (of 50) where the detection gate actually fired are included &mdash; the remaining 16 were never modified and are excluded from capability evaluation.</p>
 
 <div class="stats">
   <div class="stat blue"><div class="num">62.5%</div><div class="lbl">Cross-axis refusal</div></div>
@@ -481,30 +502,27 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <div class="callout key-point">
 <div class="callout-label">The deeper lesson</div>
-<p>The fictional framing blind spot is not a fixable bug. It reveals a real property of how language models work: behavioural mode ("am I being a helpful assistant?") and output harmfulness ("is this content dangerous?") are encoded on different axes. Any intervention that monitors one will be blind to the other.</p>
+<p>The fictional-framing blind spot points at a structural property of these models: behavioural mode ("am I in assistant character?") and output harmfulness ("is this content dangerous?") are encoded along different axes. Any intervention that monitors one is, by construction, blind to the other &mdash; which puts a ceiling on what assistant-axis gating alone can achieve.</p>
+<p>The fix is additive rather than corrective. If we can isolate other safety-relevant directions &mdash; a fictional-vs-real axis, for instance &mdash; and gate on those the same way we gate on the assistant axis, then a prompt that drives the fictional projection past threshold becomes detectable for exactly the same reason compliance-axis spikes are detectable today. Each new axis closes off another class of jailbreak; the framework doesn't change, only the number of dimensions it watches.</p>
 </div>
-
-<p>This failure mode is fundamental enough to constrain the ceiling of any assistant-axis-gated intervention. It can be improved &mdash; by adding supplementary detection axes, by training probes on output content &mdash; but it cannot be patched within the current framework.</p>
 </section>
 
 <!-- ================================================================ -->
 <section>
 <h2>What this means</h2>
 
-<p>Factoring detection from correction works. On a single model with 100 jailbreak prompts, cross-axis capping nearly doubles the refusal rate with zero capability cost. The improvement is one-directional: 29 prompts flipped from compliance to refusal, none went the other way. The compliance axis &mdash; a direction computed from just 50 refusing and 50 compliant examples &mdash; carries enough signal to meaningfully change outcomes.</p>
+<p>Factoring detection from correction works. On a single model with 100 jailbreak prompts, cross-axis capping nearly doubles the refusal rate at no capability cost. The improvement is one-directional &mdash; 29 prompts flipped from compliance to refusal, none went the other way &mdash; so this is a pure safety gain rather than a trade. The compliance axis, computed from just 50 refusing and 50 compliant examples, carries enough signal to meaningfully change outcomes.</p>
 
-<p>These are exploratory results. The sample is small (error bars on 62.5% with n=88 are roughly &plusmn;10 percentage points), the model is a single architecture (Qwen3-32B), and the threshold strategy was not optimised. The compliance axis was computed from 100 examples in a 5,120-dimensional space &mdash; it is under-determined and noisy. There is data leakage between axis construction and threshold calibration.</p>
+<p>These are exploratory results. The sample is small (error bars on 62.5% with n=88 are roughly &plusmn;10 percentage points), the model is a single architecture (Qwen3-32B), and the threshold was not optimised. The compliance axis was computed from 100 examples in a 5,120-dimensional space &mdash; it is under-determined and noisy. The same data was used for both axis construction and threshold calibration, so the calibration is technically contaminated; because the threshold is a single scalar, this is unlikely to invalidate the headline result, but it does mean the few cases of capability degradation observed at generation time could plausibly be removed by a cleaner threshold sweep. Even uncorrected, the cross-axis degradation was lower than the single-axis baseline. Better calibration of the assistant axis would also lift the single-axis numbers somewhat &mdash; but on the evidence here, it is unlikely to close the gap.</p>
 
-<p>The fictional framing limitation is arguably the more important finding. It reveals something about the geometry of safety in language models: behavioural mode and output harmfulness are genuinely different dimensions. A model can be fully in helpful-assistant mode while producing harmful content, and any detection scheme that tracks mode rather than content will be structurally blind to this.</p>
+<p>The fictional-framing limitation is arguably the more important finding, and it surfaced incidentally. It points at something about the geometry of safety in these models: behavioural mode and output harmfulness are genuinely different dimensions. A model can sit firmly in helpful-assistant mode while producing harmful content, and any detection scheme that tracks mode rather than content will be structurally blind to this. So what would it take to close that blind spot?</p>
 
 <div class="callout question">
-<div class="callout-label">What would it take to close the blind spot?</div>
-<p>You would need a detection axis that tracks the harmfulness of what the model is <em>generating</em>, not whether it is in assistant mode. This is harder &mdash; it requires monitoring output content in real time, not just behavioural state. But the same mechanistic interpretability tools that found the assistant axis could, in principle, find a "harmfulness axis" too.</p>
+<div class="callout-label">Closing the blind spot</div>
+<p>The natural extension is to factorise detection itself, the same way we factorised detection from correction. Instead of gating on a single assistant axis, use two detection axes &mdash; one for behavioural mode, one for output harmfulness &mdash; and trigger correction if either fires. Our own data argues for this: the fictional-framing prompts slipped past both single- and cross-axis capping precisely because the assistant-axis projection stayed high, leaving the gate closed. A second detection axis tuned to harmfulness would catch what the current architecture, by construction, cannot.</p>
 </div>
 
-<p>The path forward has two parts. First, de-noise the compliance direction &mdash; train linear probes instead of using raw PCA, identify and subtract out confounds like response length and topic. Second, develop detection axes that track output harmfulness rather than behavioural mode, targeting the fictional-framing blind spot directly. This is the path from "shows promising signal" to "works reliably as an intervention."</p>
-
-<p>A natural extension is to factorise detection itself the same way we factorised detection from correction. Instead of gating on a single assistant axis, use <em>two</em> detection axes: one for behavioural mode (the existing assistant axis) and one for output harmfulness. A prompt would trigger correction if <em>either</em> axis fires. This directly addresses the fictional framing blind spot &mdash; even when the model stays firmly in helpful-assistant mode, a harmfulness axis could flag that the content being generated is dangerous. Our own dataset provides evidence that this is needed: fictional framing prompts consistently avoided refusal under both single-axis and cross-axis capping precisely because the assistant-axis projection remained high, leaving the detection gate closed. A two-axis detection scheme would catch what the current architecture structurally cannot.</p>
+<p>A note on methodology: during exploration the priority was fast iteration and proof-of-existence rather than principled axis selection, and many candidate directions were tried before settling on the compliance axis. Without a prior model of how the activation space is distributed, it is not obvious what a principled methodology would even look like &mdash; so proceeding by search is a defensible, if arguable, position.</p>
 </section>
 
 <!-- ================================================================ -->
