@@ -180,6 +180,119 @@ figcaption strong { color: var(--gray-700); }
 .callout.trivia .callout-label { color: #2e7d32; }
 .callout.trivia p { color: var(--gray-700); }
 
+.callout.research-question {
+  margin: 2.5rem 0;
+  padding: 1.35rem 1.6rem 1.4rem;
+  background: linear-gradient(180deg, #f7faff 0%, #fbfcfe 100%);
+  border: 1px solid #e4ecf7;
+  border-left: 3px solid var(--blue);
+  border-radius: 6px;
+  position: relative;
+}
+.callout.research-question::before {
+  display: none;
+}
+.callout.research-question .callout-label {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blue-dark);
+  margin-bottom: 0.55rem;
+}
+.callout.research-question p {
+  color: var(--text);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: -0.003em;
+  margin: 0;
+}
+
+/* ── TL;DR block ── */
+.tldr {
+  margin: 3rem 0 3.75rem;
+  padding: 2rem 2rem 1.75rem;
+  position: relative;
+  border: none;
+  background-color: transparent;
+  background-image:
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text));
+  background-size:
+    32px 2px, 32px 2px, 32px 2px, 32px 2px,
+    2px 32px, 2px 32px, 2px 32px, 2px 32px;
+  background-position:
+    top left, top right, bottom left, bottom right,
+    top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+}
+.tldr .tldr-label {
+  position: absolute;
+  top: -0.7rem;
+  left: 2.25rem;
+  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: var(--bg);
+  padding: 0 0.75rem;
+  z-index: 1;
+  line-height: 1;
+}
+.tldr p {
+  margin: 0 0 1.15rem;
+  font-size: 0.97rem;
+  line-height: 1.72;
+  color: var(--gray-700);
+}
+.tldr p:last-child { margin-bottom: 0; }
+.tldr p:first-of-type {
+  font-size: 1.08rem;
+  color: var(--text);
+  line-height: 1.6;
+  font-weight: 400;
+}
+.tldr p strong { color: var(--text); font-weight: 600; }
+.tldr .callout.research-question {
+  margin: 1.5rem 0;
+  padding: 0 0 0 1rem;
+  background: none;
+  border: none;
+  border-left: 2px solid var(--blue-muted);
+  border-radius: 0;
+  box-shadow: none;
+}
+.tldr .callout.research-question::before { display: none; }
+.tldr .callout.research-question .callout-label {
+  display: block;
+  color: var(--gray-400);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+.tldr .callout.research-question p {
+  font-size: 1.02rem;
+  color: var(--text);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+
 /* ── Appendix ── */
 .appendix { margin-top: 4rem; padding-top: 2.5rem; border-top: 2px solid var(--gray-200); }
 .appendix h2 { margin-top: 0; margin-bottom: 1rem; }
@@ -246,6 +359,24 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 </header>
 
 <!-- ================================================================ -->
+<aside class="tldr">
+<span class="tldr-label">TL;DR</span>
+
+<p>Language models carry internal &ldquo;directions&rdquo; in their activation space that quietly track whether they&rsquo;re about to comply with a harmful request. The assistant-axis paper&rsquo;s fix uses one such direction to do two jobs at once &mdash; spotting trouble and steering the model away from it.</p>
+
+<div class="callout research-question">
+<div class="callout-label">Research question</div>
+<p>Is it the case that detection and correction are separable, and that handling them separately yields more refusals at no cost to capability?</p>
+</div>
+
+<p>This experiment tests that split. Detection stays on the assistant axis; correction is applied along a separate compliance axis, learnt from the gap between the model&rsquo;s compliant and refusing activations on harmful prompts. The intervention is lightweight &mdash; forward hooks clip activations mid-generation on a middle band of layers &mdash; and the setup runs Qwen3-32B across 100 jailbreak prompts and 50 benign ones.</p>
+
+<p>The split approach nearly doubles refusal rates, from 28% to 55%, and halves compliance, from 59% to 29%, while benign responses stay essentially untouched (62% unchanged in both arms). Detecting and correcting on different directions, it turns out, does meaningfully better than folding both into one.</p>
+
+<p>A natural next step would be widening detection too. The assistant axis alone doesn&rsquo;t reliably fire on fictional-framing attacks &mdash; jailbreaks dressed up as hypothetical scenario or fiction &mdash; so pairing it with axes tuned to those cues could close the remaining gap.</p>
+</aside>
+
+<!-- ================================================================ -->
 <section>
 <h2>How models say no</h2>
 
@@ -281,9 +412,9 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <p>But Zhao et al. (2025) found something that complicates this picture. They showed that language models encode harmfulness and refusal as separate concepts on distinct directional axes. Steering harmfulness changes the model's assessment of risk. Steering refusal changes whether the model acts on that assessment. These are different computations running in parallel inside the model.</p>
 
-<div class="callout question">
-<div class="callout-label">The research question</div>
-<p>What is the empirical effect on jailbreak refusal rates of replacing single-axis activation capping with a two-axis approach that separates detection from correction?</p>
+<div class="callout research-question">
+<div class="callout-label">Research question</div>
+<p>Is it the case that detection and correction are separable, and that handling them separately yields more refusals at no cost to capability?</p>
 </div>
 
 <p>This creates a tension. The assistant axis is good at detecting when the model has left its default mode &mdash; but that might not be the right direction to push along when correcting. The direction that best answers "is this a jailbreak?" need not be the same direction that best answers "how do I make this model refuse?" Using one axis for both jobs is a design constraint, not a necessity.</p>
@@ -415,10 +546,27 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>At each generation step, the system checks two conditions. First: does the assistant-axis projection fall below its threshold? This is the detection gate. If the model is still in normal assistant mode, nothing happens. Second, only if the gate has fired: does the compliance-axis projection fall below its own threshold? If so, push the hidden state along the compliance axis until it reaches the threshold. Two axes, two thresholds, independently tunable. The mathematical formulation is in <a href="#appendix-math">Appendix A1</a>.</p>
 </section>
 
+<!-- ================================================================ -->
+<section>
+<h2>Experiment setup</h2>
+
+<p>The experiment asks whether separating jailbreak detection from correction inside a language model&rsquo;s &ldquo;mind&rdquo; makes safety interventions more effective. A single run moves through four stages:</p>
+
+<ol>
+<li><strong>Warmup.</strong> The model (Qwen3-32B) is loaded along with the prompt sets. A small collection of clearly harmful requests is run through the model twice &mdash; once producing compliant responses and once producing refusals &mdash; and the difference between these two sets of internal activations is used to derive a compliance vector: a direction that points from &ldquo;about to comply with something unsafe&rdquo; toward &ldquo;refusing&rdquo;. This sits alongside the existing assistant axis used for detection, and per-layer thresholds are calibrated on a middle band of layers where the signal is cleanest.</li>
+
+<li><strong>Generation.</strong> Every prompt is run through the model three times &mdash; once with no intervention, once using the standard single-axis approach (detect and correct on the same direction), and once using cross-axis capping (detect on the assistant axis, correct along the compliance vector). The interventions are implemented using forward hooks: small pieces of code attached to selected transformer layers that intercept each layer&rsquo;s hidden state as it flows through the network during generation. At every token step, the hook projects the hidden state onto the assistant axis; if that projection crosses the layer&rsquo;s calibrated threshold, the hook subtracts the offending component &mdash; either along the same axis (single-axis) or along the compliance vector (cross-axis) &mdash; before passing the modified state to the next layer. Because hooks run inside the forward pass, the correction shapes every subsequent token the model produces.</li>
+
+<li><strong>Gathering &amp; Judging.</strong> Outputs from all runs are merged, and an automated judge (Claude Sonnet) reads every response and labels it &mdash; refusal, compliance, or error for jailbreaks; unchanged, degraded, or false-refusal for benign prompts.</li>
+
+<li><strong>Results.</strong> The labels are tallied across conditions to compute refusal rates, compliance rates, and benign-preservation rates, giving a clean comparison of how each intervention performs.</li>
+</ol>
+
 <div class="callout trivia">
 <div class="callout-label">A note on methodology</div>
 <p>During exploration the priority was fast iteration and proof-of-existence rather than principled axis selection, and many candidate directions were tried before settling on the compliance axis. Without a prior model of how the activation space is distributed, it is not obvious what a principled methodology would even look like &mdash; so proceeding by search is a defensible, if arguable, position.</p>
 </div>
+</section>
 
 <!-- ================================================================ -->
 <section>
