@@ -369,11 +369,13 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>Is it the case that detection and correction are separable, and that handling them separately yields more refusals at no cost to capability?</p>
 </div>
 
-<p>This experiment tests that split. Detection stays on the assistant axis; correction is applied along a separate compliance axis, learnt from the gap between the model&rsquo;s compliant and refusing activations on harmful prompts. The intervention is lightweight &mdash; forward hooks clip activations mid-generation on a middle band of layers &mdash; and the setup runs Qwen3-32B across 100 jailbreak prompts and 50 benign ones.</p>
+<p>This experiment tests that split. Detection stays on the assistant axis; correction is applied along a separate compliance axis, learnt from the contrast vector constructed using the model&rsquo;s compliant and refusing activations on harmful prompts. The intervention is lightweight &mdash; forward hooks clip activations mid-generation on a middle band of layers &mdash; and the setup runs Qwen3-32B across 100 jailbreak prompts and 50 benign ones.</p>
 
 <p>The split approach nearly doubles refusal rates, from 28% to 55%, and halves compliance, from 59% to 29%, while benign responses stay essentially untouched (62% unchanged in both arms). Detecting and correcting on different directions, it turns out, does meaningfully better than folding both into one.</p>
 
-<p>A natural next step would be widening detection too. The assistant axis alone doesn&rsquo;t reliably fire on fictional-framing attacks &mdash; jailbreaks dressed up as hypothetical scenario or fiction &mdash; so pairing it with axes tuned to those cues could close the remaining gap.</p>
+<p>A natural next step would be widening detection too. For instance, the assistant axis alone doesn&rsquo;t reliably fire on fictional-framing attacks where jailbreaks are dressed up as hypothetical scenarios. So trying to find a direction or an axis which detects those attacks could further the model&rsquo;s ability to detect harmful requests when used along side with assistant axis.</p>
+
+<p>As the field matures, these techniques hold promise for improving safety both at inference and training time. Operationalizing them, however, remains active research.</p>
 </aside>
 
 <!-- ================================================================ -->
@@ -408,9 +410,9 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <p>Lu et al.'s assistant axis provides a natural candidate. It captures the difference between "the model is acting as a helpful assistant" and "the model has been pushed out of its default mode." When a jailbreak succeeds, the model's projection onto this axis drops &mdash; it is no longer fully in assistant mode.</p>
 
-<p>Their capping method uses this single axis for both tasks. Detection: is the projection below a threshold? If yes, a jailbreak is in progress. Correction: push the hidden state back along the same axis until the projection reaches the threshold. One direction handles both the alarm and the response.</p>
+<p>Their capping method uses this single axis for both tasks. Detection: is the projection below a threshold? If yes, a jailbreak is in progress. Correction: push the hidden state back along the same axis until the projection reaches the threshold. One direction handles both the detection and the response.</p>
 
-<p>But Zhao et al. (2025) found something that complicates this picture. They showed that language models encode harmfulness and refusal as separate concepts on distinct directional axes. Steering harmfulness changes the model's assessment of risk. Steering refusal changes whether the model acts on that assessment. These are different computations running in parallel inside the model.</p>
+<p>But Zhao et al. (2025) found something that complicates this picture. They showed that language models encode harmfulness and refusal as separate concepts on distinct directional axes. Steering harmfulness changes the model's assessment of risk. Steering refusal changes whether the model acts on that assessment. These are entirely different directions inside the model.</p>
 
 <div class="callout research-question">
 <div class="callout-label">Research question</div>
@@ -553,7 +555,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>The experiment asks whether separating jailbreak detection from correction inside a language model&rsquo;s &ldquo;mind&rdquo; makes safety interventions more effective. A single run moves through four stages:</p>
 
 <ol>
-<li><strong>Warmup.</strong> The model (Qwen3-32B) is loaded along with the prompt sets. Two sets of clearly harmful requests are run through the model &mdash; one set of prompts producing compliant responses, the other set producing refusals &mdash; and the difference between these two sets of internal activations is used to derive a compliance vector: a direction that points from &ldquo;about to comply with something unsafe&rdquo; toward &ldquo;refusing&rdquo;. This sits alongside the existing assistant axis used for detection, and per-layer thresholds are calibrated on a middle band of layers where the signal is cleanest.</li>
+<li><strong>Warmup.</strong> The model (Qwen3-32B), the prompt sets, and the pre-computed assistant axis (downloaded from <code>lu-christina/assistant-axis-vectors</code> on HuggingFace) are loaded. Then compliance axis is calculated. This sits alongside the assistant axis used for detection, and per-layer thresholds are calibrated across the capping layers (L46&ndash;L53). Everything is cached so later stages skip recomputation. This is treated as a separate stage to enable parallelization of later stages.</li>
 
 <li><strong>Generation.</strong> Every prompt is run through the model three times &mdash; once with no intervention, once using the standard single-axis approach (detect and correct on the same direction), and once using cross-axis capping (detect on the assistant axis, correct along the compliance vector). The interventions are implemented using forward hooks: small pieces of code attached to selected transformer layers that intercept each layer&rsquo;s hidden state as it flows through the network during generation. At every token step, the hook projects the hidden state onto the assistant axis; if that projection crosses the layer&rsquo;s calibrated threshold, the hook subtracts the offending component &mdash; either along the same axis (single-axis) or along the compliance vector (cross-axis) &mdash; before passing the modified state to the next layer. Because hooks run inside the forward pass, the correction shapes every subsequent token the model produces.</li>
 
@@ -572,7 +574,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <section>
 <h2>Results</h2>
 
-<p>All results use the PC1 compliance axis, evaluated by Claude Sonnet 4.6 as an LLM judge. The judge refused to classify 12&ndash;13 of the most harmful jailbreak prompts (returning no label), so jailbreak percentages are computed over the 87&ndash;88 prompts that received a valid classification. For benign prompts, only the 34 (of 50) where the detection gate actually fired are included &mdash; the remaining 16 were never modified and are excluded from capability evaluation.</p>
+<p>Results use the PC1 compliance axis, evaluated by Claude Sonnet 4.6 as an LLM judge. The judge refused to classify 12&ndash;13 of the most harmful jailbreak prompts (returning no label), so jailbreak percentages are computed over the 87&ndash;88 prompts that received a valid classification. For benign prompts, only the 34 (of 50) where the detection gate actually fired are included &mdash; the remaining 16 were never modified and are excluded from capability evaluation.</p>
 
 <div class="stats">
   <div class="stat blue"><div class="num">62.5%</div><div class="lbl">Cross-axis refusal</div></div>
@@ -596,7 +598,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <div class="callout question">
 <div class="callout-label">Why does this work?</div>
-<p>If the correction pushes along a different direction, why doesn't it damage the model's output? Because the compliance axis specifically targets the refusing-vs-complying distinction. It is not a random perturbation &mdash; it is a direction the model already uses internally to decide whether to refuse. Pushing along it is like turning a dial the model already has, rather than adding noise.</p>
+<p>If the correction pushes along a different direction, why doesn't it damage the model's output? Because the compliance axis specifically targets the refusing-vs-complying distinction. However, the assistant axis may bundle my capabilities together, including the ones we actually need, so capping it may lead to degradation of outputs instead of a refusal.</p>
 </div>
 
 <p>On benign prompts, the two methods are identical. Both preserve 91.2% of outputs unchanged, produce zero false refusals, and degrade 8.8% (3 of 34). Cross-axis capping Pareto dominates single-axis: strictly better on safety with no capability trade-off.</p>
@@ -611,7 +613,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <section>
 <h2>Where the correction happens</h2>
 
-<p>Both methods install hooks on the same eight layers (L46&ndash;L53, the upper quarter of the 64-layer model). Both fire on 100% of jailbreak prompts and 68% of benign prompts &mdash; the detection gate is identical because both use the same assistant axis. The difference is in how many layers actually apply a correction.</p>
+<p>Both methods install hooks on the same eight layers (L46&ndash;L53, the upper quarter of the 64-layer model). Both fire on 100% of jailbreak prompts &mdash; the detection gate is identical because both use the same assistant axis. The difference is in how many layers actually apply a correction.</p>
 
 <p>Under single-axis capping, the correction fires at nearly every layer. 78% of jailbreak prompts trigger all eight layers. The pattern is uniform: once the gate fires, correction happens everywhere.</p>
 
@@ -635,7 +637,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
       <div class="hm-meta">51% full-stack &middot; mean 5.9 layers</div>
     </div>
   </div>
-  <figcaption>Figure 4. Layer firing patterns on jailbreak prompts. Each row is a pattern (which of 8 layers applied a correction); the right column shows how many of 100 prompts matched. Cross-axis produces more diverse, sparser patterns.</figcaption>
+  <figcaption>Figure 4. Layer firing patterns on jailbreak prompts. Each row is a pattern (which of 8 layers applied a correction); the right column shows how many of 100 prompts matched. Cross-axis produces more diverse, sparser patterns. Single-axis: 78% full-stack, mean 7.2 layers. Cross-axis: 51% full-stack, mean 5.9 layers.</figcaption>
 </figure>
 
 <p>The per-layer breakdown tells the same story. L46 fires on 100% of jailbreak prompts for both methods. But by L51, single-axis fires on 80% while cross-axis fires on only 57%. The compliance axis provides a correction signal that is more spatially selective &mdash; it agrees with the detection gate at early layers but increasingly diverges at later ones.</p>
