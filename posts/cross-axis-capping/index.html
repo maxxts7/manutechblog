@@ -329,6 +329,60 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 /* ── Selection ── */
 ::selection { background: var(--blue-light); color: var(--blue-dark); }
 
+/* ── Tooltips ── */
+.tt {
+  border-bottom: 1px dotted var(--gray-400);
+  cursor: help;
+  position: relative;
+}
+.tt::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: max-content;
+  max-width: 320px;
+  padding: 0.7rem 0.9rem;
+  background: var(--text);
+  color: #f1f5f9;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: normal;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+  text-align: left;
+  white-space: normal;
+}
+.tt::before {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--text);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 20;
+}
+.tt:hover::after,
+.tt:focus::after,
+.tt.tt-open::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.tt:hover::before,
+.tt:focus::before,
+.tt.tt-open::before { opacity: 1; }
+
 @media (max-width: 700px) {
   body { font-size: 16px; }
   header h1 { font-size: 1.7rem; }
@@ -336,6 +390,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
   .stats { gap: 0.5rem; }
   .stat .num { font-size: 1.6rem; }
   .heatmap-flex { flex-direction: column; align-items: center; }
+  .tt::after { max-width: 240px; font-size: 0.74rem; }
 }
 </style>
 </head>
@@ -421,107 +476,101 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <p>This creates a tension. The assistant axis is good at detecting when the model has left its default mode &mdash; but that might not be the right direction to push along when correcting. The direction that best answers "is this a jailbreak?" need not be the same direction that best answers "how do I make this model refuse?" Using one axis for both jobs is a design constraint, not a necessity.</p>
 
-<!-- ── Figure 1: Why two axes produce more refusal ── -->
+<!-- ── Figure 1: Same detection, two corrections ── -->
 <figure>
-<svg class="diagram-svg" viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg">
+<svg class="diagram-svg" viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="ah-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#10b981"/></marker>
-    <marker id="ah-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#3b82f6"/></marker>
-    <marker id="ah-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#f59e0b"/></marker>
+    <marker id="f1-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#3b82f6"/></marker>
+    <marker id="f1-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#f59e0b"/></marker>
+    <marker id="f1-orange-bold" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7" fill="#f59e0b"/></marker>
+    <marker id="f1-gray" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L7,2.5 L0,5" fill="#64748b"/></marker>
   </defs>
 
-  <!-- ═══ Left panel: Single-axis ═══ -->
-  <text x="175" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">Single-axis capping</text>
+  <!-- Title -->
+  <text x="380" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">Same jailbroken states, two ways to correct them</text>
 
-  <!-- Refusing region (top-left) -->
-  <rect x="30" y="38" width="155" height="145" rx="8" fill="#d1fae5" opacity="0.5"/>
-  <text x="107" y="60" text-anchor="middle" font-size="11" font-weight="600" fill="#047857">Refusing</text>
-  <!-- Compliant region (bottom-right) -->
-  <rect x="135" y="140" width="200" height="145" rx="8" fill="#fee2e2" opacity="0.5"/>
-  <text x="235" y="274" text-anchor="middle" font-size="11" font-weight="600" fill="#ef4444">Compliant</text>
+  <!-- Plane frame -->
+  <rect x="60" y="40" width="640" height="290" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
 
-  <!-- Assistant axis (vertical) -->
-  <line x1="55" y1="310" x2="55" y2="48" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ah-blue)"/>
-  <text x="48" y="44" text-anchor="end" font-size="10" fill="#3b82f6" font-weight="600">assistant</text>
+  <!-- Refusing region (upper-left of boundary) -->
+  <polygon points="60,40 640,40 180,330 60,330" fill="#d1fae5" opacity="0.55"/>
+  <text x="170" y="100" font-size="13" font-weight="700" fill="#047857">Refusing</text>
+  <text x="170" y="116" font-size="10" fill="#047857" opacity="0.8">(model declines)</text>
 
-  <!-- Threshold line -->
-  <line x1="30" y1="185" x2="345" y2="185" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
-  <text x="348" y="189" font-size="9" fill="#94a3b8" font-weight="500">threshold</text>
+  <!-- Compliant region (lower-right of boundary) -->
+  <polygon points="640,40 700,40 700,330 180,330" fill="#fee2e2" opacity="0.55"/>
+  <text x="555" y="300" font-size="13" font-weight="700" fill="#dc2626">Compliant</text>
+  <text x="555" y="316" font-size="10" fill="#dc2626" opacity="0.8">(harmful output)</text>
 
-  <!-- Jailbroken states -->
-  <circle cx="140" cy="230" r="6" fill="#ef4444" opacity="0.7"/>
-  <circle cx="200" cy="250" r="6" fill="#ef4444" opacity="0.7"/>
-  <circle cx="170" cy="220" r="6" fill="#ef4444" opacity="0.7"/>
-  <circle cx="230" cy="235" r="6" fill="#ef4444" opacity="0.7"/>
-  <circle cx="110" cy="245" r="6" fill="#ef4444" opacity="0.7"/>
+  <!-- Refusal boundary -->
+  <line x1="180" y1="330" x2="640" y2="40" stroke="#475569" stroke-width="1.8" stroke-dasharray="3,3"/>
+  <text x="645" y="36" font-size="10" font-weight="600" fill="#475569">refusal boundary</text>
 
-  <!-- Correction arrows: straight UP -->
-  <line x1="140" y1="224" x2="140" y2="176" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
-  <line x1="200" y1="244" x2="200" y2="176" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
-  <line x1="170" y1="214" x2="170" y2="176" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
-  <line x1="230" y1="229" x2="230" y2="176" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
-  <line x1="110" y1="239" x2="110" y2="176" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
+  <!-- Axis legend: assistant axis (vertical blue) -->
+  <line x1="95" y1="320" x2="95" y2="250" stroke="#3b82f6" stroke-width="2" marker-end="url(#f1-blue)"/>
+  <text x="102" y="268" font-size="10" font-weight="700" fill="#3b82f6">assistant axis</text>
+  <text x="102" y="281" font-size="9" fill="#3b82f6" opacity="0.85">(single-axis push)</text>
 
-  <!-- Corrected states: land on threshold line, horizontally spread -->
-  <circle cx="140" cy="172" r="5" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="200" cy="172" r="5" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="170" cy="172" r="5" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="230" cy="172" r="5" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="110" cy="172" r="5" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+  <!-- Axis legend: compliance axis (diagonal orange) -->
+  <line x1="146" y1="320" x2="96" y2="238" stroke="#f59e0b" stroke-width="2" marker-end="url(#f1-orange)"/>
+  <text x="102" y="224" font-size="10" font-weight="700" fill="#f59e0b">compliance axis</text>
+  <text x="102" y="237" font-size="9" fill="#f59e0b" opacity="0.9">(cross-axis push)</text>
 
-  <!-- Result label -->
-  <text x="175" y="322" text-anchor="middle" font-size="12" font-weight="700" fill="#ef4444">2 of 5 still comply</text>
+  <!-- ═══ Jailbroken starting states (red) ═══ -->
+  <circle cx="300" cy="260" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="330" cy="270" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="345" cy="275" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="400" cy="250" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="450" cy="270" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <text x="420" y="310" font-size="10" font-style="italic" fill="#7f1d1d">5 jailbroken states</text>
 
-  <!-- ═══ Divider ═══ -->
-  <line x1="380" y1="12" x2="380" y2="330" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4,4"/>
+  <!-- ═══ Single-axis correction: vertical grey dashed arrows ═══ -->
+  <line x1="300" y1="253" x2="300" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
+  <line x1="330" y1="263" x2="330" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
+  <line x1="345" y1="268" x2="345" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
+  <line x1="400" y1="243" x2="400" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
+  <line x1="450" y1="263" x2="450" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
 
-  <!-- ═══ Right panel: Cross-axis ═══ -->
-  <text x="565" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">Cross-axis capping</text>
+  <!-- Single-axis landings: green if crossed boundary, red if still compliant -->
+  <circle cx="300" cy="220" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
+  <circle cx="330" cy="220" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
+  <circle cx="345" cy="220" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
+  <circle cx="400" cy="220" r="5.5" fill="#dc2626" stroke="#fff" stroke-width="1.8"/>
+  <circle cx="450" cy="220" r="5.5" fill="#dc2626" stroke="#fff" stroke-width="1.8"/>
 
-  <!-- Refusing region -->
-  <rect x="400" y="38" width="170" height="145" rx="8" fill="#d1fae5" opacity="0.5"/>
-  <text x="485" y="60" text-anchor="middle" font-size="11" font-weight="600" fill="#047857">Refusing</text>
-  <!-- Compliant region -->
-  <rect x="520" y="140" width="200" height="145" rx="8" fill="#fee2e2" opacity="0.5"/>
-  <text x="620" y="274" text-anchor="middle" font-size="11" font-weight="600" fill="#ef4444">Compliant</text>
+  <!-- "Still compliant" annotation: points to the two red landings -->
+  <text x="425" y="206" text-anchor="middle" font-size="10" font-weight="700" fill="#dc2626">still compliant</text>
+  <line x1="400" y1="211" x2="400" y2="215" stroke="#dc2626" stroke-width="1.2"/>
+  <line x1="450" y1="211" x2="450" y2="215" stroke="#dc2626" stroke-width="1.2"/>
 
-  <!-- Detection axis (vertical, ends higher) -->
-  <line x1="425" y1="310" x2="425" y2="48" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ah-blue)"/>
-  <text x="418" y="44" text-anchor="end" font-size="10" fill="#3b82f6" font-weight="600">detection</text>
+  <!-- ═══ Cross-axis correction: diagonal orange solid arrows ═══ -->
+  <line x1="296" y1="254" x2="243" y2="166" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
+  <line x1="326" y1="264" x2="273" y2="176" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
+  <line x1="341" y1="269" x2="288" y2="181" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
+  <line x1="396" y1="244" x2="343" y2="156" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
+  <line x1="446" y1="264" x2="393" y2="176" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
 
-  <!-- Correction axis (diagonal, separated from detection arrow) -->
-  <line x1="660" y1="310" x2="450" y2="88" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#ah-orange)"/>
-  <text x="460" y="82" font-size="10" fill="#f59e0b" font-weight="600">correction</text>
+  <!-- Cross-axis landings: all green (crossed boundary into Refusing) -->
+  <circle cx="243" cy="166" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
+  <circle cx="273" cy="176" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
+  <circle cx="288" cy="181" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
+  <circle cx="343" cy="156" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
+  <circle cx="393" cy="176" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
 
-  <!-- Threshold line -->
-  <line x1="400" y1="185" x2="730" y2="185" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5,4"/>
-  <text x="733" y="189" font-size="9" fill="#94a3b8" font-weight="500">threshold</text>
+  <!-- Result cards -->
+  <!-- Single-axis result -->
+  <rect x="120" y="352" width="240" height="48" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <circle cx="140" cy="376" r="6" fill="#64748b"/>
+  <text x="155" y="372" font-size="11" font-weight="700" fill="#334155">Single-axis (along assistant axis)</text>
+  <text x="155" y="388" font-size="11" font-weight="600" fill="#64748b">3 of 5 refuse &middot; 2 still comply</text>
 
-  <!-- Jailbroken states -->
-  <circle cx="530" cy="230" r="6" fill="#ef4444" opacity="0.7"/>
-  <circle cx="590" cy="250" r="6" fill="#ef4444" opacity="0.7"/>
-  <circle cx="560" cy="220" r="6" fill="#ef4444" opacity="0.7"/>
-  <circle cx="620" cy="235" r="6" fill="#ef4444" opacity="0.7"/>
-  <circle cx="500" cy="245" r="6" fill="#ef4444" opacity="0.7"/>
-
-  <!-- Correction arrows: push UP-LEFT along compliance direction -->
-  <line x1="526" y1="225" x2="482" y2="168" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
-  <line x1="586" y1="245" x2="534" y2="174" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
-  <line x1="556" y1="215" x2="510" y2="156" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
-  <line x1="616" y1="230" x2="564" y2="168" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
-  <line x1="496" y1="240" x2="458" y2="174" stroke="#10b981" stroke-width="2" marker-end="url(#ah-green)" opacity="0.8"/>
-
-  <!-- Corrected states: pushed into refusing region -->
-  <circle cx="478" cy="164" r="5" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="530" cy="170" r="5" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="506" cy="152" r="5" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="560" cy="164" r="5" fill="#ef4444" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="454" cy="170" r="5" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
-
-  <!-- Result label -->
-  <text x="565" y="322" text-anchor="middle" font-size="12" font-weight="700" fill="#10b981">4 of 5 now refuse</text>
+  <!-- Cross-axis result -->
+  <rect x="400" y="352" width="240" height="48" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <circle cx="420" cy="376" r="6" fill="#f59e0b"/>
+  <text x="435" y="372" font-size="11" font-weight="700" fill="#92400e">Cross-axis (along compliance axis)</text>
+  <text x="435" y="388" font-size="11" font-weight="600" fill="#b45309">5 of 5 refuse</text>
 </svg>
-<figcaption><strong>Figure 1.</strong> Both methods detect the same jailbroken states (red dots below the threshold). Single-axis capping pushes them straight up &mdash; back into "assistant mode" &mdash; but some land in the compliant region and still produce harmful output. Cross-axis capping pushes along the compliance axis instead (diagonal), steering states toward the refusing region. The correction targets refusal directly, not just behavioural mode.</figcaption>
+<figcaption><strong>Figure 1.</strong> Five jailbroken states (red dots), two corrections. Pushing along the assistant axis (grey, dashed) moves states vertically &mdash; some cross the refusal boundary, but two land back in the Compliant region and still produce harmful output. Pushing along the compliance axis (orange, solid) is aimed perpendicular to the boundary itself, so all five land in the Refusing region. The direction of the push determines whether the model actually refuses.</figcaption>
 </figure>
 </section>
 
