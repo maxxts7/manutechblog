@@ -424,7 +424,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>Is it the case that detection and correction are separable, and that handling them separately yields more refusals at no cost to capability?</p>
 </div>
 
-<p>This experiment tests that split. Detection stays on the assistant axis; correction is applied along a separate compliance axis, learnt from the contrast vector constructed using the model&rsquo;s compliant and refusing activations on harmful prompts. The intervention is lightweight &mdash; forward hooks clip activations mid-generation on a middle band of layers &mdash; and the setup runs Qwen3-32B across 100 jailbreak prompts and 50 benign ones.</p>
+<p>This experiment tests that split. Detection stays on the assistant axis; correction is applied along a separate compliance axis, learnt from the <span class="tt" data-tip="One way of finding an axis. An axis is just any direction in the model's mind; a contrast vector is a specific recipe for getting one — take the model's average state during behaviour A, subtract its average state during behaviour B, and the result points from B toward A.">contrast vector</span> constructed using the model&rsquo;s compliant and refusing activations on harmful prompts. The intervention is lightweight &mdash; <span class="tt" data-tip="A small piece of code that taps into the model mid-thought, reads what it's &quot;thinking,&quot; and can tweak it before the thought continues.">forward hooks</span> clip activations mid-generation on a middle band of layers &mdash; and the setup runs Qwen3-32B across 100 jailbreak prompts and 50 benign ones.</p>
 
 <p>The split approach nearly doubles refusal rates, from 28% to 55%, and halves compliance, from 59% to 29%, while benign responses stay essentially untouched (62% unchanged in both arms). Detecting and correcting on different directions, it turns out, does meaningfully better than folding both into one.</p>
 
@@ -443,12 +443,12 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <div class="callout trivia">
 <div class="callout-label">Dimensions in context</div>
-<p>Qwen3-32B's hidden states live in 5,120-dimensional space. A single "axis" is one direction in that space &mdash; like choosing one compass bearing in a room with 5,120 independent directions. The fact that safety-relevant behaviour can be captured by just one or two directions, out of thousands, is itself a striking finding about how these models organise information.</p>
+<p>Qwen3-32B's <span class="tt" data-tip="The vector representation of a token at a given layer — a 5,120-dimensional point (for Qwen3-32B) that encodes what the model has computed about that token so far, updated layer by layer.">hidden states</span> live in 5,120-dimensional space. A single "<span class="tt" data-tip="One specific &quot;compass bearing&quot; inside the model's mind. The model's state is a point in a huge space, and an axis is one line through that space that tracks a particular concept.">axis</span>" is one direction in that space &mdash; like choosing one compass bearing in a room with 5,120 independent directions. The fact that safety-relevant behaviour can be captured by just one or two directions, out of thousands, is itself a striking finding about how these models organise information.</p>
 </div>
 
 <p>This isn't an abstraction. Research has made it concrete. Arditi et al. (2024) found that refusal behaviour is governed by a single direction in activation space &mdash; eliminate that direction, and the model can no longer refuse. Zou et al. (2023) showed that adding vectors to a model's internal representations can steer its behaviour without any retraining. And Lu et al. (2026) identified what they called an "assistant axis": a direction that separates the model's default, cooperative mode from other behavioural states.</p>
 
-<p>Taken together, these findings point toward a practical approach. If you can observe a model's hidden states during generation and detect when they begin drifting toward a jailbroken configuration, you can intervene in real time &mdash; projecting the hidden state onto a known direction, checking whether it has crossed a threshold, and nudging it back if so. The model itself is unaware of the correction. To an outside observer, it simply declines.</p>
+<p>Taken together, these findings point toward a practical approach. If you can observe a model's hidden states during generation and detect when they begin drifting toward a jailbroken configuration, you can intervene in real time &mdash; projecting the hidden state onto a known direction, checking whether it has crossed a <span class="tt" data-tip="A cutoff value. If the projection crosses it, the intervention kicks in; otherwise the model is left alone.">threshold</span>, and nudging it back if so. The model itself is unaware of the correction. To an outside observer, it simply declines.</p>
 
 <p>The open question is which direction to monitor &mdash; and whether a single direction is ever sufficient.</p>
 </section>
@@ -460,10 +460,10 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <div class="callout trivia">
 <div class="callout-label">A note on capping</div>
-<p>Activation capping is a lightweight intervention: pick a direction in the residual stream that correlates with compliance, then clamp the projection along that direction whenever it exceeds a threshold. No fine-tuning, no retraining &mdash; just a per-token ceiling applied during the forward pass. The trade-off is the obvious one: cap too aggressively and benign generations degrade; cap too loosely and jailbreaks slip through. The whole question is where to put the ceiling, and along which direction.</p>
+<p><span class="tt" data-tip="A safety &quot;speed limit&quot;: the model's internal state is nudged back whenever it drifts too far in a worrying direction. No retraining needed — just a small adjustment while the model is generating.">Activation capping</span> is a lightweight intervention: pick a direction in the <span class="tt" data-tip="The cumulative per-token vector that each transformer layer reads from and writes back into via a skip connection. Attention and MLP blocks add their outputs to this stream rather than replacing it, so it carries information end-to-end through the network.">residual stream</span> that correlates with compliance, then clamp the projection along that direction whenever it exceeds a threshold. No fine-tuning, no retraining &mdash; just a per-token ceiling applied during the forward pass. The trade-off is the obvious one: cap too aggressively and benign generations degrade; cap too loosely and jailbreaks slip through. The whole question is where to put the ceiling, and along which direction.</p>
 </div>
 
-<p>Lu et al.'s assistant axis provides a natural candidate. It captures the difference between "the model is acting as a helpful assistant" and "the model has been pushed out of its default mode." When a jailbreak succeeds, the model's projection onto this axis drops &mdash; it is no longer fully in assistant mode.</p>
+<p>Lu et al.'s assistant axis provides a natural candidate. It captures the difference between "the model is acting as a helpful assistant" and "the model has been pushed out of its default mode." When a jailbreak succeeds, the model's <span class="tt" data-tip="A single number that measures how much of a given direction is present in the model's current state — like asking &quot;how 'refusal-ish' is this thought right now?&quot;">projection</span> onto this axis drops &mdash; it is no longer fully in assistant mode.</p>
 
 <p>Their capping method uses this single axis for both tasks. Detection: is the projection below a threshold? If yes, a jailbreak is in progress. Correction: push the hidden state back along the same axis until the projection reaches the threshold. One direction handles both the detection and the response.</p>
 
@@ -589,7 +589,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <ul>
 <li><strong>Assistant axis (detection):</strong> Constructed by contrasting default helpful-assistant activations against role-playing activations: <code>mean(assistant) &minus; mean(role_playing)</code>. Pre-computed by Lu et al. and published as a downloadable artifact. Its job is to answer: <em>has the model left its default helpful mode?</em> When the projection onto this axis drops below a threshold, the detection gate fires.</li>
-<li><strong>Compliance axis (correction):</strong> Constructed the same way as the assistant axis, by contrasting two behavioural conditions: <code>axis = mean(refusing_activations) &minus; mean(compliant_activations)</code>. PCA is then applied to extract PC1 &mdash; the most sensitive component of that direction. 50 prompts the model refuses (bare harmful requests from JailbreakBench) and 50 it complies with (jailbroken versions from WildJailbreak) are run through the model to produce the activation sets. Its job is to answer: <em>should the model refuse or comply?</em> When the gate has fired and the projection onto this axis is below threshold, the correction pushes the hidden state toward refusal.</li>
+<li><strong>Compliance axis (correction):</strong> Constructed the same way as the assistant axis, by contrasting two behavioural conditions: <code>axis = mean(refusing_activations) &minus; mean(compliant_activations)</code>. <span class="tt" data-tip="Principal Component Analysis — a method for finding the most important direction in a pile of data, the one line along which the data varies most.">PCA</span> is then applied to extract <span class="tt" data-tip="The single most important direction that PCA finds: the axis that captures the biggest pattern in the data.">PC1</span> &mdash; the most sensitive component of that direction. 50 prompts the model refuses (bare harmful requests from JailbreakBench) and 50 it complies with (jailbroken versions from WildJailbreak) are run through the model to produce the activation sets. Its job is to answer: <em>should the model refuse or comply?</em> When the gate has fired and the projection onto this axis is below threshold, the correction pushes the hidden state toward refusal.</li>
 </ul>
 
 <p>The two axes are related but mostly independent. Their cosine similarity is 0.156 &mdash; they share roughly 16% of their direction, with the rest capturing distinct information. This confirms the intuition: detecting that a jailbreak is happening and knowing how to push toward refusal are overlapping but separable tasks.</p>
@@ -977,6 +977,19 @@ new Chart(document.getElementById('chart-layers'), {
       x: { title: { display: true, text: 'Capping layer' }, grid: { display: false } },
     },
   },
+});
+
+// ── Tooltips: tap-to-open on touch devices ────────────────────────────────
+document.querySelectorAll('.tt').forEach(el => {
+  el.setAttribute('tabindex', '0');
+  el.addEventListener('click', e => {
+    document.querySelectorAll('.tt.tt-open').forEach(o => { if (o !== el) o.classList.remove('tt-open'); });
+    el.classList.toggle('tt-open');
+    e.stopPropagation();
+  });
+});
+document.addEventListener('click', () => {
+  document.querySelectorAll('.tt.tt-open').forEach(o => o.classList.remove('tt-open'));
 });
 </script>
 </body>
