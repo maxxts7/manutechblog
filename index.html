@@ -36,7 +36,21 @@ body {
 
 .site-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
 .site-header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; margin: 0 0 0.3rem; color: var(--text); }
-.site-tagline { font-size: 0.92rem; color: var(--text-secondary); margin: 0; }
+.site-tagline { font-size: 0.92rem; color: var(--text-secondary); margin: 0 0 1rem; }
+.site-links { display: flex; gap: 1.25rem; }
+.site-links a { font-size: 0.85rem; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
+.site-links a:hover { color: var(--blue); }
+
+.about { margin-bottom: 3rem; }
+.about h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.75rem; color: var(--text); }
+.about p { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin: 0 0 0.75rem; }
+.about p:last-child { margin-bottom: 0; }
+.about strong { color: var(--text); font-weight: 600; }
+.about-cert { margin-top: 1rem !important; }
+.about-cert a { color: var(--blue); text-decoration: none; font-weight: 500; font-size: 0.85rem; }
+.about-cert a:hover { text-decoration: underline; }
+
+section > h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.75rem; color: var(--text); }
 
 .post-grid { display: grid; gap: 1rem; }
 
@@ -71,15 +85,31 @@ body {
   <header class="site-header">
     <h1>Manu Xaviour Thaisseril Shaju</h1>
     <p class="site-tagline">Technical AI Safety</p>
+    <div class="site-links">
+      <a href="mailto:manuxtmail@gmail.com">Email</a>
+      <a href="https://github.com/maxxts7">GitHub</a>
+      <a href="https://www.linkedin.com/in/manu-xaviour-thaisseril-shaju-199bb3291/">LinkedIn</a>
+    </div>
   </header>
 
-  <main class="post-grid">
-    <a href="/posts/cross-axis-capping/" class="post-card">
-      <time>April 2026</time>
-      <h2>Cross-Axis Capping: What happens when you stop using one axis for two jobs</h2>
-      <p>A case for using different directions to detect and correct jailbreaks. Splitting detection from correction nearly doubles refusal rates on jailbreak prompts at no capability cost.</p>
-    </a>
-  </main>
+  <section class="about">
+    <h2>About</h2>
+    <p>I come from a customer service background &mdash; I spent several years as a Technical Support Engineer at Teleperformance, working across SaaS products in the UK. In early 2022 I became interested in AI and decided to pursue a master&rsquo;s degree in the field. One month into the programme, ChatGPT was released, and the world I&rsquo;d just entered changed overnight.</p>
+    <p>For the next couple of years I leaned toward building &mdash; prototyping apps with AI, learning to ship things, picking up the engineering side. But the research questions kept pulling me back. In early 2025 I found my way to AI safety: the problem of making sure these systems do what we actually want, especially as they grow more capable.</p>
+    <p>In 2026 I joined the <strong>BlueDot Impact</strong> Technical AI Safety Project Sprint, where I completed a research project on activation-space interventions for jailbreak defence. That work is below.</p>
+    <p class="about-cert"><a href="https://bluedot.org/certification?id=recai5Fn5TzSWI0OW">BlueDot Impact &mdash; Technical AI Safety Project Certificate</a></p>
+  </section>
+
+  <section>
+    <h2>Writing</h2>
+    <div class="post-grid">
+      <a href="/posts/cross-axis-capping/" class="post-card">
+        <time>April 2026</time>
+        <h2>Cross-Axis Capping: What happens when you stop using one axis for two jobs</h2>
+        <p>A case for using different directions to detect and correct jailbreaks. Splitting detection from correction nearly doubles refusal rates on jailbreak prompts at no capability cost.</p>
+      </a>
+    </div>
+  </section>
 
 </div>
 </body>
