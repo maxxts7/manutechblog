@@ -408,7 +408,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <aside class="tldr">
 <span class="tldr-label">TL;DR</span>
 
-<p>Language models carry internal &ldquo;directions&rdquo; in their activation space that quietly track whether they&rsquo;re about to comply with a harmful request. The assistant-axis paper&rsquo;s fix uses one such direction to do two jobs at once &mdash; spotting trouble and steering the model away from it.</p>
+<p>Language models carry internal &ldquo;directions&rdquo; in their activation space<sup class="tt" data-tip="The high-dimensional space (5,120 dimensions in Qwen3-32B) in which a model represents every token at every layer. Each point in this space encodes what the model has computed so far; directions within it can correspond to concepts like helpfulness, refusal, or harmfulness.">11</sup> that quietly track whether they&rsquo;re about to comply with a harmful request. The assistant-axis paper&rsquo;s fix uses one such direction to do two jobs at once &mdash; spotting trouble and steering the model away from it.</p>
 
 <div class="callout research-question">
 <div class="callout-label">Research question</div>
@@ -805,6 +805,7 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
 <tr><td>8</td><td>Projection</td><td>A single number that measures how much of a given direction is present in the model&rsquo;s current state &mdash; like asking &ldquo;how &lsquo;refusal-ish&rsquo; is this thought right now?&rdquo;</td></tr>
 <tr><td>9</td><td>PCA</td><td>Principal Component Analysis &mdash; a method for finding the most important direction in a pile of data, the one line along which the data varies most.</td></tr>
 <tr><td>10</td><td>PC1</td><td>The single most important direction that PCA finds: the axis that captures the biggest pattern in the data.</td></tr>
+<tr><td>11</td><td>Activation space</td><td>The high-dimensional space (5,120 dimensions in Qwen3-32B) in which a model represents every token at every layer. Each point in this space encodes what the model has computed so far; directions within it can correspond to concepts like helpfulness, refusal, or harmfulness.</td></tr>
 </table>
 </div>
 </details>
