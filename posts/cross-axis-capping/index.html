@@ -331,28 +331,35 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 /* ── Tooltips ── */
 .tt {
-  border-bottom: 1px dotted var(--gray-400);
   cursor: help;
   position: relative;
+  display: inline;
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 0.7em;
+  vertical-align: super;
+  line-height: 0;
+  margin-left: 1px;
 }
 .tt::after {
   content: attr(data-tip);
   position: absolute;
-  bottom: calc(100% + 10px);
+  bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%) translateY(4px);
   width: max-content;
   max-width: 320px;
   padding: 0.7rem 0.9rem;
-  background: var(--text);
-  color: #f1f5f9;
+  background: #ffffff;
+  color: var(--text);
   font-size: 0.78rem;
   line-height: 1.55;
   font-weight: 400;
   font-style: normal;
   letter-spacing: normal;
   border-radius: 6px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  border: 1px solid var(--gray-200);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease, transform 0.15s ease;
@@ -360,28 +367,12 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
   text-align: left;
   white-space: normal;
 }
-.tt::before {
-  content: '';
-  position: absolute;
-  bottom: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid transparent;
-  border-top-color: var(--text);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
-  z-index: 20;
-}
 .tt:hover::after,
 .tt:focus::after,
 .tt.tt-open::after {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
-.tt:hover::before,
-.tt:focus::before,
-.tt.tt-open::before { opacity: 1; }
 
 @media (max-width: 700px) {
   body { font-size: 16px; }
@@ -390,7 +381,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
   .stats { gap: 0.5rem; }
   .stat .num { font-size: 1.6rem; }
   .heatmap-flex { flex-direction: column; align-items: center; }
-  .tt::after { max-width: 240px; font-size: 0.74rem; }
+  .tt::after { max-width: 240px; font-size: 0.72rem; }
 }
 </style>
 </head>
@@ -424,7 +415,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>Is it the case that detection and correction are separable, and that handling them separately yields more refusals at no cost to capability?</p>
 </div>
 
-<p>This experiment tests that split. Detection stays on the assistant axis; correction is applied along a separate compliance axis, learnt from the <span class="tt" data-tip="One way of finding an axis. An axis is just any direction in the model's mind; a contrast vector is a specific recipe for getting one — take the model's average state during behaviour A, subtract its average state during behaviour B, and the result points from B toward A.">contrast vector</span> constructed using the model&rsquo;s compliant and refusing activations on harmful prompts. The intervention is lightweight &mdash; <span class="tt" data-tip="A small piece of code that taps into the model mid-thought, reads what it's &quot;thinking,&quot; and can tweak it before the thought continues.">forward hooks</span> clip activations mid-generation on a middle band of layers &mdash; and the setup runs Qwen3-32B across 100 jailbreak prompts and 50 benign ones.</p>
+<p>This experiment tests that split. Detection stays on the assistant axis; correction is applied along a separate compliance axis, learnt from the contrast vector<sup class="tt" data-tip="One way of finding an axis. An axis is just any direction in the model's mind; a contrast vector is a specific recipe for getting one — take the model's average state during behaviour A, subtract its average state during behaviour B, and the result points from B toward A.">1</sup> constructed using the model&rsquo;s compliant and refusing activations on harmful prompts. The intervention is lightweight &mdash; forward hooks<sup class="tt" data-tip="A small piece of code that taps into the model mid-thought, reads what it's &quot;thinking,&quot; and can tweak it before the thought continues.">2</sup> clip activations mid-generation on a middle band of layers &mdash; and the setup runs Qwen3-32B across 100 jailbreak prompts and 50 benign ones.</p>
 
 <p>The split approach nearly doubles refusal rates, from 28% to 55%, and halves compliance, from 59% to 29%, while benign responses stay essentially untouched (62% unchanged in both arms). Detecting and correcting on different directions, it turns out, does meaningfully better than folding both into one.</p>
 
@@ -443,12 +434,12 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <div class="callout trivia">
 <div class="callout-label">Dimensions in context</div>
-<p>Qwen3-32B's <span class="tt" data-tip="The vector representation of a token at a given layer — a 5,120-dimensional point (for Qwen3-32B) that encodes what the model has computed about that token so far, updated layer by layer.">hidden states</span> live in 5,120-dimensional space. A single "<span class="tt" data-tip="One specific &quot;compass bearing&quot; inside the model's mind. The model's state is a point in a huge space, and an axis is one line through that space that tracks a particular concept.">axis</span>" is one direction in that space &mdash; like choosing one compass bearing in a room with 5,120 independent directions. The fact that safety-relevant behaviour can be captured by just one or two directions, out of thousands, is itself a striking finding about how these models organise information.</p>
+<p>Qwen3-32B's hidden states<sup class="tt" data-tip="The vector representation of a token at a given layer — a 5,120-dimensional point (for Qwen3-32B) that encodes what the model has computed about that token so far, updated layer by layer.">3</sup> live in 5,120-dimensional space. A single "axis<sup class="tt" data-tip="One specific &quot;compass bearing&quot; inside the model's mind. The model's state is a point in a huge space, and an axis is one line through that space that tracks a particular concept.">4</sup>" is one direction in that space &mdash; like choosing one compass bearing in a room with 5,120 independent directions. The fact that safety-relevant behaviour can be captured by just one or two directions, out of thousands, is itself a striking finding about how these models organise information.</p>
 </div>
 
 <p>This isn't an abstraction. Research has made it concrete. Arditi et al. (2024) found that refusal behaviour is governed by a single direction in activation space &mdash; eliminate that direction, and the model can no longer refuse. Zou et al. (2023) showed that adding vectors to a model's internal representations can steer its behaviour without any retraining. And Lu et al. (2026) identified what they called an "assistant axis": a direction that separates the model's default, cooperative mode from other behavioural states.</p>
 
-<p>Taken together, these findings point toward a practical approach. If you can observe a model's hidden states during generation and detect when they begin drifting toward a jailbroken configuration, you can intervene in real time &mdash; projecting the hidden state onto a known direction, checking whether it has crossed a <span class="tt" data-tip="A cutoff value. If the projection crosses it, the intervention kicks in; otherwise the model is left alone.">threshold</span>, and nudging it back if so. The model itself is unaware of the correction. To an outside observer, it simply declines.</p>
+<p>Taken together, these findings point toward a practical approach. If you can observe a model's hidden states during generation and detect when they begin drifting toward a jailbroken configuration, you can intervene in real time &mdash; projecting the hidden state onto a known direction, checking whether it has crossed a threshold<sup class="tt" data-tip="A cutoff value. If the projection crosses it, the intervention kicks in; otherwise the model is left alone.">5</sup>, and nudging it back if so. The model itself is unaware of the correction. To an outside observer, it simply declines.</p>
 
 <p>The open question is which direction to monitor &mdash; and whether a single direction is ever sufficient.</p>
 </section>
@@ -460,10 +451,10 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <div class="callout trivia">
 <div class="callout-label">A note on capping</div>
-<p><span class="tt" data-tip="A safety &quot;speed limit&quot;: the model's internal state is nudged back whenever it drifts too far in a worrying direction. No retraining needed — just a small adjustment while the model is generating.">Activation capping</span> is a lightweight intervention: pick a direction in the <span class="tt" data-tip="The cumulative per-token vector that each transformer layer reads from and writes back into via a skip connection. Attention and MLP blocks add their outputs to this stream rather than replacing it, so it carries information end-to-end through the network.">residual stream</span> that correlates with compliance, then clamp the projection along that direction whenever it exceeds a threshold. No fine-tuning, no retraining &mdash; just a per-token ceiling applied during the forward pass. The trade-off is the obvious one: cap too aggressively and benign generations degrade; cap too loosely and jailbreaks slip through. The whole question is where to put the ceiling, and along which direction.</p>
+<p>Activation capping<sup class="tt" data-tip="A safety &quot;speed limit&quot;: the model's internal state is nudged back whenever it drifts too far in a worrying direction. No retraining needed — just a small adjustment while the model is generating.">6</sup> is a lightweight intervention: pick a direction in the residual stream<sup class="tt" data-tip="The cumulative per-token vector that each transformer layer reads from and writes back into via a skip connection. Attention and MLP blocks add their outputs to this stream rather than replacing it, so it carries information end-to-end through the network.">7</sup> that correlates with compliance, then clamp the projection along that direction whenever it exceeds a threshold. No fine-tuning, no retraining &mdash; just a per-token ceiling applied during the forward pass. The trade-off is the obvious one: cap too aggressively and benign generations degrade; cap too loosely and jailbreaks slip through. The whole question is where to put the ceiling, and along which direction.</p>
 </div>
 
-<p>Lu et al.'s assistant axis provides a natural candidate. It captures the difference between "the model is acting as a helpful assistant" and "the model has been pushed out of its default mode." When a jailbreak succeeds, the model's <span class="tt" data-tip="A single number that measures how much of a given direction is present in the model's current state — like asking &quot;how 'refusal-ish' is this thought right now?&quot;">projection</span> onto this axis drops &mdash; it is no longer fully in assistant mode.</p>
+<p>Lu et al.'s assistant axis provides a natural candidate. It captures the difference between "the model is acting as a helpful assistant" and "the model has been pushed out of its default mode." When a jailbreak succeeds, the model's projection<sup class="tt" data-tip="A single number that measures how much of a given direction is present in the model's current state — like asking &quot;how 'refusal-ish' is this thought right now?&quot;">8</sup> onto this axis drops &mdash; it is no longer fully in assistant mode.</p>
 
 <p>Their capping method uses this single axis for both tasks. Detection: is the projection below a threshold? If yes, a jailbreak is in progress. Correction: push the hidden state back along the same axis until the projection reaches the threshold. One direction handles both the detection and the response.</p>
 
@@ -476,101 +467,63 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <p>This creates a tension. The assistant axis is good at detecting when the model has left its default mode &mdash; but that might not be the right direction to push along when correcting. The direction that best answers "is this a jailbreak?" need not be the same direction that best answers "how do I make this model refuse?" Using one axis for both jobs is a design constraint, not a necessity.</p>
 
-<!-- ── Figure 1: Same detection, two corrections ── -->
+<!-- ── Figure 1: What each cap lets through ── -->
 <figure>
-<svg class="diagram-svg" viewBox="0 0 760 420" xmlns="http://www.w3.org/2000/svg">
+<svg class="diagram-svg" viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <marker id="f1-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#3b82f6"/></marker>
-    <marker id="f1-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#f59e0b"/></marker>
-    <marker id="f1-orange-bold" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7" fill="#f59e0b"/></marker>
-    <marker id="f1-gray" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L7,2.5 L0,5" fill="#64748b"/></marker>
+    <marker id="f1-gray" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L7,2.5 L0,5" fill="#94a3b8"/></marker>
   </defs>
 
   <!-- Title -->
-  <text x="380" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">Same jailbroken states, two ways to correct them</text>
+  <text x="380" y="22" text-anchor="middle" font-size="14" font-weight="700" fill="#1a1a2e">What each cap lets through</text>
 
-  <!-- Plane frame -->
-  <rect x="60" y="40" width="640" height="290" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <!-- ═══ Input: 5 harmful prompts (red dots) ═══ -->
+  <circle cx="60" cy="110" r="8" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="60" cy="140" r="8" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="60" cy="170" r="8" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="60" cy="200" r="8" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="60" cy="230" r="8" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <text x="60" y="258" text-anchor="middle" font-size="11" font-weight="700" fill="#7f1d1d">5 harmful prompts</text>
 
-  <!-- Refusing region (upper-left of boundary) -->
-  <polygon points="60,40 640,40 180,330 60,330" fill="#d1fae5" opacity="0.55"/>
-  <text x="170" y="100" font-size="13" font-weight="700" fill="#047857">Refusing</text>
-  <text x="170" y="116" font-size="10" fill="#047857" opacity="0.8">(model declines)</text>
+  <!-- Flow curves splitting upward and downward to the two caps -->
+  <path d="M 78 155 Q 150 125 215 100" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#f1-gray)"/>
+  <path d="M 78 185 Q 150 215 215 240" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#f1-gray)"/>
 
-  <!-- Compliant region (lower-right of boundary) -->
-  <polygon points="640,40 700,40 700,330 180,330" fill="#fee2e2" opacity="0.55"/>
-  <text x="555" y="300" font-size="13" font-weight="700" fill="#dc2626">Compliant</text>
-  <text x="555" y="316" font-size="10" fill="#dc2626" opacity="0.8">(harmful output)</text>
+  <!-- ═══ Upper lane: assistant-axis cap ═══ -->
+  <rect x="225" y="78" width="205" height="46" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="327" y="97" text-anchor="middle" font-size="11" font-weight="700" fill="#1e3a8a">capped along</text>
+  <text x="327" y="113" text-anchor="middle" font-size="12" font-weight="700" fill="#1e3a8a">assistant axis</text>
 
-  <!-- Refusal boundary -->
-  <line x1="180" y1="330" x2="640" y2="40" stroke="#475569" stroke-width="1.8" stroke-dasharray="3,3"/>
-  <text x="645" y="36" font-size="10" font-weight="600" fill="#475569">refusal boundary</text>
+  <line x1="435" y1="100" x2="468" y2="100" stroke="#94a3b8" stroke-width="2" marker-end="url(#f1-gray)"/>
 
-  <!-- Axis legend: assistant axis (vertical blue) -->
-  <line x1="95" y1="320" x2="95" y2="250" stroke="#3b82f6" stroke-width="2" marker-end="url(#f1-blue)"/>
-  <text x="102" y="268" font-size="10" font-weight="700" fill="#3b82f6">assistant axis</text>
-  <text x="102" y="281" font-size="9" fill="#3b82f6" opacity="0.85">(single-axis push)</text>
+  <!-- Upper outputs: 3 green (refused) + 2 red (slipped through) -->
+  <circle cx="485" cy="100" r="8" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="513" cy="100" r="8" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="541" cy="100" r="8" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="569" cy="100" r="8" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="597" cy="100" r="8" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
 
-  <!-- Axis legend: compliance axis (diagonal orange) -->
-  <line x1="146" y1="320" x2="96" y2="238" stroke="#f59e0b" stroke-width="2" marker-end="url(#f1-orange)"/>
-  <text x="102" y="224" font-size="10" font-weight="700" fill="#f59e0b">compliance axis</text>
-  <text x="102" y="237" font-size="9" fill="#f59e0b" opacity="0.9">(cross-axis push)</text>
+  <text x="625" y="97" font-size="13" font-weight="700" fill="#dc2626">2 slip through</text>
+  <text x="625" y="113" font-size="10" fill="#7f1d1d">still produce harm</text>
 
-  <!-- ═══ Jailbroken starting states (red) ═══ -->
-  <circle cx="300" cy="260" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="330" cy="270" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="345" cy="275" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="400" cy="250" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
-  <circle cx="450" cy="270" r="7" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
-  <text x="420" y="310" font-size="10" font-style="italic" fill="#7f1d1d">5 jailbroken states</text>
+  <!-- ═══ Lower lane: compliance-axis cap ═══ -->
+  <rect x="225" y="218" width="205" height="46" rx="10" fill="#fed7aa" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="327" y="237" text-anchor="middle" font-size="11" font-weight="700" fill="#92400e">capped along</text>
+  <text x="327" y="253" text-anchor="middle" font-size="12" font-weight="700" fill="#92400e">compliance axis</text>
 
-  <!-- ═══ Single-axis correction: vertical grey dashed arrows ═══ -->
-  <line x1="300" y1="253" x2="300" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
-  <line x1="330" y1="263" x2="330" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
-  <line x1="345" y1="268" x2="345" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
-  <line x1="400" y1="243" x2="400" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
-  <line x1="450" y1="263" x2="450" y2="226" stroke="#64748b" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#f1-gray)"/>
+  <line x1="435" y1="240" x2="468" y2="240" stroke="#94a3b8" stroke-width="2" marker-end="url(#f1-gray)"/>
 
-  <!-- Single-axis landings: green if crossed boundary, red if still compliant -->
-  <circle cx="300" cy="220" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
-  <circle cx="330" cy="220" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
-  <circle cx="345" cy="220" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
-  <circle cx="400" cy="220" r="5.5" fill="#dc2626" stroke="#fff" stroke-width="1.8"/>
-  <circle cx="450" cy="220" r="5.5" fill="#dc2626" stroke="#fff" stroke-width="1.8"/>
+  <!-- Lower outputs: all 5 green (refused) -->
+  <circle cx="485" cy="240" r="8" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="513" cy="240" r="8" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="541" cy="240" r="8" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="569" cy="240" r="8" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
+  <circle cx="597" cy="240" r="8" fill="#10b981" stroke="#fff" stroke-width="1.5"/>
 
-  <!-- "Still compliant" annotation: points to the two red landings -->
-  <text x="425" y="206" text-anchor="middle" font-size="10" font-weight="700" fill="#dc2626">still compliant</text>
-  <line x1="400" y1="211" x2="400" y2="215" stroke="#dc2626" stroke-width="1.2"/>
-  <line x1="450" y1="211" x2="450" y2="215" stroke="#dc2626" stroke-width="1.2"/>
-
-  <!-- ═══ Cross-axis correction: diagonal orange solid arrows ═══ -->
-  <line x1="296" y1="254" x2="243" y2="166" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
-  <line x1="326" y1="264" x2="273" y2="176" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
-  <line x1="341" y1="269" x2="288" y2="181" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
-  <line x1="396" y1="244" x2="343" y2="156" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
-  <line x1="446" y1="264" x2="393" y2="176" stroke="#f59e0b" stroke-width="2.3" marker-end="url(#f1-orange-bold)"/>
-
-  <!-- Cross-axis landings: all green (crossed boundary into Refusing) -->
-  <circle cx="243" cy="166" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
-  <circle cx="273" cy="176" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
-  <circle cx="288" cy="181" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
-  <circle cx="343" cy="156" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
-  <circle cx="393" cy="176" r="5.5" fill="#10b981" stroke="#fff" stroke-width="1.8"/>
-
-  <!-- Result cards -->
-  <!-- Single-axis result -->
-  <rect x="120" y="352" width="240" height="48" rx="8" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
-  <circle cx="140" cy="376" r="6" fill="#64748b"/>
-  <text x="155" y="372" font-size="11" font-weight="700" fill="#334155">Single-axis (along assistant axis)</text>
-  <text x="155" y="388" font-size="11" font-weight="600" fill="#64748b">3 of 5 refuse &middot; 2 still comply</text>
-
-  <!-- Cross-axis result -->
-  <rect x="400" y="352" width="240" height="48" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
-  <circle cx="420" cy="376" r="6" fill="#f59e0b"/>
-  <text x="435" y="372" font-size="11" font-weight="700" fill="#92400e">Cross-axis (along compliance axis)</text>
-  <text x="435" y="388" font-size="11" font-weight="600" fill="#b45309">5 of 5 refuse</text>
+  <text x="625" y="237" font-size="13" font-weight="700" fill="#047857">none slip through</text>
+  <text x="625" y="253" font-size="10" fill="#065f46">all refused</text>
 </svg>
-<figcaption><strong>Figure 1.</strong> Five jailbroken states (red dots), two corrections. Pushing along the assistant axis (grey, dashed) moves states vertically &mdash; some cross the refusal boundary, but two land back in the Compliant region and still produce harmful output. Pushing along the compliance axis (orange, solid) is aimed perpendicular to the boundary itself, so all five land in the Refusing region. The direction of the push determines whether the model actually refuses.</figcaption>
+<figcaption><strong>Figure 1.</strong> The same five harmful prompts, two caps. Two slip past the assistant-axis cap and still produce harmful output; the compliance-axis cap catches all five.</figcaption>
 </figure>
 </section>
 
@@ -589,7 +542,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <ul>
 <li><strong>Assistant axis (detection):</strong> Constructed by contrasting default helpful-assistant activations against role-playing activations: <code>mean(assistant) &minus; mean(role_playing)</code>. Pre-computed by Lu et al. and published as a downloadable artifact. Its job is to answer: <em>has the model left its default helpful mode?</em> When the projection onto this axis drops below a threshold, the detection gate fires.</li>
-<li><strong>Compliance axis (correction):</strong> Constructed the same way as the assistant axis, by contrasting two behavioural conditions: <code>axis = mean(refusing_activations) &minus; mean(compliant_activations)</code>. <span class="tt" data-tip="Principal Component Analysis — a method for finding the most important direction in a pile of data, the one line along which the data varies most.">PCA</span> is then applied to extract <span class="tt" data-tip="The single most important direction that PCA finds: the axis that captures the biggest pattern in the data.">PC1</span> &mdash; the most sensitive component of that direction. 50 prompts the model refuses (bare harmful requests from JailbreakBench) and 50 it complies with (jailbroken versions from WildJailbreak) are run through the model to produce the activation sets. Its job is to answer: <em>should the model refuse or comply?</em> When the gate has fired and the projection onto this axis is below threshold, the correction pushes the hidden state toward refusal.</li>
+<li><strong>Compliance axis (correction):</strong> Constructed the same way as the assistant axis, by contrasting two behavioural conditions: <code>axis = mean(refusing_activations) &minus; mean(compliant_activations)</code>. PCA<sup class="tt" data-tip="Principal Component Analysis — a method for finding the most important direction in a pile of data, the one line along which the data varies most.">9</sup> is then applied to extract PC1<sup class="tt" data-tip="The single most important direction that PCA finds: the axis that captures the biggest pattern in the data.">10</sup> &mdash; the most sensitive component of that direction. 50 prompts the model refuses (bare harmful requests from JailbreakBench) and 50 it complies with (jailbroken versions from WildJailbreak) are run through the model to produce the activation sets. Its job is to answer: <em>should the model refuse or comply?</em> When the gate has fired and the projection onto this axis is below threshold, the correction pushes the hidden state toward refusal.</li>
 </ul>
 
 <p>The two axes are related but mostly independent. Their cosine similarity is 0.156 &mdash; they share roughly 16% of their direction, with the rest capturing distinct information. This confirms the intuition: detecting that a jailbreak is happening and knowing how to push toward refusal are overlapping but separable tasks.</p>
@@ -834,6 +787,25 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
 <li>Zou, A., et al. (2023). Representation Engineering: A Top-Down Approach to AI Transparency. <em>arXiv:2310.01405</em>.</li>
 </ol>
 <p style="margin-top:1rem"><strong>Code:</strong> <a href="https://github.com/maxxts7/cross-capping">github.com/maxxts7/cross-capping</a></p>
+</div>
+</details>
+
+<details>
+<summary>A6: Glossary</summary>
+<div class="det-body">
+<table>
+<tr><th>#</th><th>Term</th><th>Definition</th></tr>
+<tr><td>1</td><td>Contrast vector</td><td>One way of finding an axis. An axis is just any direction in the model&rsquo;s mind; a contrast vector is a specific recipe for getting one &mdash; take the model&rsquo;s average state during behaviour A, subtract its average state during behaviour B, and the result points from B toward A.</td></tr>
+<tr><td>2</td><td>Forward hooks</td><td>A small piece of code that taps into the model mid-thought, reads what it&rsquo;s &ldquo;thinking,&rdquo; and can tweak it before the thought continues.</td></tr>
+<tr><td>3</td><td>Hidden states</td><td>The vector representation of a token at a given layer &mdash; a 5,120-dimensional point (for Qwen3-32B) that encodes what the model has computed about that token so far, updated layer by layer.</td></tr>
+<tr><td>4</td><td>Axis</td><td>One specific &ldquo;compass bearing&rdquo; inside the model&rsquo;s mind. The model&rsquo;s state is a point in a huge space, and an axis is one line through that space that tracks a particular concept.</td></tr>
+<tr><td>5</td><td>Threshold</td><td>A cutoff value. If the projection crosses it, the intervention kicks in; otherwise the model is left alone.</td></tr>
+<tr><td>6</td><td>Activation capping</td><td>A safety &ldquo;speed limit&rdquo;: the model&rsquo;s internal state is nudged back whenever it drifts too far in a worrying direction. No retraining needed &mdash; just a small adjustment while the model is generating.</td></tr>
+<tr><td>7</td><td>Residual stream</td><td>The cumulative per-token vector that each transformer layer reads from and writes back into via a skip connection. Attention and MLP blocks add their outputs to this stream rather than replacing it, so it carries information end-to-end through the network.</td></tr>
+<tr><td>8</td><td>Projection</td><td>A single number that measures how much of a given direction is present in the model&rsquo;s current state &mdash; like asking &ldquo;how &lsquo;refusal-ish&rsquo; is this thought right now?&rdquo;</td></tr>
+<tr><td>9</td><td>PCA</td><td>Principal Component Analysis &mdash; a method for finding the most important direction in a pile of data, the one line along which the data varies most.</td></tr>
+<tr><td>10</td><td>PC1</td><td>The single most important direction that PCA finds: the axis that captures the biggest pattern in the data.</td></tr>
+</table>
 </div>
 </details>
 </aside>
