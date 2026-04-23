@@ -415,9 +415,9 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>Is it the case that detection and correction are separable, and that handling them separately yields more refusals at no cost to capability?</p>
 </div>
 
-<p>This experiment tests that split. Detection stays on the assistant axis; correction is applied along a separate compliance axis, learnt from the contrast vector<sup class="tt" data-tip="A direction extracted by comparing how the model behaves under two different conditions. It isolates what changes internally when the model switches from one mode to another.">1</sup> constructed using the model&rsquo;s compliant and refusing activations on harmful prompts. The intervention is lightweight &mdash; forward hooks<sup class="tt" data-tip="Callback functions that intercept a neural network's computation at chosen layers, letting you read or modify internal states on the fly without altering the model itself.">2</sup> clip activations mid-generation on a middle band of layers &mdash; and the setup runs Qwen3-32B across 100 jailbreak prompts and 50 benign ones.</p>
+<p>This experiment tests that split. Detection stays on the assistant axis; correction is applied along a separate compliance axis, learnt from the contrast vector<sup class="tt" data-tip="A direction extracted by comparing how the model behaves under two different conditions. It isolates what changes internally when the model switches from one mode to another.">1</sup> constructed using the model&rsquo;s compliant and refusing activations on harmful prompts. The intervention is lightweight &mdash; forward hooks<sup class="tt" data-tip="Callback functions that intercept a neural network's computation at chosen layers, letting you read or modify internal states on the fly without altering the model itself.">2</sup> clip activations mid-generation on a middle band of layers &mdash; and the setup runs Qwen3-32B across 250 jailbreak prompts and 100 benign ones.</p>
 
-<p>The split approach nearly doubles refusal rates, from 28% to 55%, and halves compliance, from 59% to 29%, while benign responses stay essentially untouched (62% unchanged in both arms). Detecting and correcting on different directions, it turns out, does meaningfully better than folding both into one.</p>
+<p>The split approach lifts refusal rates from 32.9% to 54.5% &mdash; a paired bootstrap lift of +21.5 percentage points [95% CI +15.1, +28.0] that held in every one of 10,000 resamples &mdash; and drops compliance from 65.3% to 41.6%, while benign responses stay essentially untouched (~90% unchanged under either arm, with zero false refusals). Detecting and correcting on different directions, it turns out, does meaningfully better than folding both into one.</p>
 
 <p>A natural next step would be widening detection too. For instance, the assistant axis alone doesn&rsquo;t reliably fire on fictional-framing attacks where jailbreaks are dressed up as hypothetical scenarios. So trying to find a direction or an axis which detects those attacks could further the model&rsquo;s ability to detect harmful requests when used along side with assistant axis.</p>
 
@@ -576,26 +576,26 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <section>
 <h2>Results</h2>
 
-<p>Results use the PC1 compliance axis, evaluated by Claude Sonnet 4.6 as an LLM judge. The judge refused to classify 12&ndash;13 of the most harmful jailbreak prompts (returning no label), so jailbreak percentages are computed over the 87&ndash;88 prompts that received a valid classification. For benign prompts, only the 34 (of 50) where the detection gate actually fired are included &mdash; the remaining 16 were never modified and are excluded from capability evaluation.</p>
+<p>Results use the PC1 compliance axis, evaluated by Claude Sonnet 4.6 as an LLM judge. Percentages are computed over judgeable rows: the judge refused to classify 27&ndash;31 of the most harmful jailbreak prompts, and cross-axis capping's detection gate never fired on 19 of the 250 jailbreak prompts &mdash; leaving 204 judgeable cross-axis rows and 219 judgeable single-axis rows. For benign prompts, cross-axis fires on 67 of 100 (the remaining 33 are never modified and excluded from capability evaluation); single-axis fires on all 100 by design. Error bands are 95% bootstrap CIs from 10,000 resamples of prompts with judge labels held fixed.</p>
 
 <div class="stats">
-  <div class="stat blue"><div class="num">62.5%</div><div class="lbl">Cross-axis refusal</div></div>
-  <div class="stat muted"><div class="num">32.2%</div><div class="lbl">Single-axis refusal</div></div>
-  <div class="stat green"><div class="num">91.2%</div><div class="lbl">Benign preserved (both)</div></div>
+  <div class="stat blue"><div class="num">54.5%</div><div class="lbl">Cross-axis refusal</div></div>
+  <div class="stat muted"><div class="num">32.9%</div><div class="lbl">Single-axis refusal</div></div>
+  <div class="stat green"><div class="num">+21.5 pp</div><div class="lbl">Paired lift (P&gt;0 = 100%)</div></div>
 </div>
 
-<p>Cross-axis capping nearly doubles the jailbreak refusal rate. Of 88 classified jailbreak prompts, 55 were refused outright and 3 were partially refused, compared to 28 refusals under single-axis capping. Compliance (the model providing the requested harmful content) dropped from 67.8% to 33.0%.</p>
+<p>Cross-axis capping substantially raises the jailbreak refusal rate. Of 204 judgeable cross-axis prompts, 111 were refused outright and 7 were partially refused (54.5% and 3.4%). Of 219 judgeable single-axis prompts, 72 were refused and 4 partially (32.9% and 1.8%). Compliance (the model providing the requested harmful content) dropped from 65.3% to 41.6%.</p>
 
 <div class="callout key-point">
 <div class="callout-label">Key result</div>
-<p>29 prompts flipped from compliance to refusal under cross-axis capping. Zero went the other direction. The improvement is strictly one-directional &mdash; you gain refusals without losing any.</p>
+<p>Paired lift on the same 250 prompts is +21.5 percentage points [95% CI +15.1, +28.0] for strict refusal, or +23.1 pp [+16.7, +29.7] including partial refusals. Every one of 10,000 bootstrap resamples produced a positive lift &mdash; P(lift &gt; 0) = 100%. Cross-axis is not merely higher on average; it is unambiguously the stronger defense on this run.</p>
 </div>
 
-<p>The head-to-head comparison is cleaner than aggregate rates. Of the 86 prompts where both methods received a valid label, 29 flipped from compliance under single-axis to refusal under cross-axis. Zero went the other direction. The improvement is one-directional: cross-axis converts compliant responses to refusals without losing any existing refusals.</p>
+<p>The paired bootstrap confirms what the aggregate rates show. Resampling the same 250 prompts with replacement and computing each mode's refusal rate on the resampled judgeable rows yields a 95% CI for the mode-by-mode difference of [+15.1, +28.0] with zero resamples producing a negative lift. Cross-axis converts compliant responses to refusals at a rate the single-axis baseline cannot match on any plausible subsampling of this run.</p>
 
 <figure>
   <div class="chart-wrap"><canvas id="chart-jailbreak"></canvas></div>
-  <figcaption>Figure 2. Label distribution on 100 jailbreak prompts. Cross-axis capping shifts a large fraction from compliance to refusal. "Error" rows are prompts the LLM judge refused to classify.</figcaption>
+  <figcaption>Figure 2. Label distribution on 250 jailbreak prompts. Cross-axis capping shifts a large fraction from compliance to refusal. "Error" rows are prompts the LLM judge refused to classify; "No fire" rows (cross-axis only) are prompts whose detection gate never crossed threshold.</figcaption>
 </figure>
 
 <div class="callout question">
@@ -603,11 +603,11 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>If the correction pushes along a different direction, why doesn't it damage the model's output? Because the compliance axis specifically targets the refusing-vs-complying distinction. However, the assistant axis may bundle my capabilities together, including the ones we actually need, so capping it may lead to degradation of outputs instead of a refusal.</p>
 </div>
 
-<p>On benign prompts, the two methods are identical. Both preserve 91.2% of outputs unchanged, produce zero false refusals, and degrade 8.8% (3 of 34). Cross-axis capping Pareto dominates single-axis: strictly better on safety with no capability trade-off.</p>
+<p>On benign prompts, the two methods behave almost identically where they fire. Single-axis fires on all 100 benigns and preserves 90.0% [84.0, 95.0] unchanged with zero false refusals and 10.0% [5.0, 16.0] degraded. Cross-axis fires on only 67 of 100; of those, 91.0% [83.6, 97.0] are unchanged, 0 are false refusals, and 9.0% [3.0, 16.4] are degraded &mdash; leaving 33% of benigns completely untouched. The unchanged and degraded CIs overlap heavily across modes &mdash; no detectable utility difference &mdash; but cross-axis additionally applies a lighter touch by simply not firing on a third of benign traffic. Cross-axis capping Pareto dominates single-axis: strictly better on safety with no capability trade-off.</p>
 
 <figure>
   <div class="chart-wrap"><canvas id="chart-pareto"></canvas></div>
-  <figcaption>Figure 3. Safety vs. capability. The upper-right corner is ideal. Cross-axis capping sits strictly above single-axis: higher refusal at identical benign preservation.</figcaption>
+  <figcaption>Figure 3. Safety vs. capability. The upper-right corner is ideal. Cross-axis capping sits strictly above single-axis: higher refusal at comparable benign preservation.</figcaption>
 </figure>
 </section>
 
@@ -615,38 +615,35 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <section>
 <h2>Where the correction happens</h2>
 
-<p>Both methods install hooks on the same eight layers (L46&ndash;L53, the upper quarter of the 64-layer model). Both fire on 100% of jailbreak prompts &mdash; the detection gate is identical because both use the same assistant axis. The difference is in how many layers actually apply a correction.</p>
+<p>Both methods install hooks on the same eight layers (L46&ndash;L53, the upper quarter of the 64-layer model). Single-axis fires on every row by design (paper-style "always apply" mode); cross-axis fires on 231 of 250 jailbreak prompts (92.4%) &mdash; the 19 it skips are prompts whose detection-gate projection never crosses threshold. The two modes diverge on how the correction distributes across the cap window.</p>
 
-<p>Under single-axis capping, the correction fires at nearly every layer. 78% of jailbreak prompts trigger all eight layers. The pattern is uniform: once the gate fires, correction happens everywhere.</p>
+<p>Under single-axis capping, correction fires at every layer for every prompt by construction &mdash; the intervention is blanket.</p>
 
 <div class="callout trivia">
 <div class="callout-label">Why only the upper layers?</div>
 <p>Capping is applied at layers 46&ndash;53, the upper quarter of the 64-layer model (72&ndash;84% depth). Earlier layers are still computing what the input means. By layer 46, the model has committed to a response strategy &mdash; this is where behavioural mode is encoded and where interventions can change the output without disrupting comprehension.</p>
 </div>
 
-<p>Cross-axis capping is more selective. Only 51% of jailbreak prompts fire all eight layers. 16% fire only the first three (L46&ndash;L48), and 8% fire only a single layer (L46). The average number of layers corrected drops from 7.2 to 5.9. This happens because the two-gate mechanism &mdash; the compliance axis adding an independent threshold check after the detection gate &mdash; creates a finer filter.</p>
+<p>Cross-axis capping is more selective. Summed across all 231 fired jailbreak prompts and every generated token, total fires concentrate heavily in the early cap layers: L46 absorbs 41.0% of all fires, L47 another 22.5% &mdash; the two together carry 63.5% of correction effort. The middle layers L48&ndash;L51 each sit between 5% and 11%, and the deepest two (L52&ndash;L53) together account for only 3.6%. This happens because the two-gate mechanism &mdash; the compliance axis adding an independent threshold check after the detection gate &mdash; creates a finer filter than a single axis can.</p>
 
-<figure>
-  <div class="heatmap-flex">
-    <div class="hm-panel">
-      <h4>Single-axis capping</h4>
-      <table class="hm-table" id="hm-assist"></table>
-      <div class="hm-meta">78% full-stack &middot; mean 7.2 layers</div>
-    </div>
-    <div class="hm-panel">
-      <h4>Cross-axis capping</h4>
-      <table class="hm-table" id="hm-cross"></table>
-      <div class="hm-meta">51% full-stack &middot; mean 5.9 layers</div>
-    </div>
-  </div>
-  <figcaption>Figure 4. Layer firing patterns on jailbreak prompts. Each row is a pattern (which of 8 layers applied a correction); the right column shows how many of 100 prompts matched. Cross-axis produces more diverse, sparser patterns. Single-axis: 78% full-stack, mean 7.2 layers. Cross-axis: 51% full-stack, mean 5.9 layers.</figcaption>
-</figure>
+<table>
+<tr><th>Layer</th><th>Fires</th><th>Share of total</th></tr>
+<tr><td>L46</td><td>9,696</td><td>41.0%</td></tr>
+<tr><td>L47</td><td>5,325</td><td>22.5%</td></tr>
+<tr><td>L48</td><td>2,323</td><td>9.8%</td></tr>
+<tr><td>L49</td><td>2,552</td><td>10.8%</td></tr>
+<tr><td>L50</td><td>1,184</td><td>5.0%</td></tr>
+<tr><td>L51</td><td>1,729</td><td>7.3%</td></tr>
+<tr><td>L52</td><td>313</td><td>1.3%</td></tr>
+<tr><td>L53</td><td>547</td><td>2.3%</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>23,669</strong></td><td></td></tr>
+</table>
 
-<p>The per-layer breakdown tells the same story. L46 fires on 100% of jailbreak prompts for both methods. But by L51, single-axis fires on 80% while cross-axis fires on only 57%. The compliance axis provides a correction signal that is more spatially selective &mdash; it agrees with the detection gate at early layers but increasingly diverges at later ones.</p>
+<p>Per-prompt fire density is heavy-tailed. Across the 231 fired cross-axis jailbreak prompts, the mean is 102.5 fires/prompt, median is 8, max is 1,133, and min is 1 &mdash; a handful of prompts absorb sustained correction while most receive brief, light intervention. On benigns, the cross-axis fire count is two orders of magnitude smaller: 419 total fires across 67 fired rows, versus 23,669 fires across 231 fired jailbreaks &mdash; a ~56&times; gap in total intervention effort. When a benign does cross the detect gate, the correction is also short-lived (mean 6.3 fires, median 3, max 67), and almost entirely in L46&ndash;L47 &mdash; which matches the 91% unchanged / 0% false-refusal outcome.</p>
 
 <figure>
   <div class="chart-wrap"><canvas id="chart-layers"></canvas></div>
-  <figcaption>Figure 5. Per-layer correction frequency on jailbreak prompts. Both methods fire at L46, but cross-axis increasingly diverges at deeper layers.</figcaption>
+  <figcaption>Figure 4. Share of total cross-axis fires by layer on jailbreak prompts (231 fired prompts, 23,669 total fires). Correction concentrates heavily in L46&ndash;L47 and tapers across deeper cap layers. Single-axis, by construction, fires on every layer for every prompt, so a layer-share plot would be uniform.</figcaption>
 </figure>
 </section>
 
@@ -673,7 +670,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <section>
 <h2>What this means</h2>
 
-<p>Factoring detection from correction works. On a single model with 100 jailbreak prompts, cross-axis capping nearly doubles the refusal rate at no capability cost. The improvement is one-directional &mdash; 29 prompts flipped from compliance to refusal, none went the other way &mdash; so this is a pure safety gain rather than a trade. The compliance axis, computed from just 50 refusing and 50 compliant examples, carries enough signal to meaningfully change outcomes.</p>
+<p>Factoring detection from correction works. On a single model with 250 jailbreak prompts, cross-axis capping lifts the refusal rate by +21.5 percentage points [95% CI +15.1, +28.0] at no capability cost. The paired bootstrap is unambiguous &mdash; every one of 10,000 resamples produced a positive lift &mdash; so this is a pure safety gain rather than a trade. The compliance axis, computed from just 50 refusing and 50 compliant examples, carries enough signal to meaningfully change outcomes.</p>
 
 <div class="callout question">
 <div class="callout-label">Closing the blind spot</div>
@@ -682,7 +679,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <h3>Limitations</h3>
 
-<p>These are exploratory results. The sample is small (error bars on 62.5% with n=88 are roughly &plusmn;10 percentage points), the model is a single architecture (Qwen3-32B), and the threshold was not optimised. The compliance axis was computed from 100 examples in a 5,120-dimensional space &mdash; it is under-determined and noisy. The same data was used for both axis construction and threshold calibration, so the calibration is technically contaminated; because the threshold is a single scalar, this is unlikely to invalidate the headline result, but it does mean the few cases of capability degradation observed at generation time could plausibly be removed by a cleaner threshold sweep. Even uncorrected, the cross-axis degradation was lower than the single-axis baseline. Better calibration of the assistant axis would also lift the single-axis numbers somewhat &mdash; but on the evidence here, it is unlikely to close the gap.</p>
+<p>These are exploratory results. The sample is moderate (95% bootstrap CIs span ~14 percentage points on each mode's refusal rate: cross-axis [47.5, 61.4], single-axis [26.6, 39.3]), the model is a single architecture (Qwen3-32B), and the threshold was not optimised. The compliance axis was computed from 100 examples in a 5,120-dimensional space &mdash; it is under-determined and noisy. The same data was used for both axis construction and threshold calibration, so the calibration is technically contaminated; because the threshold is a single scalar, this is unlikely to invalidate the headline result, but it does mean the few cases of capability degradation observed at generation time could plausibly be removed by a cleaner threshold sweep. Even uncorrected, the cross-axis degradation was lower than the single-axis baseline. Better calibration of the assistant axis would also lift the single-axis numbers somewhat &mdash; but on the evidence here, it is unlikely to close the gap.</p>
 
 <h3>Future directions</h3>
 
@@ -722,8 +719,8 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
 <tr><td>Model</td><td>Qwen3-32B (64 layers, 5120 hidden dim, bfloat16)</td></tr>
 <tr><td>Assistant axis</td><td>Pre-computed from Lu et al., via lu-christina/assistant-axis-vectors on HuggingFace</td></tr>
 <tr><td>Capping layers</td><td>L46&ndash;L53 (8 layers, 72&ndash;84% depth)</td></tr>
-<tr><td>Jailbreak prompts</td><td>100 from WildJailbreak (eval split, adversarial_harmful)</td></tr>
-<tr><td>Benign prompts</td><td>50 factual/advice calibration questions</td></tr>
+<tr><td>Jailbreak prompts</td><td>250 from WildJailbreak (eval split, adversarial_harmful)</td></tr>
+<tr><td>Benign prompts</td><td>100 factual/advice calibration questions</td></tr>
 <tr><td>Compliance axis data</td><td>50 refusing (JBB-Behaviors bare goals) + 50 compliant (WildJailbreak train)</td></tr>
 <tr><td>Detection threshold</td><td>Discriminative midpoint of benign/jailbreak projections</td></tr>
 <tr><td>Correction threshold</td><td>Mean jailbreak projection on compliance axis</td></tr>
@@ -732,47 +729,80 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
 <tr><td>Judge model</td><td>Claude Sonnet 4.6 (temperature 0.0)</td></tr>
 <tr><td>Code</td><td><a href="https://github.com/maxxts7/cross-capping">github.com/maxxts7/cross-capping</a></td></tr>
 </table>
+
+<p><strong>Model and axis assets.</strong></p>
+<ul>
+<li><strong>Qwen3-32B</strong> / <strong>Llama-3.1-8B-Instruct</strong> &mdash; base models loaded via <code>snapshot_download</code> (<code>crosscap_experiment.py:355</code>).</li>
+<li><strong>lu-christina/assistant-axis-vectors</strong> &mdash; pre-computed assistant-axis <code>.pt</code> files and capping config from prior published work (<code>crosscap_experiment.py:172, :201, :234</code>).</li>
+</ul>
+
+<p><strong>Compliance-axis construction (the warmup pool, 50 + 50).</strong></p>
+<ul>
+<li><strong>JailbreakBench / JBB-Behaviors</strong> (<code>behaviors</code> config) &mdash; bare harmful goals; supplies the refusing side of the PCA pool (<code>run_crosscap.py:306-324, :318</code>).</li>
+<li><strong>allenai/wildjailbreak</strong> (train split, <code>adversarial_harmful</code> only) &mdash; jailbreaks the model actually complies with; supplies the compliant side of the PCA pool, and is also used for jailbreak-side threshold calibration (<code>run_crosscap.py:327-358, :340-344</code>).</li>
+</ul>
+
+<p><strong>Threshold calibration.</strong></p>
+<ul>
+<li><code>CALIBRATION_PROMPTS</code> &mdash; 50 hardcoded benign trivia questions in-source, used to compute the cross-detect &tau; on the assistant axis (<code>run_crosscap.py:218, :1150</code>). Not a downloaded dataset; lives in the file itself.</li>
+</ul>
+
+<p><strong>Evaluation prompts (the actual experiment runs).</strong></p>
+<ul>
+<li><strong>allenai/wildjailbreak</strong> (eval split, <code>adversarial_harmful</code> only) &mdash; the 250 jailbreak prompts each capping mode is tested on (<code>run_crosscap.py:389-429, :406-410</code>). Held out from the train split used for axis construction.</li>
+<li><strong>tatsu-lab/alpaca_eval</strong> (<code>alpaca_eval.json</code>) &mdash; the 100 benign instruction prompts used to measure capability degradation (<code>run_crosscap.py:361-386, :376</code>).</li>
+</ul>
+
+<p><strong>Judges (used to label outputs, not as inputs).</strong></p>
+<ul>
+<li><strong>Claude</strong> (Anthropic API) &mdash; primary judge in <code>reclassify_refusals.py</code> (the four-class jailbreak labels and three-class benign labels).</li>
+<li><strong>cais/HarmBench-Llama-2-13b-cls</strong> &mdash; optional local binary classifier alternative (<code>classify_calibration.py:84</code>, <code>reclassify_refusals.py:108</code>).</li>
+</ul>
+
+<p>Putting it together for a main run: JBB-Behaviors + WildJailbreak-train build the compliance axis; <code>CALIBRATION_PROMPTS</code> sets the detect &tau;; WildJailbreak-eval + AlpacaEval are the evaluation sets; the assistant-axis-vectors repo provides the published detection direction. Everything else (<code>labeled.csv</code>, <code>refusing.csv</code>, <code>compliant.csv</code>) is intermediate output, not source data.</p>
 </div>
 </details>
 
 <details>
 <summary>A3: Full label breakdown</summary>
 <div class="det-body">
-<p><strong>Jailbreak prompts (n=100):</strong></p>
+<p><strong>Jailbreak prompts (n=250):</strong></p>
 <table>
 <tr><th>Label</th><th>Single-axis</th><th>Cross-axis</th></tr>
-<tr><td>Refusal</td><td>28</td><td>55</td></tr>
-<tr><td>Partial refusal</td><td>0</td><td>3</td></tr>
-<tr><td>Compliance</td><td>59</td><td>29</td></tr>
+<tr><td>Refusal</td><td>72</td><td>111</td></tr>
+<tr><td>Partial refusal</td><td>4</td><td>7</td></tr>
+<tr><td>Compliance</td><td>143</td><td>85</td></tr>
 <tr><td>Degraded</td><td>0</td><td>1</td></tr>
-<tr><td>Error (judge refused)</td><td>13</td><td>12</td></tr>
+<tr><td>Error (judge refused)</td><td>31</td><td>27</td></tr>
+<tr><td>No fire (gate never crossed)</td><td>&mdash;</td><td>19</td></tr>
 </table>
-<p><strong>Benign prompts (n=50):</strong></p>
+<p><strong>Benign prompts (n=100):</strong></p>
 <table>
 <tr><th>Label</th><th>Single-axis</th><th>Cross-axis</th></tr>
-<tr><td>Unchanged</td><td>31</td><td>31</td></tr>
+<tr><td>Unchanged</td><td>90</td><td>61</td></tr>
 <tr><td>False refusal</td><td>0</td><td>0</td></tr>
-<tr><td>Degraded</td><td>3</td><td>3</td></tr>
-<tr><td>No correction (skipped)</td><td>16</td><td>16</td></tr>
+<tr><td>Degraded</td><td>10</td><td>6</td></tr>
+<tr><td>No correction (skipped)</td><td>0</td><td>33</td></tr>
 </table>
-<p><strong>Head-to-head (86 prompts with both valid labels):</strong></p>
+<p><strong>Paired lift (same 250 prompts, bootstrap N=10,000):</strong></p>
 <table>
-<tr><th></th><th>Cross: refusal</th><th>Cross: partial</th><th>Cross: compliance</th><th>Cross: degraded</th></tr>
-<tr><td><strong>Single: refusal</strong></td><td>27</td><td>1</td><td>0</td><td>0</td></tr>
-<tr><td><strong>Single: compliance</strong></td><td>27</td><td>2</td><td>28</td><td>1</td></tr>
+<tr><th>Metric</th><th>Lift (cross &minus; single)</th><th>95% CI</th><th>P(lift &gt; 0)</th></tr>
+<tr><td>Refusal only</td><td>+21.5 pp</td><td>[+15.1, +28.0]</td><td>100.0%</td></tr>
+<tr><td>Refusal + partial refusal</td><td>+23.1 pp</td><td>[+16.7, +29.7]</td><td>100.0%</td></tr>
 </table>
+<p style="font-size:0.9em; color:#64748b; margin-top:0.5rem">Paired lift is computed by resampling prompt indices with replacement, computing each mode's refusal rate on its judgeable rows within the resample, and taking the difference &mdash; preserving per-prompt pairing across modes. Rates exclude NaN (no-fire) and judge-error rows, matching the headline percentages above.</p>
 </div>
 </details>
 
 <details>
 <summary>A4: Limitations</summary>
 <div class="det-body">
-<p><strong>Sample size.</strong> n=100 jailbreak, n=50 benign. Error bars on 62.5% with n=88 are approximately &plusmn;10 percentage points at 95% confidence. These results are directionally informative but not statistically conclusive.</p>
+<p><strong>Sample size.</strong> n=250 jailbreak, n=100 benign. 95% bootstrap CIs (N=10,000 resamples): cross-axis refusal [47.5, 61.4], single-axis refusal [26.6, 39.3], paired lift [+15.1, +28.0]. Every bootstrap sample showed positive lift, so the directional claim is robust even though absolute CIs are still ~14 pp wide.</p>
 <p><strong>Single model.</strong> All experiments were run on Qwen3-32B. There is no evidence that the improvement generalises across architectures.</p>
 <p><strong>Single threshold strategy.</strong> The cross-axis framework's natural advantage &mdash; independently tuning detection sensitivity and correction strength &mdash; was not explored. Both thresholds were set using simple heuristics.</p>
 <p><strong>Under-determined axis.</strong> The compliance axis was computed from 100 examples (50 + 50) in a 5,120-dimensional space. PCA on this data is heavily under-determined; the axis captures real signal mixed with noise.</p>
 <p><strong>Data leakage.</strong> WildJailbreak prompts were used for both compliance axis construction and threshold calibration.</p>
-<p><strong>Judge bias.</strong> Claude Sonnet 4.6 refused to classify 12&ndash;13 of the most harmful prompts. These are likely among the most successful jailbreaks, meaning the true compliance rate may be higher than reported.</p>
+<p><strong>Judge bias.</strong> Claude Sonnet 4.6 refused to classify 27&ndash;31 of the most harmful prompts. These are likely among the most successful jailbreaks, meaning the true compliance rate may be higher than reported.</p>
 </div>
 </details>
 
@@ -872,10 +902,10 @@ const GRAY = '#e2e8f0';
 new Chart(document.getElementById('chart-jailbreak'), {
   type: 'bar',
   data: {
-    labels: ['Refusal', 'Partial refusal', 'Compliance', 'Degraded', 'Judge error'],
+    labels: ['Refusal', 'Partial refusal', 'Compliance', 'Degraded', 'Judge error', 'No fire'],
     datasets: [
-      { label: 'Single-axis', data: [28,0,59,0,13], backgroundColor: BLUE_M, borderColor: '#4a8af0', borderWidth: 1 },
-      { label: 'Cross-axis',  data: [55,3,29,1,12], backgroundColor: BLUE, borderColor: '#1e40af', borderWidth: 1 },
+      { label: 'Single-axis', data: [72,4,143,0,31,0], backgroundColor: BLUE_M, borderColor: '#4a8af0', borderWidth: 1 },
+      { label: 'Cross-axis',  data: [111,7,85,1,27,19], backgroundColor: BLUE, borderColor: '#1e40af', borderWidth: 1 },
     ],
   },
   options: {
@@ -883,10 +913,10 @@ new Chart(document.getElementById('chart-jailbreak'), {
     responsive: true,
     plugins: {
       legend: { position: 'top' },
-      tooltip: { callbacks: { label: i => i.dataset.label + ': ' + i.raw + ' / 100' } },
+      tooltip: { callbacks: { label: i => i.dataset.label + ': ' + i.raw + ' / 250' } },
     },
     scales: {
-      x: { beginAtZero: true, max: 65, title: { display: true, text: 'Number of prompts (out of 100)' }, grid: { color: '#e2e8f0' } },
+      x: { beginAtZero: true, max: 160, title: { display: true, text: 'Number of prompts (out of 250)' }, grid: { color: '#e2e8f0' } },
       y: { grid: { display: false } },
     },
   },
@@ -897,8 +927,8 @@ const pareto = new Chart(document.getElementById('chart-pareto'), {
   type: 'scatter',
   data: {
     datasets: [
-      { label: 'Single-axis', data: [{x:91.2,y:32.2}], backgroundColor: BLUE_M, borderColor: '#4a8af0', borderWidth: 2, pointRadius: 10, pointStyle: 'circle' },
-      { label: 'Cross-axis',  data: [{x:91.2,y:65.9}], backgroundColor: BLUE, borderColor: '#1e40af', borderWidth: 2, pointRadius: 10, pointStyle: 'triangle' },
+      { label: 'Single-axis', data: [{x:90.0,y:32.9}], backgroundColor: BLUE_M, borderColor: '#4a8af0', borderWidth: 2, pointRadius: 10, pointStyle: 'circle' },
+      { label: 'Cross-axis',  data: [{x:91.0,y:54.5}], backgroundColor: BLUE, borderColor: '#1e40af', borderWidth: 2, pointRadius: 10, pointStyle: 'triangle' },
     ],
   },
   options: {
@@ -940,53 +970,25 @@ const pareto = new Chart(document.getElementById('chart-pareto'), {
   }],
 });
 
-// ── Figure 4: Heatmaps ────────────────────────────────────────────────────
-function buildHeatmap(id, patterns, layers) {
-  const t = document.getElementById(id);
-  let h = '<thead><tr><th></th>';
-  layers.forEach(l => h += '<th>' + l.replace('L','') + '</th>');
-  h += '<th style="text-align:right">n</th></tr></thead><tbody>';
-  let accounted = 0;
-  patterns.forEach(p => {
-    accounted += p.f;
-    h += '<tr><td></td>';
-    p.l.forEach(v => h += '<td><span class="hm-cell ' + (v ? 'on' : 'off') + '"></span></td>');
-    h += '<td class="hm-freq">' + p.f + '</td></tr>';
-  });
-  if (accounted < 100) {
-    h += '<tr><td></td>';
-    layers.forEach(() => h += '<td style="color:#cbd5e1;font-size:0.7rem">&#8943;</td>');
-    h += '<td class="hm-freq" style="color:var(--gray-400)">' + (100-accounted) + '</td></tr>';
-  }
-  h += '</tbody>';
-  t.innerHTML = h;
-}
-
 const L = ['L46','L47','L48','L49','L50','L51','L52','L53'];
-buildHeatmap('hm-assist', [
-  {l:[1,1,1,1,1,1,1,1],f:78},{l:[1,1,1,0,0,0,0,0],f:11},{l:[1,1,1,1,1,0,1,1],f:3},
-  {l:[1,1,1,0,1,0,0,0],f:1},{l:[1,1,1,1,0,1,1,1],f:1},{l:[1,1,1,0,0,0,1,0],f:1},
-], L);
-buildHeatmap('hm-cross', [
-  {l:[1,1,1,1,1,1,1,1],f:51},{l:[1,1,1,0,0,0,0,0],f:16},{l:[1,0,0,0,0,0,0,0],f:8},
-  {l:[1,1,1,1,1,0,0,0],f:3},{l:[1,1,0,0,0,0,0,0],f:3},{l:[1,1,1,1,1,1,1,0],f:3},
-], L);
 
-// ── Figure 5: Layer frequency ──────────────────────────────────────────────
+// ── Figure 4: Per-layer share of total cross-axis fires ───────────────────
 new Chart(document.getElementById('chart-layers'), {
   type: 'bar',
   data: {
     labels: L,
     datasets: [
-      { label: 'Single-axis', data: [100,100,99,85,83,80,86,84], backgroundColor: BLUE_M, borderColor: '#4a8af0', borderWidth: 1 },
-      { label: 'Cross-axis',  data: [100,91,87,67,68,57,61,58],  backgroundColor: BLUE, borderColor: '#1e40af', borderWidth: 1 },
+      { label: 'Cross-axis (share of 23,669 fires)', data: [41.0,22.5,9.8,10.8,5.0,7.3,1.3,2.3], backgroundColor: BLUE, borderColor: '#1e40af', borderWidth: 1 },
     ],
   },
   options: {
     responsive: true,
-    plugins: { legend: { position: 'top' } },
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: { callbacks: { label: i => i.dataset.label + ': ' + i.parsed.y.toFixed(1) + '%' } },
+    },
     scales: {
-      y: { beginAtZero: true, max: 110, title: { display: true, text: 'Prompts where layer fired (%)' }, grid: { color: '#e2e8f0' } },
+      y: { beginAtZero: true, max: 45, title: { display: true, text: 'Share of total cross-axis fires (%)' }, grid: { color: '#e2e8f0' } },
       x: { title: { display: true, text: 'Capping layer' }, grid: { display: false } },
     },
   },
