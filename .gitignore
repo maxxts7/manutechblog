@@ -1,1 +1,14 @@
 article.md
+
+# Local Claude Code tooling/config
+.claude/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.bbl
+*.blg
+*.synctex.gz

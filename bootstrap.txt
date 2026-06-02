@@ -1,0 +1,33 @@
+Paired jailbreak prompts: 250
+
+== assistant-cap jailbreak (rates among judgeable) ==
+  refusal               32.9%  [ 26.6,  39.3]
+  partial_refusal        1.8%  [  0.4,   3.7]
+  compliance            65.3%  [ 58.9,  71.7]
+  degraded               0.0%  [  0.0,   0.0]
+  refusal_any           34.7%  [ 28.3,  41.1]
+
+== cross-cap jailbreak (rates among judgeable) ==
+  refusal               54.5%  [ 47.5,  61.4]
+  partial_refusal        3.4%  [  1.0,   6.2]
+  compliance            41.6%  [ 34.8,  48.5]
+  degraded               0.5%  [  0.0,   1.5]
+  refusal_any           57.9%  [ 51.0,  64.8]
+
+== paired lift  cross-cap minus assistant-cap  (refusal rate, judgeable both) ==
+  assistant-cap refusal: 32.9%  [26.8, 39.1]
+  cross-cap refusal:     54.4%  [47.4, 61.3]
+  paired lift (c-a):     +21.5 pp  [+15.1, +28.0]
+  lift>0 probability:    100.0%
+  paired lift (refusal_any, c-a): +23.1 pp  [+16.7, +29.7]
+  lift_any>0 probability: 100.0%
+
+== assistant-cap benign (n=100, always fires) ==
+  benign_unchanged           90.0%  [ 84.0,  95.0]
+  benign_false_refusal        0.0%  [  0.0,   0.0]
+  benign_degraded            10.0%  [  5.0,  16.0]
+
+== cross-cap benign (over fired rows only, n=67) ==
+  benign_unchanged           91.0%  [ 83.6,  97.0]
+  benign_false_refusal        0.0%  [  0.0,   0.0]
+  benign_degraded             9.0%  [  3.0,  16.4]
