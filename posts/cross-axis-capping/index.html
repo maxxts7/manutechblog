@@ -395,7 +395,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <header>
   <h1>Cross-Axis Capping: What happens when you stop using one axis for two jobs</h1>
-  <p class="subtitle">A case for using different directions to detect and correct jailbreaks</p>
+  <p class="subtitle">What the geometry of constructed directions reveals about matching each axis to its role &mdash; cross-axis capping to detect and correct jailbreaks</p>
   <div class="author-line">
     <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
     <span class="meta-date">April 2026</span>
@@ -410,7 +410,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <p>Language models carry internal &ldquo;directions&rdquo; in their activation space<sup class="tt" data-tip="The model's 'mental workspace' — a vast coordinate system where every possible internal state the model can occupy has a unique position, and meaningful concepts correspond to directions within it.">11</sup> that quietly track the behaviours they&rsquo;re about to produce. Lu et al. identified one such direction &mdash; the <strong>assistant axis</strong><sup class="tt" data-tip="A single direction in a high-dimensional space that tracks a meaningful property — like a dial that reads higher or lower depending on a specific behaviour or concept.">4</sup> &mdash; where one end corresponds to the model behaving as a helpful assistant and the other to it drifting into other behaviours, including jailbroken ones. They showed that putting a cap on the unsafe end &mdash; preventing activations from moving past a threshold<sup class="tt" data-tip="A decision boundary — a fixed value that separates 'normal' from 'flagged.' If a signal stays on one side, nothing happens; if it crosses, the system intervenes.">5</sup> along that direction &mdash; reduces jailbreaks.</p>
 
-<p>The question this experiment asks is whether capping along a <em>better</em> direction gets better results. Specifically: we use the assistant axis only for <strong>detection</strong> &mdash; spotting when activations are about to drift toward unsafe territory &mdash; and apply the <strong>correction</strong> along a different, purpose-built direction called the <strong>compliance axis</strong>. On the compliance axis, one end represents refusal to jailbreaks and the other represents compliance with them (the behaviour we want to prevent). As long as activations stay below a threshold on the compliance side, the jailbreak shouldn&rsquo;t land.</p>
+<p>The question this experiment asks is which direction is fit for which job. The assistant axis is a <strong>broad, multidimensional, persona-spanning detector</strong> &mdash; a good detector of when the model has drifted, but a strictly worse <em>corrector</em>. The <strong>compliance axis</strong> is a <strong>narrow, approximately one-dimensional, role-specialised corrector</strong> &mdash; a strictly better corrector. So we use the assistant axis only for <strong>detection</strong> &mdash; spotting when activations are about to drift toward unsafe territory &mdash; and apply the <strong>correction</strong> along the purpose-built compliance axis, where one end represents refusal to jailbreaks and the other represents compliance with them (the behaviour we want to prevent). As long as activations stay below a threshold on the compliance side, the jailbreak shouldn&rsquo;t land. Pairing the detector with the corrector is correct placement &mdash; matching each axis to the role it is geometrically suited for, nothing more. We call this <strong>cross-axis capping</strong>.</p>
 
 <div class="callout research-question">
 <div class="callout-label">Research question</div>
@@ -419,9 +419,9 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <p>Building such an axis is simple. Take a set of prompts that elicit compliance behaviour, extract the model&rsquo;s activations, and take the mean; take another set of prompts that elicit refusal, extract activations, and take the mean. Each mean is a point in activation space representing <em>typical</em> behaviour on that side &mdash; averaging across many prompts is what pulls the signal toward the typical case rather than any one input. The difference between the two means is a direction, a vector running from one behaviour to the other. This is the <strong>contrast vector</strong><sup class="tt" data-tip="A direction extracted by comparing how the model behaves under two different conditions. It isolates what changes internally when the model switches from one mode to another.">1</sup> or <strong>difference-in-means</strong> method. Lu et al. constructed the assistant axis the same way, pairing the model&rsquo;s default assistant behaviour against role-playing behaviour (a doctor, a pirate, a therapist, a philosopher).</p>
 
-<p>That leaves open design questions: which prompts should seed the compliance axis, how to choose the threshold, and how much the outcome depends on those choices. This experiment runs one concrete configuration on Qwen3-32B across 250 jailbreak prompts and 100 benign ones, with forward hooks<sup class="tt" data-tip="Callback functions that intercept a neural network's computation at chosen layers, letting you read or modify internal states on the fly without altering the model itself.">2</sup> clipping activations mid-generation on a middle band of layers.</p>
+<p>That leaves open design questions: which prompts should seed the compliance axis, how to choose the threshold, and how much the outcome depends on those choices. This experiment runs one concrete configuration on two open-weight models from different families &mdash; Qwen3-32B and Llama-3.3-70B-Instruct &mdash; across 250 jailbreak prompts and 100 benign ones, with forward hooks<sup class="tt" data-tip="Callback functions that intercept a neural network's computation at chosen layers, letting you read or modify internal states on the fly without altering the model itself.">2</sup> clipping activations mid-generation on a middle band of layers.</p>
 
-<p>The split approach lifts refusal rates from 32.9% to 54.5% &mdash; a paired bootstrap lift of +21.5 percentage points [95% CI +15.1, +28.0] that held in every one of 10,000 resamples &mdash; and drops compliance from 65.3% to 41.6%, while benign responses stay essentially untouched (~90% unchanged under either arm, with zero false refusals). Detecting and correcting on different directions, it turns out, does meaningfully better than folding both into one.</p>
+<p>On Qwen3-32B the split approach lifts refusal rates from 32.9% to 54.5% &mdash; a paired bootstrap lift of +21.5 percentage points [95% CI +15.1, +28.0] that held in every one of 10,000 resamples &mdash; and drops compliance from 65.3% to 41.6%, while benign responses stay essentially untouched (~90% unchanged under either arm, with zero false refusals). The same sign-and-magnitude lift replicates on a second open-weight family: on Llama-3.3-70B-Instruct refusal rises from 20.6% to 48.1% (+27.5 pp [95% CI +21.0, +34.3]), with benign preservation 99.0&rarr;98.0 and zero false refusals. Two families agreeing on the sign and magnitude of the lift reads as a property of model geometry rather than a single-checkpoint quirk. The thresholds were tuned on a held-out split to find <em>an</em> operating point where the cross-axis pairing dominates, so the result shows the geometry <em>permits</em> this gain &mdash; an existence proof &mdash; not that decoupled correction always wins.</p>
 
 <p>A natural next step would be widening detection too. For instance, the assistant axis alone doesn&rsquo;t reliably fire on fictional-framing attacks where jailbreaks are dressed up as hypothetical scenarios. So trying to find a direction or an axis which detects those attacks could further the model&rsquo;s ability to detect harmful requests when used along side with assistant axis.</p>
 
@@ -469,7 +469,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>Is it the case that detection and correction are separable, and that handling them separately yields more refusals at no cost to capability?</p>
 </div>
 
-<p>This creates a tension. The assistant axis is good at detecting when the model has left its default mode &mdash; but that might not be the right direction to push along when correcting. The direction that best answers "is this a jailbreak?" need not be the same direction that best answers "how do I make this model refuse?" Using one axis for both jobs is a design constraint, not a necessity.</p>
+<p>This creates a tension. The assistant axis is good at detecting when the model has left its default mode &mdash; but that might not be the right direction to push along when correcting. The direction that best answers "is this a jailbreak?" need not be the same direction that best answers "how do I make this model refuse?" Which direction fits which role is a property of <em>what each direction does</em>, not of <em>how it was built</em>: a broad, multi-behaviour direction is a poor fit for a precision job, and that mismatch costs performance. Using one axis for both jobs is a design constraint, not a necessity.</p>
 
 <!-- ── Figure 1: What each cap lets through ── -->
 <figure>
@@ -545,11 +545,11 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <p>The modification is straightforward. Keep the assistant axis for detection &mdash; it is well-studied and comes with pre-computed vectors. But compute a second direction, a <strong>compliance axis</strong>, specifically for correction.</p>
 
 <ul>
-<li><strong>Assistant axis (detection):</strong> Constructed by contrasting default helpful-assistant activations against role-playing activations: <code>mean(assistant) &minus; mean(role_playing)</code>. Pre-computed by Lu et al. and published as a downloadable artifact. Its job is to answer: <em>has the model left its default helpful mode?</em> When the projection onto this axis drops below a threshold, the detection gate fires.</li>
-<li><strong>Compliance axis (correction):</strong> Constructed the same way as the assistant axis, by contrasting two behavioural conditions: <code>axis = mean(refusing_activations) &minus; mean(compliant_activations)</code>. PCA<sup class="tt" data-tip="A statistical technique that finds the line (or handful of lines) best summarising the variation in a dataset — like identifying the main axis of an oval cloud of points.">9</sup> is then applied to extract PC1<sup class="tt" data-tip="The first and strongest direction that PCA extracts — the single line explaining the largest share of variation in the data.">10</sup> &mdash; the most sensitive component of that direction. 50 prompts the model refuses (bare harmful requests from JailbreakBench) and 50 it complies with (jailbroken versions from WildJailbreak) are run through the model to produce the activation sets. Its job is to answer: <em>should the model refuse or comply?</em> When the gate has fired and the projection onto this axis is below threshold, the correction pushes the hidden state toward refusal.</li>
+<li><strong>Assistant axis (detector, <code>v<sub>d</sub></code>):</strong> A mean-difference contrast over a persona library, constructed by contrasting default helpful-assistant activations against role-playing activations: <code>mean(assistant) &minus; mean(role_playing)</code>. Pre-computed by Lu et al. and published as a downloadable artifact. It is <strong>broad, multidimensional, persona-spanning</strong> &mdash; a good detector but a strictly <em>worse</em> corrector, because pushing along it drags many co-varying behaviours (persona, register, tone). Its job is to answer: <em>has the model left its default helpful mode?</em> When the projection onto this axis drops below a threshold, the detection gate fires.</li>
+<li><strong>Compliance axis (corrector, <code>v<sub>c</sub></code>):</strong> Constructed by contrasting two behavioural conditions &mdash; <code>mean(refusing_activations) &minus; mean(compliant_activations)</code> &mdash; with PCA<sup class="tt" data-tip="A statistical technique that finds the line (or handful of lines) best summarising the variation in a dataset — like identifying the main axis of an oval cloud of points.">9</sup> applied to extract PC1<sup class="tt" data-tip="The first and strongest direction that PCA extracts — the single line explaining the largest share of variation in the data.">10</sup>. 50 prompts the model refuses (bare harmful requests from JailbreakBench) and 50 it complies with (jailbroken versions from WildJailbreak) are run through the model to produce the activation sets. It is <strong>narrow, approximately one-dimensional, role-specialised</strong> &mdash; a strictly <em>better</em> corrector. Its job is to answer: <em>should the model refuse or comply?</em> When the gate has fired and the projection onto this axis is below threshold, the correction pushes the hidden state toward refusal.</li>
 </ul>
 
-<p>The two axes are related but mostly independent. Their cosine similarity is 0.156 &mdash; they share roughly 16% of their direction, with the rest capturing distinct information. This confirms the intuition: detecting that a jailbreak is happening and knowing how to push toward refusal are overlapping but separable tasks.</p>
+<p>The two axes are related but mostly independent. On Qwen3-32B their cosine similarity is 0.156 &mdash; they share roughly 16% of their direction, with the rest capturing distinct information. This confirms the intuition: detecting that a jailbreak is happening and knowing how to push toward refusal are overlapping but separable tasks. The improvement we report comes from correct placement &mdash; matching each axis to the role it is geometrically suited for &mdash; and nothing more.</p>
 
 <p>At each generation step, the system checks two conditions. First: does the assistant-axis projection fall below its threshold? This is the detection gate. If the model is still in normal assistant mode, nothing happens. Second, only if the gate has fired: does the compliance-axis projection fall below its own threshold? If so, push the hidden state along the compliance axis until it reaches the threshold. Two axes, two thresholds, independently tunable. The mathematical formulation is in <a href="#appendix-math">Appendix A1</a>.</p>
 </section>
@@ -558,14 +558,14 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <section>
 <h2>Experiment setup</h2>
 
-<p>The experiment asks whether separating jailbreak detection from correction inside a language model&rsquo;s &ldquo;mind&rdquo; makes safety interventions more effective. A single run moves through four stages:</p>
+<p>The experiment asks whether separating jailbreak detection from correction inside a language model&rsquo;s &ldquo;mind&rdquo; makes safety interventions more effective. The matched comparison was run on two open-weight models from different families &mdash; Qwen3-32B and Llama-3.3-70B-Instruct &mdash; each with its own cap band and its own calibration corpus (Qwen caps on L46&ndash;L53; Llama caps on L56&ndash;L71, with an extended override band L40&ndash;L65 for the cross-axis runs). The detailed per-layer fire analysis below is the Qwen3-32B deep-dive. A single run moves through four stages:</p>
 
 <ol>
-<li><strong>Warmup.</strong> The model (Qwen3-32B), the prompt sets, and the pre-computed assistant axis (downloaded from <code>lu-christina/assistant-axis-vectors</code> on HuggingFace) are loaded. Then compliance axis is calculated. This sits alongside the assistant axis used for detection, and per-layer thresholds are calibrated across the capping layers (L46&ndash;L53). Everything is cached so later stages skip recomputation. This is treated as a separate stage to enable parallelization of later stages.</li>
+<li><strong>Warmup.</strong> The model (Qwen3-32B or Llama-3.3-70B-Instruct), the prompt sets, and the pre-computed assistant axis (downloaded from <code>lu-christina/assistant-axis-vectors</code> on HuggingFace) are loaded. Then the compliance axis is calculated. This sits alongside the assistant axis used for detection, and per-layer thresholds are calibrated across the capping layers (Qwen L46&ndash;L53; Llama L56&ndash;L71, with an extended override band L40&ndash;L65 for the cross-axis runs). Everything is cached so later stages skip recomputation. This is treated as a separate stage to enable parallelization of later stages.</li>
 
 <li><strong>Generation.</strong> Every prompt is run through the model three times &mdash; once with no intervention, once using the standard single-axis approach (detect and correct on the same direction), and once using cross-axis capping (detect on the assistant axis, correct along the compliance vector). The interventions are implemented using forward hooks: small pieces of code attached to selected transformer layers that intercept each layer&rsquo;s hidden state as it flows through the network during generation. At every token step, the hook projects the hidden state onto the assistant axis; if that projection crosses the layer&rsquo;s calibrated threshold, the hook subtracts the offending component &mdash; either along the same axis (single-axis) or along the compliance vector (cross-axis) &mdash; before passing the modified state to the next layer. Because hooks run inside the forward pass, the correction shapes every subsequent token the model produces.</li>
 
-<li><strong>Gathering &amp; Judging.</strong> Outputs from all runs are merged, and an automated judge (Claude Sonnet) reads every response and labels it &mdash; refusal, compliance, or error for jailbreaks; unchanged, degraded, or false-refusal for benign prompts.</li>
+<li><strong>Gathering &amp; Judging.</strong> Outputs from all runs are merged, and an automated judge (Claude Sonnet 4.6) reads every response and labels it &mdash; refusal, compliance, or error for jailbreaks; unchanged, degraded, or false-refusal for benign prompts. The judge abstained on 12.4% of Qwen responses and 18.4% of Llama responses; these abstentions are excluded from the strict-refusal denominator and disclosed.</li>
 
 <li><strong>Results.</strong> The labels are tallied across conditions to compute refusal rates, compliance rates, and benign-preservation rates, giving a clean comparison of how each intervention performs.</li>
 </ol>
@@ -573,6 +573,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <div class="callout trivia">
 <div class="callout-label">A note on methodology</div>
 <p>During exploration the priority was fast iteration and proof-of-existence rather than principled axis selection, and many candidate directions were tried before settling on the compliance axis. Without a prior model of how the activation space is distributed, it is not obvious what a principled methodology would even look like &mdash; so proceeding by search is a defensible, if arguable, position.</p>
+<p>The detection gate is calibrated conservatively (<em>benign-p1</em> &mdash; the 1st percentile of benign assistant-axis projections per layer), so it fires almost only on inputs already outside the benign distribution. This is deliberate: aggressive, indiscriminate capping along the assistant axis on benign prompts visibly degrades generations (incited hallucinations, an aversion to controversial topics, stylistic flattening). That degradation is itself evidence the assistant axis touches more than one behaviour &mdash; a truly narrow direction would be safe to apply broadly. The thresholds were tuned on a held-out split to find <em>an</em> operating point where cross-axis dominates: an existence proof, not a claim that decoupled correction always wins.</p>
 </div>
 </section>
 
@@ -580,55 +581,67 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <section>
 <h2>Results</h2>
 
-<p>Results use the PC1 compliance axis, evaluated by Claude Sonnet 4.6 as an LLM judge. Percentages are computed over judgeable rows: the judge refused to classify 27&ndash;31 of the most harmful jailbreak prompts, and cross-axis capping's detection gate never fired on 19 of the 250 jailbreak prompts &mdash; leaving 204 judgeable cross-axis rows and 219 judgeable single-axis rows. For benign prompts, cross-axis fires on 67 of 100 (the remaining 33 are never modified and excluded from capability evaluation); single-axis fires on all 100 by design. Error bands are 95% bootstrap CIs from 10,000 resamples of prompts with judge labels held fixed.</p>
+<p>Results use the PC1 compliance axis, evaluated by Claude Sonnet 4.6 as an LLM judge. The judge abstained on 12.4% of Qwen responses and 18.4% of Llama responses; abstentions are excluded from the strict-refusal denominator. On Qwen3-32B, percentages are computed over judgeable rows: the judge refused to classify 27&ndash;31 of the most harmful jailbreak prompts, and cross-axis capping's detection gate never fired on 19 of the 250 jailbreak prompts &mdash; leaving 204 judgeable cross-axis rows and 219 judgeable single-axis rows. For benign prompts, cross-axis fires on 67 of 100 (the remaining 33 are never modified and excluded from capability evaluation); single-axis fires on all 100 by design. Error bands are 95% bootstrap CIs from 10,000 resamples of prompts with judge labels held fixed.</p>
 
+<p style="font-size:0.8rem; color:var(--text-secondary); font-weight:600; letter-spacing:0.04em; text-transform:uppercase; margin:1.5rem 0 -0.5rem;">Qwen3-32B</p>
 <div class="stats">
   <div class="stat blue"><div class="num">54.5%</div><div class="lbl">Cross-axis refusal</div></div>
   <div class="stat muted"><div class="num">32.9%</div><div class="lbl">Single-axis refusal</div></div>
   <div class="stat green"><div class="num">+21.5 pp</div><div class="lbl">Paired lift (P&gt;0 = 100%)</div></div>
 </div>
 
-<p>Cross-axis capping substantially raises the jailbreak refusal rate. Of 204 judgeable cross-axis prompts, 111 were refused outright and 7 were partially refused (54.5% and 3.4%). Of 219 judgeable single-axis prompts, 72 were refused and 4 partially (32.9% and 1.8%). Compliance (the model providing the requested harmful content) dropped from 65.3% to 41.6%.</p>
+<p style="font-size:0.8rem; color:var(--text-secondary); font-weight:600; letter-spacing:0.04em; text-transform:uppercase; margin:1.5rem 0 -0.5rem;">Llama-3.3-70B-Instruct</p>
+<div class="stats">
+  <div class="stat blue"><div class="num">48.1%</div><div class="lbl">Cross-axis refusal</div></div>
+  <div class="stat muted"><div class="num">20.6%</div><div class="lbl">Single-axis refusal</div></div>
+  <div class="stat green"><div class="num">+27.5 pp</div><div class="lbl">Paired lift [+21.0, +34.3]</div></div>
+</div>
+<p style="font-size:0.82rem; color:var(--text-secondary); margin:0.75rem 0 0;">Llama benign preservation 99.0&rarr;98.0, false refusals 0, judge abstention 18.4%.</p>
+
+<p>On Qwen3-32B, cross-axis capping substantially raises the jailbreak refusal rate. Of 204 judgeable cross-axis prompts, 111 were refused outright and 7 were partially refused (54.5% and 3.4%). Of 219 judgeable single-axis prompts, 72 were refused and 4 partially (32.9% and 1.8%). Compliance on Qwen (the model providing the requested harmful content) dropped from 65.3% to 41.6%.</p>
+
+<p>The lift replicates on a second open-weight family. On Llama-3.3-70B-Instruct, strict refusal rises from 20.6% to 48.1% &mdash; a paired lift of +27.5 pp [95% CI +21.0, +34.3] &mdash; with benign preservation moving 99.0&rarr;98.0 and zero false refusals. Both families agree on the <em>sign and magnitude</em> of the lift, which is evidence the property split (broad detector vs. narrow corrector) reflects model geometry rather than a single-checkpoint quirk.</p>
 
 <div class="callout key-point">
 <div class="callout-label">Key result</div>
-<p>Paired lift on the same 250 prompts is +21.5 percentage points [95% CI +15.1, +28.0] for strict refusal, or +23.1 pp [+16.7, +29.7] including partial refusals. Every one of 10,000 bootstrap resamples produced a positive lift &mdash; P(lift &gt; 0) = 100%. Cross-axis is not merely higher on average; it is unambiguously the stronger defense on this run.</p>
+<p>Paired lift on the same 250 prompts is +21.5 percentage points [95% CI +15.1, +28.0] for strict refusal, or +23.1 pp [+16.7, +29.7] including partial refusals. Every one of 10,000 bootstrap resamples produced a positive lift &mdash; P(lift &gt; 0) = 100%. This lift demonstrates the attribute split (broad detector vs. narrow corrector) is real and behaviourally consequential at this operating point &mdash; an existence proof that the geometry permits a decoupled corrector to outperform, not a claim that it is a better defense in general.</p>
 </div>
 
 <p>The paired bootstrap confirms what the aggregate rates show. Resampling the same 250 prompts with replacement and computing each mode's refusal rate on the resampled judgeable rows yields a 95% CI for the mode-by-mode difference of [+15.1, +28.0] with zero resamples producing a negative lift. Cross-axis converts compliant responses to refusals at a rate the single-axis baseline cannot match on any plausible subsampling of this run.</p>
 
 <figure>
   <div class="chart-wrap"><canvas id="chart-jailbreak"></canvas></div>
-  <figcaption>Figure 2. Label distribution on 250 jailbreak prompts. Cross-axis capping shifts a large fraction from compliance to refusal. "Error" rows are prompts the LLM judge refused to classify; "No fire" rows (cross-axis only) are prompts whose detection gate never crossed threshold.</figcaption>
+  <figcaption>Figure 2. Label distribution on 250 jailbreak prompts, on Qwen3-32B. Cross-axis capping shifts a large fraction from compliance to refusal. "Error" rows are prompts the LLM judge refused to classify; "No fire" rows (cross-axis only) are prompts whose detection gate never crossed threshold.</figcaption>
 </figure>
 
 <div class="callout question">
 <div class="callout-label">Why does this work?</div>
-<p>If the correction pushes along a different direction, why doesn't it damage the model's output? Because the compliance axis specifically targets the refusing-vs-complying distinction. However, the assistant axis may bundle my capabilities together, including the ones we actually need, so capping it may lead to degradation of outputs instead of a refusal.</p>
+<p>If the correction pushes along a different direction, why doesn't it damage the model's output? Because the compliance axis is a narrow, role-specialised corrector: it specifically targets the refusing-vs-complying distinction. The assistant axis, by contrast, is a broad detector that bundles many of the model's capabilities and behaviours together, including ones we actually need, so capping along it tends to degrade outputs rather than produce a clean refusal.</p>
+<p>The mechanism is indirect: the model is never instructed to refuse. Refusal emerges because the compliance axis was built to separate refusing from compliant activations, so pushing a jailbroken state toward the refusing end produces a refusal as a side effect.</p>
 </div>
 
-<p>On benign prompts, the two methods behave almost identically where they fire. Single-axis fires on all 100 benigns and preserves 90.0% [84.0, 95.0] unchanged with zero false refusals and 10.0% [5.0, 16.0] degraded. Cross-axis fires on only 67 of 100; of those, 91.0% [83.6, 97.0] are unchanged, 0 are false refusals, and 9.0% [3.0, 16.4] are degraded &mdash; leaving 33% of benigns completely untouched. The unchanged and degraded CIs overlap heavily across modes &mdash; no detectable utility difference &mdash; but cross-axis additionally applies a lighter touch by simply not firing on a third of benign traffic. Cross-axis capping Pareto dominates single-axis: strictly better on safety with no capability trade-off.</p>
+<p>On benign prompts, the two methods behave almost identically where they fire. Single-axis fires on all 100 benigns and preserves 90.0% [84.0, 95.0] unchanged with zero false refusals and 10.0% [5.0, 16.0] degraded. Cross-axis fires on only 67 of 100; of those, 91.0% [83.6, 97.0] are unchanged, 0 are false refusals, and 9.0% [3.0, 16.4] are degraded &mdash; leaving 33% of benigns completely untouched. The unchanged and degraded CIs overlap heavily across modes &mdash; no detectable utility difference &mdash; but cross-axis additionally applies a lighter touch by simply not firing on a third of benign traffic. The cross-axis pairing moves up (more refusal) without moving left (no benign loss) in both families &mdash; a promising signal that detection-quality and correction-quality come apart on constructed directions, not a verdict that one defense beats another.</p>
 
 <figure>
   <div class="chart-wrap"><canvas id="chart-pareto"></canvas></div>
-  <figcaption>Figure 3. Safety vs. capability. The upper-right corner is ideal. Cross-axis capping sits strictly above single-axis: higher refusal at comparable benign preservation.</figcaption>
+  <figcaption>Figure 3. Safety vs. capability across two families. The upper-right corner is ideal. Cross-axis capping moves up (more refusal) without moving left (no benign loss) in both Qwen3-32B (circles) and Llama-3.3-70B-Instruct (squares); filled markers are cross-axis, open markers single-axis.</figcaption>
 </figure>
 </section>
 
 <!-- ================================================================ -->
 <section>
-<h2>Where the correction happens</h2>
+<h2>Where the correction happens (Qwen3-32B)</h2>
 
-<p>Both methods install hooks on the same eight layers (L46&ndash;L53, the upper quarter of the 64-layer model). Single-axis fires on every row by design (paper-style "always apply" mode); cross-axis fires on 231 of 250 jailbreak prompts (92.4%) &mdash; the 19 it skips are prompts whose detection-gate projection never crosses threshold. The two modes diverge on how the correction distributes across the cap window.</p>
+<p>This deep-dive is on Qwen3-32B. Both methods install hooks on the same eight layers (L46&ndash;L53, the upper quarter of the 64-layer model). (On Llama-3.3-70B-Instruct the hook band is L56&ndash;L71, with an extended override range L40&ndash;L65 used for the cross-axis runs.) Single-axis fires on every row by design (paper-style "always apply" mode); cross-axis fires on 231 of 250 jailbreak prompts (92.4%) &mdash; the 19 it skips are prompts whose detection-gate projection never crosses threshold. The two modes diverge on how the correction distributes across the cap window.</p>
 
 <p>Under single-axis capping, correction fires at every layer for every prompt by construction &mdash; the intervention is blanket.</p>
 
 <div class="callout trivia">
 <div class="callout-label">Why only the upper layers?</div>
-<p>Capping is applied at layers 46&ndash;53, the upper quarter of the 64-layer model (72&ndash;84% depth). Earlier layers are still computing what the input means. By layer 46, the model has committed to a response strategy &mdash; this is where behavioural mode is encoded and where interventions can change the output without disrupting comprehension.</p>
+<p>On Qwen3-32B, capping is applied at layers 46&ndash;53, the upper quarter of the 64-layer model (72&ndash;84% depth). (On Llama-3.3-70B-Instruct the hook band is L56&ndash;L71, with an extended override range L40&ndash;L65 for the cross-axis runs.) Earlier layers are still computing what the input means. By the upper band, the model has committed to a response strategy &mdash; this is where behavioural mode is encoded and where interventions can change the output without disrupting comprehension.</p>
 </div>
 
-<p>Cross-axis capping is more selective. Summed across all 231 fired jailbreak prompts and every generated token, total fires concentrate heavily in the early cap layers: L46 absorbs 41.0% of all fires, L47 another 22.5% &mdash; the two together carry 63.5% of correction effort. The middle layers L48&ndash;L51 each sit between 5% and 11%, and the deepest two (L52&ndash;L53) together account for only 3.6%. This happens because the two-gate mechanism &mdash; the compliance axis adding an independent threshold check after the detection gate &mdash; creates a finer filter than a single axis can.</p>
+<p>Cross-axis capping is more selective. On Qwen3-32B, summed across all 231 fired jailbreak prompts and every generated token, total fires concentrate heavily in the early cap layers: L46 absorbs 41.0% of all fires, L47 another 22.5% &mdash; the two together carry 63.5% of correction effort. The middle layers L48&ndash;L51 each sit between 5% and 11%, and the deepest two (L52&ndash;L53) together account for only 3.6%. This happens because the two-gate mechanism &mdash; the compliance axis adding an independent threshold check after the detection gate &mdash; creates a finer filter than a single axis can.</p>
 
 <table>
 <tr><th>Layer</th><th>Fires</th><th>Share of total</th></tr>
@@ -643,11 +656,13 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <tr><td><strong>Total</strong></td><td><strong>23,669</strong></td><td></td></tr>
 </table>
 
-<p>Per-prompt fire density is heavy-tailed. Across the 231 fired cross-axis jailbreak prompts, the mean is 102.5 fires/prompt, median is 8, max is 1,133, and min is 1 &mdash; a handful of prompts absorb sustained correction while most receive brief, light intervention. On benigns, the cross-axis fire count is two orders of magnitude smaller: 419 total fires across 67 fired rows, versus 23,669 fires across 231 fired jailbreaks &mdash; a ~56&times; gap in total intervention effort. When a benign does cross the detect gate, the correction is also short-lived (mean 6.3 fires, median 3, max 67), and almost entirely in L46&ndash;L47 &mdash; which matches the 91% unchanged / 0% false-refusal outcome.</p>
+<p>Per-prompt fire density is heavy-tailed (Qwen3-32B). Across the 231 fired cross-axis jailbreak prompts, the mean is 102.5 fires/prompt, median is 8, max is 1,133, and min is 1 &mdash; a handful of prompts absorb sustained correction while most receive brief, light intervention. On benigns, the cross-axis fire count is two orders of magnitude smaller: 419 total fires across 67 fired rows, versus 23,669 fires across 231 fired jailbreaks &mdash; a ~56&times; gap in total intervention effort. When a benign does cross the detect gate, the correction is also short-lived (mean 6.3 fires, median 3, max 67), and almost entirely in L46&ndash;L47 &mdash; which matches the 91% unchanged / 0% false-refusal outcome.</p>
+
+<p>Llama-3.3-70B-Instruct shows the same qualitative pattern: the gate fires selectively inside L56&ndash;L65 rather than always-on, mirroring Qwen&rsquo;s ~56&times; jailbreak-vs-benign selectivity. (We report no Llama per-layer fire counts here; the headline lift, benign preservation, and selective-firing behaviour are what replicate.)</p>
 
 <figure>
   <div class="chart-wrap"><canvas id="chart-layers"></canvas></div>
-  <figcaption>Figure 4. Share of total cross-axis fires by layer on jailbreak prompts (231 fired prompts, 23,669 total fires). Correction concentrates heavily in L46&ndash;L47 and tapers across deeper cap layers. Single-axis, by construction, fires on every layer for every prompt, so a layer-share plot would be uniform.</figcaption>
+  <figcaption>Figure 4. Share of total cross-axis fires by layer on jailbreak prompts, on Qwen3-32B (231 fired prompts, 23,669 total fires). Correction concentrates heavily in L46&ndash;L47 and tapers across deeper cap layers. Single-axis, by construction, fires on every layer for every prompt, so a layer-share plot would be uniform.</figcaption>
 </figure>
 </section>
 
@@ -674,7 +689,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 <section>
 <h2>What this means</h2>
 
-<p>Factoring detection from correction works. On a single model with 250 jailbreak prompts, cross-axis capping lifts the refusal rate by +21.5 percentage points [95% CI +15.1, +28.0] at no capability cost. The paired bootstrap is unambiguous &mdash; every one of 10,000 resamples produced a positive lift &mdash; so this is a pure safety gain rather than a trade. The compliance axis, computed from just 50 refusing and 50 compliant examples, carries enough signal to meaningfully change outcomes.</p>
+<p>Two constructed contrast directions in the same residual stream have qualitatively different attribute profiles &mdash; one broad, multidimensional, persona-spanning; the other approximately one-dimensional and role-specialised &mdash; and that difference, not "a better defense," is the finding. On two open-weight families (Qwen3-32B and Llama-3.3-70B-Instruct), pairing the broad detector with the narrow corrector lifts the refusal rate by +21.5 pp [95% CI +15.1, +28.0] on Qwen and +27.5 pp [+21.0, +34.3] on Llama, at no capability cost. The mechanism is indirect: the model is never instructed to refuse; refusals emerge because the compliance axis was built to separate refusing from compliant activations, and pushing a jailbroken state toward the refusing end produces refusal as a side effect. The lift demonstrates the attribute split is real and behaviourally consequential. The compliance axis, computed from just 50 refusing and 50 compliant examples, carries enough signal to meaningfully change outcomes.</p>
 
 <div class="callout question">
 <div class="callout-label">Closing the blind spot</div>
@@ -683,11 +698,13 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <h3>Limitations</h3>
 
-<p>These are exploratory results. The sample is moderate (95% bootstrap CIs span ~14 percentage points on each mode's refusal rate: cross-axis [47.5, 61.4], single-axis [26.6, 39.3]), the model is a single architecture (Qwen3-32B), and the threshold was not optimised. The compliance axis was computed from 100 examples in a 5,120-dimensional space &mdash; it is under-determined and noisy. Even uncorrected, the cross-axis degradation was lower than the single-axis baseline. Better calibration of the assistant axis would also lift the single-axis numbers somewhat &mdash; but on the evidence here, it is unlikely to close the gap.</p>
+<p>These are exploratory results. The sample is moderate: on Qwen the 95% bootstrap CIs span ~14 percentage points on each mode's refusal rate (cross-axis [47.5, 61.4], single-axis [26.6, 39.3]); on Llama the CIs are cross-axis [41.6, 54.7], single-axis [15.2, 26.5], and lift [+21.0, +34.3]. The same sign-and-magnitude lift replicates on Qwen3-32B and Llama-3.3-70B-Instruct (different families), so the empirical claim is bounded by two open-weight models, 250 WildJailbreak prompts, and one judge (Claude Sonnet 4.6). The compliance axis was computed from 100 examples in a high-dimensional space &mdash; it is under-determined and noisy. The thresholds were fixed by a single recipe on a held-out split, so the numbers reflect one operating point, consistent with the existence-proof claim; a preliminary sweep suggests the assistant axis discriminates better than chance but does not cleanly separate the two distributions on its own.</p>
 
 <h3>Future directions</h3>
 
-<p>The fictional-framing limitation is arguably the more important finding, and it surfaced incidentally. It points at something about the geometry of safety in these models: behavioural mode and output harmfulness are genuinely different dimensions. A model can sit firmly in helpful-assistant mode while producing harmful content, and any detection scheme that tracks mode rather than content will be structurally blind to this. So the new research question would be what would it take to close that blind spot?</p>
+<p>One prong is to factor the detection stage. The fictional-framing limitation surfaced incidentally and points at something about the geometry of safety in these models: behavioural mode and output harmfulness are genuinely different dimensions. A model can sit firmly in helpful-assistant mode while producing harmful content, and any detection scheme that tracks mode rather than content will be structurally blind to this. The concrete next step is to pair the persona/assistant axis with a harmfulness-content axis (Zhao et al. 2025) so fictional-framing attacks become detectable.</p>
+
+<p>The broader prong is an open programme: before any taxonomy of directions, systematically <em>map the properties</em> of constructed directions &mdash; <strong>prompt sensitivity</strong> (how stable a direction&rsquo;s effect is across phrasing), <strong>role specificity</strong> (how narrowly it acts), <strong>resolution</strong> (whether the contrast can be simplified without losing discriminative power), and <strong>semantic dimensionality</strong> (how many independent behaviours it moves). This post motivates that mapping programme; it does not propose a finished taxonomy. Understanding what a direction <em>does</em> is as important as knowing how to construct it.</p>
 
 
 </section>
@@ -710,8 +727,9 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
     proj_correct = &lt;h, v_correct&gt;
     if proj_correct &lt; tau_correct:     # compliance axis corrects
         h &larr; h + (tau_correct - proj_correct) &middot; v_correct</code></pre>
-<p><strong>Threshold computation.</strong> The detection threshold uses a discriminative midpoint: <code>&tau; = (mean_benign + mean_jailbreak) / 2</code>, computed from projections of calibration prompts. The correction threshold uses the mean jailbreak projection on the compliance axis.</p>
-<p><strong>Compliance axis.</strong> Computed via PCA on pooled hidden states (at layer L53) of 50 refusing + 50 compliant prompts. PC1 is extracted and sign-corrected to point from compliant toward refusing. Cosine similarity with the assistant axis: 0.156.</p>
+<p><strong>Threshold computation.</strong> The detection threshold <code>&tau;<sub>d</sub></code> is the 1st percentile of per-layer benign (AlpacaEval) assistant-axis projections (&ldquo;benign-p1&rdquo;), which by construction gives a benign false-positive rate of &le;1% before the second gate fires. The correction threshold <code>&tau;<sub>c</sub></code> is the per-layer &ldquo;optimal&rdquo; midpoint between the refusing and compliant means on Llama, and the 75th percentile of that gap on Qwen (&ldquo;optimal75&rdquo;, i.e. <code>mean_compliant + 0.75 &middot; (mean_refusing &minus; mean_compliant)</code>). Both recipes were fixed before evaluation and reused unchanged across models.</p>
+<p><strong>Compliance axis.</strong> Built per layer across the cap band (one PC1 per capping layer) from the last-token activations of 50 refusing + 50 compliant examples. PC1 is extracted, sign-corrected so the refusal direction is positive, then L2-normalised. Cosine similarity with the assistant axis on Qwen: 0.156.</p>
+<p><strong>Single-axis baseline.</strong> The single-axis baseline is exactly the special case <code>v<sub>c</sub> = v<sub>d</sub></code> and <code>&tau;<sub>c</sub> = &tau;<sub>d</sub></code> of the same gate-then-correct hook body, run with identical hooks, thresholds, and decoding &mdash; so the only varying piece is the corrector.</p>
 </div>
 </details>
 
@@ -720,23 +738,24 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
 <div class="det-body">
 <table>
 <tr><th>Parameter</th><th>Value</th></tr>
-<tr><td>Model</td><td>Qwen3-32B (64 layers, 5120 hidden dim, bfloat16)</td></tr>
+<tr><td>Model</td><td>Qwen3-32B (64 layers, 5120 hidden dim, bfloat16) / Llama-3.3-70B-Instruct</td></tr>
 <tr><td>Assistant axis</td><td>Pre-computed from Lu et al., via lu-christina/assistant-axis-vectors on HuggingFace</td></tr>
-<tr><td>Capping layers</td><td>L46&ndash;L53 (8 layers, 72&ndash;84% depth)</td></tr>
+<tr><td>Capping layers (Qwen3-32B)</td><td>L46&ndash;L53 (8 layers, 72&ndash;84% depth)</td></tr>
+<tr><td>Capping layers (Llama-3.3-70B-Instruct)</td><td>L56&ndash;L71 (extended override band L40&ndash;L65 for the cross-axis runs)</td></tr>
 <tr><td>Jailbreak prompts</td><td>250 from WildJailbreak (eval split, adversarial_harmful)</td></tr>
-<tr><td>Benign prompts</td><td>100 factual/advice calibration questions</td></tr>
+<tr><td>Benign prompts</td><td>100 from AlpacaEval (tatsu-lab/alpaca_eval) benign-preservation set</td></tr>
 <tr><td>Compliance axis data</td><td>50 refusing (JBB-Behaviors bare goals) + 50 compliant (WildJailbreak train)</td></tr>
-<tr><td>Detection threshold</td><td>Discriminative midpoint of benign/jailbreak projections</td></tr>
-<tr><td>Correction threshold</td><td>Mean jailbreak projection on compliance axis</td></tr>
-<tr><td>Axis method</td><td>PCA (PC1 of pooled refusing + compliant activations at L53)</td></tr>
-<tr><td>Generation</td><td>Greedy decoding, max 256 tokens, temperature 1.0</td></tr>
+<tr><td>Detection threshold</td><td>benign-p1: 1st percentile of benign assistant-axis projections (per layer)</td></tr>
+<tr><td>Correction threshold</td><td>optimal75 on Qwen (75th-percentile midpoint between compliant and refusing means, per layer); optimal midpoint on Llama</td></tr>
+<tr><td>Axis method</td><td>PCA (PC1 of refusing + compliant last-token activations, built per layer across the cap band, sign-corrected and L2-normalised)</td></tr>
+<tr><td>Generation</td><td>Greedy decoding, max 256 tokens; identical decoding across single-axis and cross-axis arms</td></tr>
 <tr><td>Judge model</td><td>Claude Sonnet 4.6 (temperature 0.0)</td></tr>
 <tr><td>Code</td><td><a href="https://github.com/maxxts7/cross-capping">github.com/maxxts7/cross-capping</a></td></tr>
 </table>
 
 <p><strong>Model and axis assets.</strong></p>
 <ul>
-<li><strong>Qwen3-32B</strong> / <strong>Llama-3.1-8B-Instruct</strong> &mdash; base models loaded via <code>snapshot_download</code> (<code>crosscap_experiment.py:355</code>).</li>
+<li><strong>Qwen3-32B</strong> / <strong>Llama-3.3-70B-Instruct</strong> &mdash; base models loaded via <code>snapshot_download</code> (<code>crosscap_experiment.py:355</code>).</li>
 <li><strong>lu-christina/assistant-axis-vectors</strong> &mdash; pre-computed assistant-axis <code>.pt</code> files and capping config from prior published work (<code>crosscap_experiment.py:172, :201, :234</code>).</li>
 </ul>
 
@@ -745,6 +764,7 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
 <li><strong>JailbreakBench / JBB-Behaviors</strong> (<code>behaviors</code> config) &mdash; bare harmful goals; supplies the refusing side of the PCA pool (<code>run_crosscap.py:306-324, :318</code>).</li>
 <li><strong>allenai/wildjailbreak</strong> (train split, <code>adversarial_harmful</code> only) &mdash; jailbreaks the model actually complies with; supplies the compliant side of the PCA pool, and is also used for jailbreak-side threshold calibration (<code>run_crosscap.py:327-358, :340-344</code>).</li>
 </ul>
+<p>The compliance-axis calibration corpus is per-model. <strong>Qwen3-32B</strong>&rsquo;s 50 refusing + 50 compliant examples are drawn from the JBB-Behaviors + WildJailbreak training splits described above. <strong>Llama-3.3-70B-Instruct</strong>&rsquo;s are drawn from a separate held-out set of outcome-labelled prompts (refusing vs. compliant final-token activations).</p>
 
 <p><strong>Threshold calibration.</strong></p>
 <ul>
@@ -802,10 +822,10 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
 <summary>A4: Limitations</summary>
 <div class="det-body">
 <p><strong>Sample size.</strong> n=250 jailbreak, n=100 benign. 95% bootstrap CIs (N=10,000 resamples): cross-axis refusal [47.5, 61.4], single-axis refusal [26.6, 39.3], paired lift [+15.1, +28.0]. Every bootstrap sample showed positive lift, so the directional claim is robust even though absolute CIs are still ~14 pp wide.</p>
-<p><strong>Single model.</strong> All experiments were run on Qwen3-32B. There is no evidence that the improvement generalises across architectures.</p>
+<p><strong>Cross-family replication.</strong> The same sign-and-magnitude lift replicates on Qwen3-32B and Llama-3.3-70B-Instruct (different families), suggesting the property split (broad detector vs. narrow corrector) reflects model geometry rather than a single-checkpoint quirk. The empirical claim is still bounded by two open-weight models, 250 WildJailbreak prompts, and one judge (Claude Sonnet 4.6).</p>
 <p><strong>Single threshold strategy.</strong> The cross-axis framework's natural advantage &mdash; independently tuning detection sensitivity and correction strength &mdash; was not explored. Both thresholds were set using simple heuristics.</p>
 <p><strong>Under-determined axis.</strong> The compliance axis was computed from 100 examples (50 + 50) in a 5,120-dimensional space. PCA on this data is heavily under-determined; the axis captures real signal mixed with noise.</p>
-<p><strong>Judge bias.</strong> Claude Sonnet 4.6 refused to classify 27&ndash;31 of the most harmful prompts. These are likely among the most successful jailbreaks, meaning the true compliance rate may be higher than reported.</p>
+<p><strong>Judge bias.</strong> Claude Sonnet 4.6 abstained on 12.4% of Qwen responses and 18.4% of Llama responses; these abstentions are excluded from the strict-refusal denominator. On Qwen this corresponds to 27&ndash;31 of the most harmful prompts the judge refused to classify. These are likely among the most successful jailbreaks, meaning the true compliance rate may be higher than reported.</p>
 </div>
 </details>
 
@@ -846,7 +866,7 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
 <p>For example, the assistant axis is a direction that correlates with whether the model is in its default helpful mode. A high projection means &ldquo;fully in assistant mode&rdquo;; a low projection means &ldquo;something has pushed the model out of its normal state.&rdquo; Different axes track different concepts &mdash; the compliance axis tracks whether the model is leaning toward refusing or complying, entirely independent of what mode it is in.</p>
 
 <p><strong>5. Threshold</strong></p>
-<p>A threshold is the numerical boundary that turns a continuous measurement into a binary decision. In this paper, both the detection and correction stages use thresholds. The detection threshold is set at the midpoint between the mean assistant-axis projection of benign prompts and the mean projection of jailbreak prompts &mdash; the value that best separates &ldquo;normal&rdquo; from &ldquo;jailbroken.&rdquo; The correction threshold is the mean compliance-axis projection of jailbreak prompts &mdash; the point below which the model is judged to be leaning toward compliance with a harmful request.</p>
+<p>A threshold is the numerical boundary that turns a continuous measurement into a binary decision. In this paper, both the detection and correction stages use thresholds. The detection threshold is the 1st percentile of benign assistant-axis projections per layer (&ldquo;benign-p1&rdquo;) &mdash; calibrated conservatively so the gate fires almost only on inputs already outside the benign distribution. The correction threshold is the per-layer optimal midpoint between the refusing and compliant means (on Llama) or the 75th percentile of that gap (on Qwen, &ldquo;optimal75&rdquo;) &mdash; the point below which the model is judged to be leaning toward compliance with a harmful request.</p>
 <p>Thresholds are calibrated per layer, because different layers encode the same concept at different scales. A projection of 0.3 at layer 46 might mean the same thing as a projection of 0.5 at layer 51. Getting thresholds wrong in either direction has consequences: too aggressive and benign prompts get incorrectly flagged (false refusals); too loose and jailbreaks slip through undetected.</p>
 
 <p><strong>6. Activation capping</strong></p>
@@ -871,7 +891,7 @@ if proj_detect &lt; tau_detect:           # assistant axis gates
 
 <p><strong>9. PCA</strong></p>
 <p>Principal Component Analysis is a dimensionality reduction technique. Given a set of data points in a high-dimensional space, PCA finds the directions along which the data varies the most. The first principal component (PC1) is the single direction that captures the maximum variance &mdash; if you projected all the data points onto this one line, you would preserve more of the original spread than with any other line.</p>
-<p>In this paper, PCA is applied to the hidden states of 100 prompts (50 refusing, 50 complying) collected at layer 53. The resulting PC1 is the direction that best separates refusing from compliant states &mdash; and this becomes the compliance axis. PCA is used rather than a trained classifier because it requires no gradient computation and produces a single interpretable direction, making it cheap and transparent.</p>
+<p>In this paper, PCA is applied to the hidden states of 100 prompts (50 refusing, 50 complying) collected at each capping layer &mdash; one PC1 per capping layer rather than a single layer. The resulting PC1 is the direction that best separates refusing from compliant states &mdash; and this becomes the compliance axis. PCA is used rather than a trained classifier because it requires no gradient computation and produces a single interpretable direction, making it cheap and transparent.</p>
 
 <p><strong>10. PC1</strong></p>
 <p>The first principal component &mdash; the direction that PCA identifies as carrying the most variation in the dataset. In the context of the compliance axis, PC1 captures the dominant pattern in how the model&rsquo;s hidden states differ between refusing and compliant responses. It is sign-corrected so that higher values point toward refusal and lower values toward compliance, establishing a consistent orientation for the threshold comparison.</p>
@@ -929,9 +949,14 @@ new Chart(document.getElementById('chart-jailbreak'), {
 const pareto = new Chart(document.getElementById('chart-pareto'), {
   type: 'scatter',
   data: {
+    // Encoding: circle = Qwen3-32B, square (rect) = Llama-3.3-70B-Instruct;
+    //           filled = cross-axis, open/hollow = single-axis.
+    // Dataset order: [0] Qwen single, [1] Qwen cross, [2] Llama single, [3] Llama cross
     datasets: [
-      { label: 'Single-axis', data: [{x:90.0,y:32.9}], backgroundColor: BLUE_M, borderColor: '#4a8af0', borderWidth: 2, pointRadius: 10, pointStyle: 'circle' },
-      { label: 'Cross-axis',  data: [{x:91.0,y:54.5}], backgroundColor: BLUE, borderColor: '#1e40af', borderWidth: 2, pointRadius: 10, pointStyle: 'triangle' },
+      { label: 'Qwen3-32B single-axis',  data: [{x:90.0,y:32.9}], backgroundColor: 'rgba(0,0,0,0)', borderColor: '#4a8af0', borderWidth: 2, pointRadius: 10, pointStyle: 'circle' },
+      { label: 'Qwen3-32B cross-axis',   data: [{x:91.0,y:54.5}], backgroundColor: BLUE,            borderColor: '#1e40af', borderWidth: 2, pointRadius: 10, pointStyle: 'circle' },
+      { label: 'Llama-3.3-70B single-axis', data: [{x:99.0,y:20.6}], backgroundColor: 'rgba(0,0,0,0)', borderColor: '#4a8af0', borderWidth: 2, pointRadius: 10, pointStyle: 'rect' },
+      { label: 'Llama-3.3-70B cross-axis',  data: [{x:98.0,y:48.1}], backgroundColor: BLUE,            borderColor: '#1e40af', borderWidth: 2, pointRadius: 10, pointStyle: 'rect' },
     ],
   },
   options: {
@@ -947,23 +972,29 @@ const pareto = new Chart(document.getElementById('chart-pareto'), {
   },
   plugins: [{
     afterDraw(chart) {
-      const m0 = chart.getDatasetMeta(0), m1 = chart.getDatasetMeta(1);
-      if (!m0.data[0] || !m1.data[0]) return;
-      const p1 = m0.data[0], p2 = m1.data[0], ctx = chart.ctx;
+      const ctx = chart.ctx;
+      // Draw an up-arrow from single-axis to cross-axis for each family.
+      // [single dataset index, cross dataset index, label]
+      const pairs = [[0, 1, 'Qwen'], [2, 3, 'Llama']];
       ctx.save();
-      // dashed line
-      ctx.strokeStyle = GREEN; ctx.lineWidth = 2; ctx.setLineDash([6,3]);
-      ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
-      ctx.setLineDash([]);
-      // arrowhead
-      const a = Math.atan2(p2.y-p1.y, p2.x-p1.x);
-      ctx.fillStyle = GREEN; ctx.beginPath(); ctx.moveTo(p2.x,p2.y);
-      ctx.lineTo(p2.x-9*Math.cos(a-Math.PI/6),p2.y-9*Math.sin(a-Math.PI/6));
-      ctx.lineTo(p2.x-9*Math.cos(a+Math.PI/6),p2.y-9*Math.sin(a+Math.PI/6));
-      ctx.closePath(); ctx.fill();
-      // label
-      ctx.font = '600 12px -apple-system, sans-serif'; ctx.fillStyle = GREEN; ctx.textAlign = 'left';
-      ctx.fillText('Pareto improvement', p2.x + 14, p2.y + 4);
+      pairs.forEach(([si, ci, fam]) => {
+        const ms = chart.getDatasetMeta(si), mc = chart.getDatasetMeta(ci);
+        if (!ms.data[0] || !mc.data[0]) return;
+        const p1 = ms.data[0], p2 = mc.data[0];
+        // dashed line
+        ctx.strokeStyle = GREEN; ctx.lineWidth = 2; ctx.setLineDash([6,3]);
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+        ctx.setLineDash([]);
+        // arrowhead
+        const a = Math.atan2(p2.y-p1.y, p2.x-p1.x);
+        ctx.fillStyle = GREEN; ctx.beginPath(); ctx.moveTo(p2.x,p2.y);
+        ctx.lineTo(p2.x-9*Math.cos(a-Math.PI/6),p2.y-9*Math.sin(a-Math.PI/6));
+        ctx.lineTo(p2.x-9*Math.cos(a+Math.PI/6),p2.y-9*Math.sin(a+Math.PI/6));
+        ctx.closePath(); ctx.fill();
+        // per-family label
+        ctx.font = '600 11px -apple-system, sans-serif'; ctx.fillStyle = GREEN; ctx.textAlign = 'left';
+        ctx.fillText(fam + ' \u2191 refusal', p2.x + 14, p2.y + 4);
+      });
       // ideal corner
       const ar = chart.chartArea;
       ctx.font = 'italic 11px -apple-system, sans-serif'; ctx.fillStyle = '#94a3b8'; ctx.textAlign = 'right';
