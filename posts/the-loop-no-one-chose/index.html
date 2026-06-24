@@ -89,6 +89,24 @@ header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); 
 header .dot { color: var(--gray-200); }
 header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
 
+/* ── Hero figure ── */
+.hero {
+  margin: 0 0 3.25rem;
+  padding: 2.4rem 1.5rem 1.9rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  text-align: center;
+}
+.hero svg { display: inline-block; width: 320px; max-width: 80%; height: auto; }
+.hero figcaption {
+  margin: 1.4rem auto 0;
+  max-width: 44ch;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
 /* ── Typography ── */
 p { margin: 0 0 1.3rem; text-wrap: pretty; }
 strong { font-weight: 600; }
@@ -203,6 +221,39 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
     <span class="meta-date">June 2026</span>
   </div>
 </header>
+
+<figure class="hero">
+  <svg viewBox="0 0 480 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A feedback loop with attention and resources concentrated on one arc while other nodes sit neglected.">
+    <defs>
+      <marker id="hero-ah" markerUnits="userSpaceOnUse" markerWidth="30" markerHeight="30" refX="6" refY="10" orient="auto">
+        <path d="M0,0 L20,10 L0,20 Z" fill="#3b82f6"/>
+      </marker>
+    </defs>
+    <g transform="translate(240,210)">
+      <!-- feedback ring (the loop), with gap + clockwise arrowhead -->
+      <path d="M 10.3 -117.5 A 118 118 0 1 1 -10.3 -117.5"
+            fill="none" stroke="#93c5fd" stroke-width="7" stroke-linecap="round"
+            marker-end="url(#hero-ah)"/>
+      <!-- neglected, starved nodes thinly spread around the cycle -->
+      <circle cx="-59"    cy="102.2"  r="6" fill="#94a3b8" opacity="0.85"/>
+      <circle cx="-96.7"  cy="67.7"   r="6" fill="#94a3b8" opacity="0.85"/>
+      <circle cx="-116.2" cy="20.5"   r="6" fill="#94a3b8" opacity="0.85"/>
+      <circle cx="-114"   cy="-30.5"  r="6" fill="#94a3b8" opacity="0.85"/>
+      <circle cx="-90.4"  cy="-75.8"  r="6" fill="#94a3b8" opacity="0.85"/>
+      <circle cx="-44.2"  cy="-109.4" r="6" fill="#94a3b8" opacity="0.85"/>
+      <circle cx="59"     cy="-102.2" r="6" fill="#94a3b8" opacity="0.85"/>
+      <circle cx="96.7"   cy="-67.7"  r="6" fill="#94a3b8" opacity="0.85"/>
+      <circle cx="114"    cy="-30.5"  r="6" fill="#94a3b8" opacity="0.85"/>
+      <!-- concentration: attention + money pile up on one arc -->
+      <circle cx="115.4" cy="24.5"  r="12" fill="#2563eb"/>
+      <circle cx="98.9"  cy="64.3"  r="13" fill="#3b82f6"/>
+      <circle cx="72.6"  cy="93.0"  r="12" fill="#1d4ed8"/>
+      <circle cx="40.4"  cy="110.9" r="13" fill="#3b82f6"/>
+      <circle cx="4.1"   cy="117.9" r="10" fill="#60a5fa"/>
+    </g>
+  </svg>
+  <figcaption>Attention and resources pile up on one arc of the loop while the rest of the field sits thinly funded: a skew no one chose.</figcaption>
+</figure>
 
 <p class="lead">Decentralization is supposed to be a safeguard. Spread decisions across many independent actors, strip out the profit motive, and you are meant to be protected from the pathologies of centralized power: the captured agenda, the controlled narrative, the single point of failure. A field like technical AI safety (dozens of small nonprofits, scattered independent researchers, a handful of mission-driven funders) looks like exactly that safeguard in action. No one is in charge, so the worry goes, no one can steer it wrong.</p>
 
