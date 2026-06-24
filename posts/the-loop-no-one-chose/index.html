@@ -54,7 +54,7 @@ body {
 
 ::selection { background: var(--blue-light); color: var(--blue-dark); }
 
-article { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem 4rem; counter-reset: section; }
+article { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
 
 /* ── Header ── */
 header { margin-bottom: 3.25rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
@@ -96,26 +96,17 @@ em { font-style: italic; }
 a { color: var(--blue); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* ── Section headings (numbered) ── */
+/* ── Section headings ── */
 h2 {
-  margin: 3.75rem 0 1.3rem;
+  margin: 3.5rem 0 1.3rem;
   font-size: 1.55rem;
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.02em;
   color: var(--text);
   text-wrap: balance;
-}
-h2::before {
-  counter-increment: section;
-  content: counter(section, decimal-leading-zero);
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--blue);
-  margin-bottom: 0.6rem;
-  font-variant-numeric: tabular-nums;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--blue);
 }
 
 /* ── Lead paragraph + drop cap ── */
