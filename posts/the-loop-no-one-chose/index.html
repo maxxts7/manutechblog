@@ -4,6 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Loop No One Chose | Manu Xaviour Thaisseril Shaju</title>
+<meta name="description" content="Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map that reflects the field back to itself instead of telling it what to do.">
+<link rel="canonical" href="https://manutechblog.netlify.app/posts/the-loop-no-one-chose/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Manu Xaviour Thaisseril Shaju">
+<meta property="og:title" content="The Loop No One Chose">
+<meta property="og:description" content="Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map that reflects the field back to itself instead of telling it what to do.">
+<meta property="og:url" content="https://manutechblog.netlify.app/posts/the-loop-no-one-chose/">
+<meta property="og:image" content="https://manutechblog.netlify.app/posts/the-loop-no-one-chose/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Loop No One Chose - a feedback loop with attention and resources concentrated on one arc while other nodes sit neglected.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Loop No One Chose">
+<meta name="twitter:description" content="Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map that reflects the field back to itself instead of telling it what to do.">
+<meta name="twitter:image" content="https://manutechblog.netlify.app/posts/the-loop-no-one-chose/og.png">
+
 <style>
 :root {
   --text: #1a1a2e;
@@ -34,39 +54,94 @@ body {
 
 ::selection { background: var(--blue-light); color: var(--blue-dark); }
 
-article { max-width: 720px; margin: 0 auto; padding: 3.5rem 1.5rem 5rem; }
+article { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem 4rem; counter-reset: section; }
 
 /* ── Header ── */
-header { margin-bottom: 3.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
-header h1 { font-size: 2.4rem; font-weight: 800; line-height: 1.15; margin: 0 0 0.7rem; letter-spacing: -0.03em; color: var(--text); }
-header .subtitle { font-size: 1.12rem; color: var(--text-secondary); margin: 0.2rem 0 1.6rem; font-weight: 400; line-height: 1.5; }
-header .author-line { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
-header .author-name { font-size: 0.95rem; font-weight: 600; color: var(--text); }
-header .meta-date { font-size: 0.82rem; color: var(--gray-400); }
+header { margin-bottom: 3.25rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+header .eyebrow {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.9rem;
+}
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.12;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  text-wrap: balance;
+}
+header .subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin: 0 0 1.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 38ch;
+  text-wrap: pretty;
+}
+header .author-line { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+header .dot { color: var(--gray-200); }
+header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
 
 /* ── Typography ── */
-h2 { font-size: 1.5rem; font-weight: 700; margin: 3.5rem 0 1.2rem; letter-spacing: -0.02em; padding-left: 0.75rem; border-left: 3px solid var(--blue); }
-p { margin: 0 0 1.25rem; }
+p { margin: 0 0 1.3rem; text-wrap: pretty; }
 strong { font-weight: 600; }
 em { font-style: italic; }
 a { color: var(--blue); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* ── Lead paragraph ── */
-.lead { font-size: 1.18rem; line-height: 1.6; color: var(--text); }
+/* ── Section headings (numbered) ── */
+h2 {
+  margin: 3.75rem 0 1.3rem;
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+}
+h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--blue);
+  margin-bottom: 0.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Lead paragraph + drop cap ── */
+.lead { font-size: 1.16rem; line-height: 1.62; color: var(--text); margin-bottom: 1.4rem; }
+.lead::first-letter {
+  float: left;
+  font-size: 3.5rem;
+  line-height: 0.78;
+  font-weight: 800;
+  padding: 0.32rem 0.62rem 0 0;
+  color: var(--blue-dark);
+}
 
 /* ── Display statement ── */
 .statement {
   position: relative;
-  margin: 3rem auto;
+  margin: 3.25rem auto;
   padding-top: 2.1rem;
-  max-width: 560px;
+  max-width: 33ch;
   text-align: center;
-  font-size: 1.45rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  line-height: 1.35;
+  line-height: 1.32;
   letter-spacing: -0.02em;
   color: var(--text);
+  text-wrap: balance;
 }
 .statement::before {
   content: '';
@@ -83,22 +158,44 @@ a:hover { text-decoration: underline; }
 /* ── Gains list ── */
 .gains { list-style: none; padding: 0; margin: 1.75rem 0 2rem; }
 .gains li {
-  margin: 0 0 1.1rem;
-  padding: 0.1rem 0 0.1rem 1.15rem;
-  border-left: 3px solid var(--blue-light);
+  margin: 0 0 1.5rem;
+  padding: 0 0 0 1.35rem;
+  border-left: 2px solid var(--blue-light);
 }
 .gains li:last-child { margin-bottom: 0; }
-.gains li strong { color: var(--text); }
+.gains li strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+/* ── Footer ── */
+footer {
+  margin-top: 4rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+footer .byline { margin: 0; font-size: 0.85rem; color: var(--gray-400); }
+footer .back { font-size: 0.85rem; color: var(--text-secondary); }
+footer .back:hover { color: var(--blue); text-decoration: none; }
 
 @media (max-width: 700px) {
-  header h1 { font-size: 1.85rem; }
+  header h1 { font-size: 1.9rem; }
   .lead { font-size: 1.08rem; }
-  .statement { font-size: 1.2rem; }
+  .lead::first-letter { font-size: 3rem; }
+  .statement { font-size: 1.25rem; }
 }
 </style>
 </head>
 <body>
-<nav style="max-width:720px;margin:0 auto;padding:1.5rem 1.5rem 0;">
+<nav style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem 0;">
   <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
     <span>&larr;</span> Manu Xaviour Thaisseril Shaju
   </a>
@@ -106,10 +203,12 @@ a:hover { text-decoration: underline; }
 <article>
 
 <header>
+  <p class="eyebrow">Essay</p>
   <h1>The Loop No One Chose</h1>
   <p class="subtitle">Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map</p>
   <div class="author-line">
     <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
+    <span class="dot">&middot;</span>
     <span class="meta-date">June 2026</span>
   </div>
 </header>
@@ -173,6 +272,11 @@ a:hover { text-decoration: underline; }
 <p>The deepest mistake in responding to a hidden feedback loop in a decentralized field is to reach for a controller. The loop&rsquo;s invisibility tempts you to install an authority that can finally direct things properly, and that authority simply becomes the loop&rsquo;s most efficient engine, now with a halo of objectivity.</p>
 
 <p>The better response is almost anticlimactic. You do not need someone to steer the field. You need the field to be able to see itself clearly enough to steer on its own. Against an invisible loop, the right instrument is not an allocator. It is the field&rsquo;s own reflection, kept faithful and kept current, and watched closely for the day the reflection starts giving orders.</p>
+
+<footer>
+  <p class="byline">Manu Xaviour Thaisseril Shaju &middot; June 2026</p>
+  <a class="back" href="/">&larr; All writing</a>
+</footer>
 
 </article>
 </body>
