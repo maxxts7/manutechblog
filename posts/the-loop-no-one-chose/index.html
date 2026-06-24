@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Loop No One Chose | Manu Xaviour Thaisseril Shaju</title>
+<style>
+:root {
+  --text: #1a1a2e;
+  --text-secondary: #64748b;
+  --bg: #ffffff;
+  --border: #e2e8f0;
+  --blue: #3b82f6;
+  --blue-dark: #1e40af;
+  --blue-light: #dbeafe;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-400: #94a3b8;
+  --gray-700: #334155;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--blue-light); color: var(--blue-dark); }
+
+article { max-width: 720px; margin: 0 auto; padding: 3.5rem 1.5rem 5rem; }
+
+/* ── Header ── */
+header { margin-bottom: 3.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+header h1 { font-size: 2.4rem; font-weight: 800; line-height: 1.15; margin: 0 0 0.7rem; letter-spacing: -0.03em; color: var(--text); }
+header .subtitle { font-size: 1.12rem; color: var(--text-secondary); margin: 0.2rem 0 1.6rem; font-weight: 400; line-height: 1.5; }
+header .author-line { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+header .author-name { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+header .meta-date { font-size: 0.82rem; color: var(--gray-400); }
+
+/* ── Typography ── */
+h2 { font-size: 1.5rem; font-weight: 700; margin: 3.5rem 0 1.2rem; letter-spacing: -0.02em; padding-left: 0.75rem; border-left: 3px solid var(--blue); }
+p { margin: 0 0 1.25rem; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Lead paragraph ── */
+.lead { font-size: 1.18rem; line-height: 1.6; color: var(--text); }
+
+/* ── Display statement ── */
+.statement {
+  position: relative;
+  margin: 3rem auto;
+  padding-top: 2.1rem;
+  max-width: 560px;
+  text-align: center;
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.statement::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+
+/* ── Gains list ── */
+.gains { list-style: none; padding: 0; margin: 1.75rem 0 2rem; }
+.gains li {
+  margin: 0 0 1.1rem;
+  padding: 0.1rem 0 0.1rem 1.15rem;
+  border-left: 3px solid var(--blue-light);
+}
+.gains li:last-child { margin-bottom: 0; }
+.gains li strong { color: var(--text); }
+
+@media (max-width: 700px) {
+  header h1 { font-size: 1.85rem; }
+  .lead { font-size: 1.08rem; }
+  .statement { font-size: 1.2rem; }
+}
+</style>
+</head>
+<body>
+<nav style="max-width:720px;margin:0 auto;padding:1.5rem 1.5rem 0;">
+  <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
+    <span>&larr;</span> Manu Xaviour Thaisseril Shaju
+  </a>
+</nav>
+<article>
+
+<header>
+  <h1>The Loop No One Chose</h1>
+  <p class="subtitle">Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map</p>
+  <div class="author-line">
+    <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
+    <span class="meta-date">June 2026</span>
+  </div>
+</header>
+
+<p class="lead">Decentralization is supposed to be a safeguard. Spread decisions across many independent actors, strip out the profit motive, and you are meant to be protected from the pathologies of centralized power: the captured agenda, the controlled narrative, the single point of failure. A field like technical AI safety (dozens of small nonprofits, scattered independent researchers, a handful of mission-driven funders) looks like exactly that safeguard in action. No one is in charge, so the worry goes, no one can steer it wrong.</p>
+
+<p>This is half true, and the false half is where the danger lives. Decentralized, good-faith efforts are not immune to the dynamics we associate with central control. They are merely immune to the <em>visible</em> versions of them. The narrative still gets steered, resources still concentrate, the field still bends away from its most important work, but no one decides any of it, which is precisely what makes it so hard to see and so hard to fix.</p>
+
+<h2>The mechanism: attention as a proxy for importance</h2>
+
+<p>The economist George Soros used the word <em>reflexivity</em> for feedback loops in which the act of observing a system changes the system, which then changes what observers see. Markets are his classic example: a belief that an asset will rise can drive the buying that makes it rise, confirming the belief. The loop is self-fulfilling, and it runs on perception rather than fundamentals.</p>
+
+<p>Fields of research and effort run their own version. The currency is not price but <em>attention</em>, and the loop turns like this. In a decentralized field with no central allocator, no one hands out priorities. Each actor has to decide for themselves what is worth working on or funding, and they need a signal. The cheapest available signal is what everyone else is already doing: what is being published, discussed, hired for, talked about. Attention becomes the proxy for importance, because activity is the most legible evidence of where value seems to be.</p>
+
+<p>So talent and money follow attention. Output then skews toward the directions that already have the people and the funding. And that skew reads, to the next person scanning for a signal, as proof that <em>this is where the action is</em>, which pulls in the next wave of talent and money. Funding sits unevenly across the field not in spite of this dynamic but because of it. Hot areas compound; quiet ones starve, regardless of how important they are.</p>
+
+<h2>Why decentralization hides the loop rather than preventing it</h2>
+
+<p>Here is the part that should unsettle anyone who treats decentralization as protective. The loop above requires no coordinator, no bad actor, and no concentration of formal power. It is the emergent result of many independent agents each making a locally reasonable choice with the only signal they have. That is what makes it invisible.</p>
+
+<p>When a central body misallocates resources, there is a decision to criticize, a policy to change, a person to hold accountable. When a <em>decentralized</em> field misallocates, there is none of that. There is only the aggregate of free choices, which looks like the market working as intended. No one chose the skew, so there is no choice to contest. The distortion wears the costume of liberty.</p>
+
+<p>The nonprofit, mission-driven framing adds a final twist that makes it worse, not better. Everyone in such a field believes they are optimizing for importance: for impact, for the mission, for the neglected problem. But the proxy they actually follow is attention, and attention diverges systematically from importance. It favors the recent over the enduring, the legible over the subtle, the well-connected over the isolated, and the already-crowded over the genuinely neglected. So a field full of people sincerely trying to work on what matters can be pulled, in aggregate, toward what is merely visible, while each participant feels they are being rigorously impact-driven.</p>
+
+<p class="statement">Good faith does not break the loop. It camouflages it.</p>
+
+<h2>The fixer&rsquo;s trap</h2>
+
+<p>Once you see the loop, the obvious response is to correct it directly: build a central map, a prioritization, a recommendation engine that tells the field where the real gaps are and points people toward the neglected work. Surely better guidance beats a blind proxy.</p>
+
+<p>This is a trap, and it is worth being precise about why. A single, authoritative recommender does not stand outside the loop; it becomes a concentrated, fast version of it, bolted on top of the diffuse one already turning. The existing loop runs through many channels and corrects slowly; an authoritative source that says &ldquo;work on this&rdquo; is a sharp, centralized forcing function that is <em>harder</em> to push back on precisely because it carries authority. And it is reflexive in the most direct way: it learns from the behavior it shapes. It recommends a direction, the field moves, the movement registers as signal, the recommendation is reinforced. The cure reintroduces exactly the centralized narrative-control that the field&rsquo;s decentralized structure was supposed to rule out, now wearing the badge of objectivity.</p>
+
+<p>So the instinct to fix the loop by issuing better instructions makes you the loop&rsquo;s new engine.</p>
+
+<h2>The resolution: a mirror with no one holding it</h2>
+
+<p>If recommendation is the wrong move and the status quo is a slow distortion, what is left? The answer turns on a distinction that is easy to miss: the difference between <em>prescribing</em> and <em>describing</em>.</p>
+
+<p>The existing loop runs on attention-as-proxy because attention is the only cheap signal of where value lies. That proxy is exactly what is broken. And the one thing that can weaken a broken proxy is not a louder counter-signal but visibility of the distortion itself. A faithful, current description of the field (one that shows plainly where attention and money have piled up, and which important directions sit starved beside them) hands every independent actor the information to correct on their <em>own</em> judgment. It does not tell anyone what to do. It makes the imbalance legible enough that people can choose to push against it.</p>
+
+<p>This looks like it walks back into the fixer&rsquo;s trap, until you notice there is no observer here at all. The map is not a separate party looking at the field and reporting back; it is the field&rsquo;s own output, its publications and funding and citations, folded back into a form the field can read. No one stands outside holding it up; the system is at once observer and observed. A recommender amplifies the proxy; this exposes it, using nothing but the field&rsquo;s own activity reflected to itself. The line that matters is between reflexivity that <em>returns judgment to the reader</em> (here is the skew, decide for yourself) and reflexivity that <em>substitutes for it</em> (work on this). The first disperses the power to choose across thousands of minds; the second concentrates it in one.</p>
+
+<p>None of this escapes the loop, and honesty requires saying so. The field already runs it, just blind; self-observation does not remove the loop but gives it a readout, a kind of proprioception it did not have before. That also relocates the discipline: with no external lens there is nothing to capture, and the only failure is distortion, the system&rsquo;s image of itself drifting from what it does. So the discipline reduces to fidelity. One residual vantage point survives, the one place an outside hand still touches it: someone builds the thing and picks what counts as output worth reflecting. The honest version confines that to <em>how faithfully to reflect</em>, not <em>what to tell the field to do</em>, and keeps it forkable, so pure self-observation stays an asymptote rather than a claim. And if the reflection ever grew authoritative enough that showing the gaps began to function as funding them, that influence becomes something to watch and disclose, not assume away. It claims only to be a mirror, and stays wary of the moment a mirror starts giving orders.</p>
+
+<h2>What AI safety concretely gains from a live, actionable map</h2>
+
+<p>The abstract argument lands somewhere specific for technical AI safety, a field that runs every dynamic above. Here is what a live, source-traceable map of the field&rsquo;s own internal state (its funding flows, its talent flows, its research output) actually buys.</p>
+
+<ul class="gains">
+<li><strong>Neglectedness stops being guesswork.</strong> Grantmaking and career choice both depend on knowing what is underfunded relative to its importance. Today that judgment is made from stale, hand-assembled snapshots that are out of date the day they are posted. A live map means the field&rsquo;s allocators are not reasoning blind about their own distribution.</li>
+<li><strong>The herding becomes correctable.</strong> By showing where attention and money concentrate against where live problems sit unfunded, the map lets the field push back on its own loop, without a central allocator deciding anything. The correction comes from many independent readers, not from a controller.</li>
+<li><strong>&ldquo;What exists&rdquo; becomes &ldquo;what&rsquo;s actionable now.&rdquo;</strong> The field already has genuinely good descriptive maps. Shallow Review (<a href="https://shallowreview.ai" rel="noopener" target="_blank">shallowreview.ai</a>) lays out the field&rsquo;s problems and agendas in a beautifully organized taxonomy, and <a href="https://aisafety.info" rel="noopener" target="_blank">AISafety.info</a> gives an engaging, accessible tour of the open questions. Both are excellent at what they do, and both share the same two limits: they are mostly static, and they tell you what <em>exists</em> rather than what is <em>blocking each direction right now</em>. A map organized around the current bottleneck in each line of work, and around what recent research addresses and what new directions it enables, turns a catalogue into a moving picture of where each thread is stuck and what just loosened it. That is the difference between a library and a dashboard.</li>
+<li><strong>The newest work stays visible.</strong> Attention and citation counts systematically bury the most recent papers, because citations take years to accumulate, while overweighting the established canon. Reporting engagement by life-stage (frontier, consolidating, canonical) keeps the live edge of the field in view instead of hiding it behind a backward-looking metric.</li>
+<li><strong>The field gets a shared, contestable substrate.</strong> When both sides of a disagreement about where the field should go can cite the same traceable starting point, and disagree openly about how it is sliced because the underlying sources are public, the quality of the field&rsquo;s debate with itself rises. Argument improves when everyone is arguing over the same legible facts.</li>
+</ul>
+
+<p>What makes a map able to play this role rather than corrupt it is discipline of a particular kind: open data, so anyone can re-cut the framing they disagree with; every figure traceable to a source; a published, forkable taxonomy; counts presented as what exists rather than as progress, since volume is not the same as advancement; and the map&rsquo;s own funders reported on exactly the same terms as everyone else. Those constraints are not bureaucratic niceties. They are fidelity conditions: the difference between a system that sees itself as it is and one that sees itself through a warped surface.</p>
+
+<h2>The general principle</h2>
+
+<p>The deepest mistake in responding to a hidden feedback loop in a decentralized field is to reach for a controller. The loop&rsquo;s invisibility tempts you to install an authority that can finally direct things properly, and that authority simply becomes the loop&rsquo;s most efficient engine, now with a halo of objectivity.</p>
+
+<p>The better response is almost anticlimactic. You do not need someone to steer the field. You need the field to be able to see itself clearly enough to steer on its own. Against an invisible loop, the right instrument is not an allocator. It is the field&rsquo;s own reflection, kept faithful and kept current, and watched closely for the day the reflection starts giving orders.</p>
+
+</article>
+</body>
+</html>
