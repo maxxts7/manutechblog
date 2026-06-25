@@ -91,19 +91,21 @@ header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
 
 /* ── Hero figure ── */
 .hero {
-  margin: 0 0 3.25rem;
-  padding: 2.4rem 1.5rem 1.9rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 2.25rem auto 2.5rem;
+  padding: 1.5rem 1.6rem 1.25rem;
   background: var(--gray-50);
   border: 1px solid var(--gray-200);
   border-radius: 14px;
   text-align: center;
 }
-.hero svg { display: inline-block; width: 320px; max-width: 80%; height: auto; }
+.hero svg { display: block; width: 185px; max-width: 100%; height: auto; margin: 0 auto; }
 .hero figcaption {
-  margin: 1.4rem auto 0;
-  max-width: 44ch;
-  font-size: 0.85rem;
-  line-height: 1.55;
+  margin: 0.9rem auto 0;
+  max-width: 28ch;
+  font-size: 0.8rem;
+  line-height: 1.5;
   color: var(--text-secondary);
 }
 
@@ -222,8 +224,10 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   </div>
 </header>
 
+<p class="lead">Decentralization is supposed to be a safeguard. Spread decisions across many independent actors, strip out the profit motive, and you are meant to be protected from the pathologies of centralized power: the captured agenda, the controlled narrative, the single point of failure. A field like technical AI safety (dozens of small nonprofits, scattered independent researchers, a handful of mission-driven funders) looks like exactly that safeguard in action. No one is in charge, so the worry goes, no one can steer it wrong.</p>
+
 <figure class="hero">
-  <svg viewBox="0 0 480 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A feedback loop with attention and resources concentrated on one arc while other nodes sit neglected.">
+  <svg viewBox="100 70 280 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A feedback loop with attention and resources concentrated on one arc while other nodes sit neglected.">
     <defs>
       <marker id="hero-ah" markerUnits="userSpaceOnUse" markerWidth="30" markerHeight="30" refX="6" refY="10" orient="auto">
         <path d="M0,0 L20,10 L0,20 Z" fill="#3b82f6"/>
@@ -254,8 +258,6 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   </svg>
   <figcaption>Attention and resources pile up on one arc of the loop while the rest of the field sits thinly funded: a skew no one chose.</figcaption>
 </figure>
-
-<p class="lead">Decentralization is supposed to be a safeguard. Spread decisions across many independent actors, strip out the profit motive, and you are meant to be protected from the pathologies of centralized power: the captured agenda, the controlled narrative, the single point of failure. A field like technical AI safety (dozens of small nonprofits, scattered independent researchers, a handful of mission-driven funders) looks like exactly that safeguard in action. No one is in charge, so the worry goes, no one can steer it wrong.</p>
 
 <p>This is half true, and the false half is where the danger lives. Decentralized, good-faith efforts are not immune to the dynamics we associate with central control. They are merely immune to the <em>visible</em> versions of them. The narrative still gets steered, resources still concentrate, the field still bends away from its most important work, but no one decides any of it, which is precisely what makes it so hard to see and so hard to fix.</p>
 
