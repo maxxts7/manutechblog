@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open in Principle, Blind in Practice | Manu Xaviour Thaisseril Shaju</title>
+<meta name="description" content="Why a funder willing to back neglected work still needs a live map of the field, and without it reproduces the very loop they mean to escape, only running it in reverse.">
+<link rel="canonical" href="https://manutechblog.netlify.app/posts/open-in-principle-blind-in-practice/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Manu Xaviour Thaisseril Shaju">
+<meta property="og:title" content="Open in Principle, Blind in Practice">
+<meta property="og:description" content="Why a funder willing to back neglected work still needs the map, and reproduces the loop without it. A companion to The Loop No One Chose.">
+<meta property="og:url" content="https://manutechblog.netlify.app/posts/open-in-principle-blind-in-practice/">
+<meta property="og:image" content="https://manutechblog.netlify.app/posts/open-in-principle-blind-in-practice/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Open in Principle, Blind in Practice - a coin of willing money hovering over an out-of-focus field of funding it cannot read.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Open in Principle, Blind in Practice">
+<meta name="twitter:description" content="Why a funder willing to back neglected work still needs the map, and reproduces the loop without it. A companion to The Loop No One Chose.">
+<meta name="twitter:image" content="https://manutechblog.netlify.app/posts/open-in-principle-blind-in-practice/og.png">
+
+<style>
+:root {
+  --text: #1a1a2e;
+  --text-secondary: #64748b;
+  --bg: #ffffff;
+  --border: #e2e8f0;
+  --blue: #3b82f6;
+  --blue-dark: #1e40af;
+  --blue-light: #dbeafe;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-700: #334155;
+  --blue-muted: #60a5fa;
+  --orange: #f59e0b;
+  --orange-dark: #b45309;
+  --orange-light: #fef3c7;
+  --green: #66bb6a;
+  --green-dark: #2e7d32;
+  --green-light: #e8f5e9;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--blue-light); color: var(--blue-dark); }
+
+article { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+
+/* ── Header ── */
+header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+header .eyebrow {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.9rem;
+}
+header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.12;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  text-wrap: balance;
+}
+header .subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin: 0 0 1.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 42ch;
+  text-wrap: pretty;
+}
+header .author-line { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+header .dot { color: var(--gray-200); }
+header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
+
+/* ── Companion note ── */
+.companion-note {
+  margin: 0 0 2.25rem;
+  padding: 0.9rem 1.15rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.companion-note a { font-weight: 600; }
+
+/* ── Hero figure ── */
+.hero {
+  width: fit-content;
+  max-width: 100%;
+  margin: 2.25rem auto 2.5rem;
+  padding: 1.5rem 1.6rem 1.25rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  text-align: center;
+}
+.hero svg { display: block; width: 200px; max-width: 100%; height: auto; margin: 0 auto; }
+.hero figcaption {
+  margin: 0.9rem auto 0;
+  max-width: 30ch;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ── Inline diagrams ── */
+.diagram {
+  margin: 2.75rem -1.5rem;
+  padding: 1.75rem 1.6rem 1.5rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+}
+.diagram svg { display: block; width: 100%; height: auto; }
+.diagram svg text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+.diagram figcaption {
+  margin: 1.15rem auto 0;
+  max-width: 58ch;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.diagram figcaption strong { color: var(--gray-700); font-weight: 600; }
+.diagram figcaption em { font-style: italic; }
+
+/* ── Typography ── */
+p { margin: 0 0 1.3rem; text-wrap: pretty; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Section headings ── */
+h2 {
+  margin: 3.5rem 0 1.3rem;
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--blue);
+}
+
+/* ── Lead paragraph + drop cap ── */
+.lead { font-size: 1.16rem; line-height: 1.62; color: var(--text); margin-bottom: 1.4rem; }
+.lead::first-letter {
+  float: left;
+  font-size: 3.5rem;
+  line-height: 0.78;
+  font-weight: 800;
+  padding: 0.32rem 0.62rem 0 0;
+  color: var(--blue-dark);
+}
+
+/* ── Display statement ── */
+.statement {
+  position: relative;
+  margin: 3.25rem auto;
+  padding-top: 2.1rem;
+  max-width: 34ch;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.statement::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+
+/* ── Read next ── */
+.readnext {
+  display: block;
+  margin: 3.5rem 0 0;
+  padding: 1.4rem 1.65rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--gray-50);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.readnext:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(59,130,246,0.08); text-decoration: none; }
+.readnext .rn-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.4rem; }
+.readnext .rn-title { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.35rem; }
+.readnext .rn-desc { font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+/* ── Footer ── */
+footer {
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+footer .byline { margin: 0; font-size: 0.85rem; color: var(--gray-400); }
+footer .back { font-size: 0.85rem; color: var(--text-secondary); }
+footer .back:hover { color: var(--blue); text-decoration: none; }
+
+@media (max-width: 700px) {
+  header h1 { font-size: 1.9rem; }
+  .lead { font-size: 1.08rem; }
+  .lead::first-letter { font-size: 3rem; }
+  .statement { font-size: 1.25rem; }
+}
+</style>
+</head>
+<body>
+<nav style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem 0;">
+  <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
+    <span>&larr;</span> Manu Xaviour Thaisseril Shaju
+  </a>
+</nav>
+<article>
+
+<header>
+  <p class="eyebrow">Essay &middot; Companion</p>
+  <h1>Open in Principle, Blind in Practice</h1>
+  <p class="subtitle">Why a funder willing to back neglected work still needs the map &mdash; and reproduces the loop without it</p>
+  <div class="author-line">
+    <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
+    <span class="dot">&middot;</span>
+    <span class="meta-date">June 2026</span>
+  </div>
+</header>
+
+<p class="companion-note">A companion to <a href="/posts/the-loop-no-one-chose/">The Loop No One Chose</a>. Start there for the core argument &mdash; that a decentralized field is steered by an invisible attention-loop, and the answer is a faithful mirror rather than a controller. This piece answers its sharpest objection.</p>
+
+<p class="lead">The argument for a self-observing map invites an obvious objection, and it is worth taking seriously because it is the cleanest test of whether the argument holds at all. If the field&rsquo;s problem is that important work goes unfunded while crowded work compounds, why build an elaborate observatory? Why not simply have funders who are open to neglected ideas? A grantmaker who deliberately seeks the empty corners would seem to correct the skew directly, no infrastructure required. If that worked, the observatory would be unnecessary, and the whole case for it would collapse into a one-line recommendation: fund the gaps.</p>
+
+<p>It does not work, and the reasons it does not are the same reasons the map is needed in the first place. An open-minded funder is not an alternative to the mirror. They are the party the mirror exists to serve, and on their own, without it, they reproduce the very loop they mean to escape, only running it in reverse.</p>
+
+<figure class="hero">
+  <svg viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A gold coin ready to be given, hovering over a row of out-of-focus funding bars: willing to fund the gaps, unable to see where they are.">
+    <defs>
+      <filter id="hero-blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.3"/></filter>
+    </defs>
+    <!-- the unreadable field: blurred distribution -->
+    <g filter="url(#hero-blur)" opacity="0.55">
+      <rect x="24"  y="95"  width="20" height="55" rx="2" fill="#94a3b8"/>
+      <rect x="56"  y="62"  width="20" height="88" rx="2" fill="#94a3b8"/>
+      <rect x="88"  y="128" width="20" height="22" rx="2" fill="#94a3b8"/>
+      <rect x="120" y="72"  width="20" height="78" rx="2" fill="#94a3b8"/>
+      <rect x="152" y="120" width="20" height="30" rx="2" fill="#94a3b8"/>
+      <rect x="184" y="86"  width="20" height="64" rx="2" fill="#94a3b8"/>
+    </g>
+    <line x1="16" y1="150" x2="224" y2="150" stroke="#cbd5e1" stroke-width="2"/>
+    <!-- the willing money, in sharp focus -->
+    <line x1="120" y1="54" x2="120" y2="92" stroke="#cbd5e1" stroke-width="2.5" stroke-dasharray="1.5 6" stroke-linecap="round"/>
+    <text x="150" y="30" text-anchor="middle" font-size="24" font-weight="800" fill="#94a3b8">?</text>
+    <circle cx="120" cy="34" r="18" fill="#fbbf24" stroke="#d97706" stroke-width="2.5"/>
+    <circle cx="120" cy="34" r="12.5" fill="none" stroke="#d97706" stroke-width="1.5" opacity="0.55"/>
+    <text x="120" y="41.5" text-anchor="middle" font-size="19" font-weight="800" fill="#92400e">$</text>
+  </svg>
+  <figcaption>Money ready to move, over a field it cannot bring into focus &mdash; without a map, gaps and crowds blur together.</figcaption>
+</figure>
+
+<h2>&ldquo;Neglected&rdquo; is a relation, not a property</h2>
+
+<p>Start with the deepest problem, which is definitional. Neglectedness is not something a research direction possesses on its own, the way it possesses a difficulty or a timeline. It is a <em>relation</em> between a direction and the field&rsquo;s current distribution of attention and money. A thing is neglected only relative to how much attention it deserves set against how little it gets. Which means that to fund the neglected thing, you must first know what is underfunded relative to its importance, and that is precisely the legible, current picture the field does not have.</p>
+
+<p>So a funder &ldquo;open to neglected ideas&rdquo; but without the map is open in principle and blind in practice. Their good intentions are real, but intentions are not a readout. Lacking one, they fall back on the same instruments everyone else uses: the stale, hand-assembled snapshot, the residual sense of what was hot at the last conference, the gossip of who is working on what. That is the attention proxy the original argument identifies as broken. The open-minded funder, deprived of the map, is not standing outside the loop. They are inside it, reasoning from the same corrupted signal as everyone else, merely with better motives.</p>
+
+<p>This is why the funder and the map are not competing solutions. The funder&rsquo;s openness is exactly the demand that makes the map worth building. They are not an alternative to the observatory; they are the thing the observatory is a prerequisite <em>for</em>.</p>
+
+<h2>The reverse herd</h2>
+
+<p>Suppose the funder presses on anyway and commits, as a matter of policy, to chasing whatever looks most neglected. They have not stepped outside the loop. They have only reversed its direction.</p>
+
+<p>Watch what happens when enough capital does this. Neglectedness itself becomes a signal: the attended-to thing, the quality everyone is now scanning for. And the moment a direction gets funded <em>for being neglected</em>, it stops being neglected. The signal that drew the money destroys itself by being acted on. A reverse-herd, having corrected one empty corner, finds it no longer empty and moves to the next, which it will likewise fill and abandon. The compounding instability of the original loop becomes an oscillating one: directions get over-corrected, rushed into funding, then dropped the instant they stop reading as the underdog.</p>
+
+<p class="statement">Chasing the inverse of a broken proxy is still chasing the proxy.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The reverse herd: money rushes to the direction that looks most neglected; the moment it fills, it is no longer the underdog, so the money moves to the next empty corner, and oscillates.">
+  <defs>
+    <marker id="rh-orange" markerWidth="8" markerHeight="8" refX="5.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#f59e0b"/></marker>
+    <marker id="rh-gray" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/></marker>
+  </defs>
+
+  <!-- baseline -->
+  <line x1="40" y1="200" x2="330" y2="200" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="390" y1="200" x2="680" y2="200" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <!-- LEFT: chase the gap -->
+  <text x="185" y="28" text-anchor="middle" font-size="12.5" font-weight="700" letter-spacing="0.06em" fill="#b45309">CHASE THE GAP</text>
+  <rect x="60"  y="120" width="34" height="80"  rx="3" fill="#cbd5e1"/>
+  <rect x="120" y="108" width="34" height="92"  rx="3" fill="#cbd5e1"/>
+  <rect x="180" y="176" width="34" height="24"  rx="3" fill="#f59e0b"/>
+  <rect x="240" y="124" width="34" height="76"  rx="3" fill="#cbd5e1"/>
+  <circle cx="189" cy="60" r="5" fill="#f59e0b"/><circle cx="205" cy="56" r="5" fill="#f59e0b"/><circle cx="197" cy="44" r="5" fill="#f59e0b"/>
+  <line x1="197" y1="74" x2="197" y2="168" stroke="#f59e0b" stroke-width="2" marker-end="url(#rh-orange)"/>
+  <text x="185" y="228" text-anchor="middle" font-size="10.5" fill="#64748b">money rushes to what looks most neglected</text>
+
+  <!-- middle arrow -->
+  <path d="M 332 96 Q 360 80 388 96" fill="none" stroke="#94a3b8" stroke-width="2" marker-end="url(#rh-gray)"/>
+  <text x="360" y="74" text-anchor="middle" font-size="9.5" font-style="italic" fill="#94a3b8">repeat</text>
+
+  <!-- RIGHT: it fills, chase the next -->
+  <text x="535" y="28" text-anchor="middle" font-size="12.5" font-weight="700" letter-spacing="0.06em" fill="#1e40af">IT FILLS &mdash; CHASE THE NEXT</text>
+  <rect x="410" y="120" width="34" height="80" rx="3" fill="#cbd5e1"/>
+  <rect x="470" y="108" width="34" height="92" rx="3" fill="#cbd5e1"/>
+  <rect x="530" y="96"  width="34" height="104" rx="3" fill="#3b82f6"/>
+  <rect x="590" y="176" width="34" height="24" rx="3" fill="#f59e0b"/>
+  <circle cx="599" cy="60" r="5" fill="#f59e0b"/><circle cx="615" cy="56" r="5" fill="#f59e0b"/><circle cx="607" cy="44" r="5" fill="#f59e0b"/>
+  <line x1="607" y1="74" x2="607" y2="168" stroke="#f59e0b" stroke-width="2" marker-end="url(#rh-orange)"/>
+  <text x="547" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#1e40af">filled</text>
+  <text x="535" y="228" text-anchor="middle" font-size="10.5" fill="#64748b">once it fills, it is no longer the underdog</text>
+</svg>
+<figcaption><strong>The reverse herd.</strong> Fund a direction <em>because</em> it looks neglected and it stops being neglected &mdash; so the money moves to the next empty corner, and the next. The compounding loop simply becomes an oscillating one.</figcaption>
+</figure>
+
+<p>The map breaks this, but not by telling funders to seek neglect. It breaks it by showing the actual distribution, how large each gap really is, so that corrections can be <em>sized to the real shortfall</em> rather than triggered by the binary signal &ldquo;this is the neglected thing now.&rdquo; A direction that is twenty percent underfunded and a direction that is empty deserve different responses, and that distinction is invisible when the only input is whether a line of work currently wears the underdog&rsquo;s colors.</p>
+
+<h2>Neglect is not importance</h2>
+
+<p>There is a flaw beneath the policy itself, independent of the herding. &ldquo;Only fund neglected work&rdquo; is a prescription, and a bad one, because neglect and importance are not the same thing.</p>
+
+<p>Some directions are neglected because they deserve to be: they are premature, or unpromising, or quiet dead ends the field has correctly walked away from. The diffuse judgment of a field is not pure noise. It gets a great deal wrong (that is the whole premise), but some of what it ignores, it ignores for good reason. An organization chartered to work <em>only</em> on the neglected has, by that charter, committed to a contrarian bet as standing policy. It will fund the unpromising-and-ignored right alongside the important-and-ignored, because its selection criterion cannot tell them apart. Neglect is all it can see, and neglect does not distinguish buried treasure from what was buried for cause.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 640 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A two-by-two of attention against importance. The top row is the neglected work; it contains both important-and-ignored buried treasure and unpromising work that is ignored for good reason. A policy of only funding neglect cannot tell the two apart.">
+  <!-- brace over the top row -->
+  <text x="378" y="22" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="0.04em" fill="#b45309">&ldquo;only fund neglected&rdquo; takes this whole row &mdash; treasure and dead ends alike</text>
+  <path d="M 260 56 V 46 H 496 V 56" fill="none" stroke="#b45309" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+  <!-- y axis -->
+  <text x="26" y="220" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#64748b" transform="rotate(-90 26 220)">ATTENTION</text>
+  <text x="138" y="142" text-anchor="end" font-size="10.5" font-weight="600" fill="#94a3b8">neglected</text>
+  <text x="138" y="306" text-anchor="end" font-size="10.5" font-weight="600" fill="#94a3b8">crowded</text>
+
+  <!-- top-left: neglected, low importance -->
+  <rect x="150" y="64" width="220" height="148" rx="12" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="260" y="120" text-anchor="middle" font-size="13.5" font-weight="700" fill="#b45309">NEGLECTED FOR A REASON</text>
+  <text x="260" y="146" text-anchor="middle" font-size="11" fill="#92702a">premature &middot; unpromising</text>
+  <text x="260" y="164" text-anchor="middle" font-size="11" fill="#92702a">dead ends, rightly left</text>
+
+  <!-- top-right: neglected, high importance -->
+  <rect x="386" y="64" width="220" height="148" rx="12" fill="#e8f5e9" stroke="#66bb6a" stroke-width="2"/>
+  <text x="496" y="110" text-anchor="middle" font-size="15" fill="#2e7d32">&#9733;</text>
+  <text x="496" y="138" text-anchor="middle" font-size="13.5" font-weight="700" fill="#2e7d32">BURIED TREASURE</text>
+  <text x="496" y="164" text-anchor="middle" font-size="11" fill="#3f7a43">important &amp; ignored &mdash; fund it</text>
+
+  <!-- bottom-left: crowded, low importance -->
+  <rect x="150" y="228" width="220" height="148" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="260" y="298" text-anchor="middle" font-size="13.5" font-weight="700" fill="#64748b">HYPE</text>
+  <text x="260" y="324" text-anchor="middle" font-size="11" fill="#94a3b8">crowded, low value</text>
+
+  <!-- bottom-right: crowded, high importance -->
+  <rect x="386" y="228" width="220" height="148" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="496" y="298" text-anchor="middle" font-size="13.5" font-weight="700" fill="#64748b">ALREADY COVERED</text>
+  <text x="496" y="324" text-anchor="middle" font-size="11" fill="#94a3b8">important &amp; crowded</text>
+
+  <!-- x axis -->
+  <text x="260" y="402" text-anchor="middle" font-size="10.5" font-weight="600" fill="#94a3b8">low</text>
+  <text x="496" y="402" text-anchor="middle" font-size="10.5" font-weight="600" fill="#94a3b8">high</text>
+  <text x="378" y="428" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#64748b">IMPORTANCE &rarr;</text>
+</svg>
+<figcaption><strong>Neglect is not importance.</strong> A policy of backing the overlooked selects the entire top row &mdash; it funds the unpromising-and-ignored right beside the important-and-ignored, because neglect is all it can see. Only a picture of the distribution lets the field tell the treasure from what was buried for cause.</figcaption>
+</figure>
+
+<p>That is not correcting the loop&rsquo;s distortion; it is adopting the mirror-image distortion as a mission, swapping a bias toward the crowded for a bias toward the empty, neither of which tracks what actually matters.</p>
+
+<p class="statement">You no more prescribe neglect than you prescribe popularity.</p>
+
+<p>The honest move is the one the main argument lands on: make the distribution visible and let many independent judgments decide which neglected things are neglected <em>wrongly</em>, and which are neglected exactly as they should be.</p>
+
+<h2>The underdog&rsquo;s halo</h2>
+
+<p>Underneath all three reasons sits a subtler trap, and it deserves a name, because it is the most seductive form of the question. An organization that does not merely fund neglected work but authoritatively <em>designates</em> which neglected directions are worth backing has become the centralized recommender the fixer&rsquo;s trap warns against, now in its most dangerous costume yet.</p>
+
+<p>It is dangerous precisely because it feels so virtuous. Correcting an imbalance, fighting concentration, backing the overlooked: these wear an unimpeachable halo.</p>
+
+<p class="statement">&ldquo;We fund the gaps&rdquo; is one short step from &ldquo;we decide what the gaps are.&rdquo;</p>
+
+<p>That second sentence is the loop&rsquo;s most efficient engine with a conscience bolted on. A single actor now sets the field&rsquo;s contrarian agenda, directing capital by its own lights, and does so under the moral cover of the underdog, which makes it <em>harder</em> to contest than a naked authority would be, because pushing back looks like siding with concentration. The recommender that issues from the fixer&rsquo;s trap is bad enough when it tells the field to work on what is popular. It is worse when it tells the field to work on what is neglected, because then resisting it feels like a betrayal.</p>
+
+<h2>Demand, not substitute</h2>
+
+<p>So the relationship between the open-minded funder and the map is the opposite of a contest between two fixes. The funder is good and necessary. They are also the <em>demand side</em> the observatory serves, not a replacement for it.</p>
+
+<p>The map does not tell that funder what to back. It hands them, and every other reader, an accurate picture of where the gaps actually fall and how deep they run, so that an openness to neglect can finally act on reality instead of on vibes. And because the picture is shared, the correction it enables comes from many funders reading the same legible distribution and reaching their own conclusions, not from one neglect-allocator deciding, on the field&rsquo;s behalf, where the underdogs are. That dispersal is the entire point. It is the difference, once again, between reflexivity that <em>returns judgment to the reader</em> and reflexivity that <em>substitutes for it</em>.</p>
+
+<p>Open-minded funders are who the mirror is for. They are not a substitute for it, and without it they do not escape the loop. They run it backwards, with the underdog&rsquo;s halo on, which is the one disguise under which the loop is hardest of all to see.</p>
+
+<a class="readnext" href="/posts/the-loop-no-one-chose/">
+  <p class="rn-label">&larr; The original</p>
+  <p class="rn-title">The Loop No One Chose</p>
+  <p class="rn-desc">Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map that reflects the field back to itself instead of telling it what to do.</p>
+</a>
+
+<footer>
+  <p class="byline">Manu Xaviour Thaisseril Shaju &middot; June 2026</p>
+  <a class="back" href="/">&larr; All writing</a>
+</footer>
+
+</article>
+</body>
+</html>

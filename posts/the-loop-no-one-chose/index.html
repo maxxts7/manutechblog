@@ -38,6 +38,10 @@
   --gray-200: #e2e8f0;
   --gray-400: #94a3b8;
   --gray-700: #334155;
+  --blue-muted: #60a5fa;
+  --orange: #f59e0b;
+  --orange-dark: #b45309;
+  --orange-light: #fef3c7;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -108,6 +112,27 @@ header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
   line-height: 1.5;
   color: var(--text-secondary);
 }
+
+/* ── Inline diagrams ── */
+.diagram {
+  margin: 2.75rem -1.5rem;
+  padding: 1.75rem 1.6rem 1.5rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+}
+.diagram svg { display: block; width: 100%; height: auto; }
+.diagram svg text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+.diagram figcaption {
+  margin: 1.15rem auto 0;
+  max-width: 56ch;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.diagram figcaption strong { color: var(--gray-700); font-weight: 600; }
+.diagram figcaption em { font-style: italic; }
 
 /* ── Typography ── */
 p { margin: 0 0 1.3rem; text-wrap: pretty; }
@@ -197,6 +222,23 @@ footer .byline { margin: 0; font-size: 0.85rem; color: var(--gray-400); }
 footer .back { font-size: 0.85rem; color: var(--text-secondary); }
 footer .back:hover { color: var(--blue); text-decoration: none; }
 
+/* ── Read next ── */
+.readnext {
+  display: block;
+  margin: 3.5rem 0 0;
+  padding: 1.4rem 1.65rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--gray-50);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.readnext:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(59,130,246,0.08); text-decoration: none; }
+.readnext .rn-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.4rem; }
+.readnext .rn-title { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.35rem; }
+.readnext .rn-desc { font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
 @media (max-width: 700px) {
   header h1 { font-size: 1.9rem; }
   .lead { font-size: 1.08rem; }
@@ -269,6 +311,33 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>So talent and money follow attention. Output then skews toward the directions that already have the people and the funding. And that skew reads, to the next person scanning for a signal, as proof that <em>this is where the action is</em>, which pulls in the next wave of talent and money. Funding sits unevenly across the field not in spite of this dynamic but because of it. Hot areas compound; quiet ones starve, regardless of how important they are.</p>
 
+<figure class="diagram">
+<svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The reflexive loop: attention draws talent and money, output skews toward crowded directions, that reads as proof of importance, which draws still more attention.">
+  <defs>
+    <marker id="loop-fwd" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#3b82f6"/></marker>
+    <marker id="loop-ret" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#60a5fa"/></marker>
+  </defs>
+  <line x1="161" y1="67" x2="191" y2="67" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#loop-fwd)"/>
+  <line x1="345" y1="67" x2="375" y2="67" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#loop-fwd)"/>
+  <line x1="529" y1="67" x2="559" y2="67" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#loop-fwd)"/>
+  <path d="M 636 104 V 166 Q 636 178 621 178 H 99 Q 84 178 84 166 V 104" fill="none" stroke="#60a5fa" stroke-width="2.5" marker-end="url(#loop-ret)"/>
+  <text x="360" y="151" text-anchor="middle" font-size="12.5" font-style="italic" fill="#64748b">self-reinforcing &mdash; and no one chose it</text>
+  <rect x="9" y="30" width="150" height="74" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="84" y="64" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">ATTENTION</text>
+  <text x="84" y="84" text-anchor="middle" font-size="10.5" fill="#64748b">the only cheap signal</text>
+  <rect x="193" y="30" width="150" height="74" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="268" y="64" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">TALENT &amp; MONEY</text>
+  <text x="268" y="84" text-anchor="middle" font-size="10.5" fill="#64748b">follow the signal</text>
+  <rect x="377" y="30" width="150" height="74" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="452" y="64" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">OUTPUT SKEWS</text>
+  <text x="452" y="84" text-anchor="middle" font-size="10.5" fill="#64748b">toward crowded work</text>
+  <rect x="561" y="30" width="150" height="74" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="636" y="64" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">READS AS PROOF</text>
+  <text x="636" y="84" text-anchor="middle" font-size="10.5" fill="#64748b">&ldquo;where it&rsquo;s at&rdquo;</text>
+</svg>
+<figcaption><strong>The reflexive loop.</strong> Attention is the cheapest signal of where value lies, so talent and money chase it; the resulting pile-up of output then reads as proof that this is where the action is &mdash; pulling in the next wave. No allocator required.</figcaption>
+</figure>
+
 <h2>Why decentralization hides the loop rather than preventing it</h2>
 
 <p>Here is the part that should unsettle anyone who treats decentralization as protective. The loop above requires no coordinator, no bad actor, and no concentration of formal power. It is the emergent result of many independent agents each making a locally reasonable choice with the only signal they have. That is what makes it invisible.</p>
@@ -285,11 +354,54 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>This is a trap, and it is worth being precise about why. A single, authoritative recommender does not stand outside the loop; it becomes a concentrated, fast version of it, bolted on top of the diffuse one already turning. The existing loop runs through many channels and corrects slowly; an authoritative source that says &ldquo;work on this&rdquo; is a sharp, centralized forcing function that is <em>harder</em> to push back on precisely because it carries authority. And it is reflexive in the most direct way: it learns from the behavior it shapes. It recommends a direction, the field moves, the movement registers as signal, the recommendation is reinforced. The cure reintroduces exactly the centralized narrative-control that the field&rsquo;s decentralized structure was supposed to rule out, now wearing the badge of objectivity.</p>
 
-<p>So the instinct to fix the loop by issuing better instructions makes you the loop&rsquo;s new engine.</p>
+<p class="statement">So the instinct to fix the loop by issuing better instructions makes you the loop&rsquo;s new engine.</p>
 
 <h2>The resolution: a mirror with no one holding it</h2>
 
 <p>If recommendation is the wrong move and the status quo is a slow distortion, what is left? The answer turns on a distinction that is easy to miss: the difference between <em>prescribing</em> and <em>describing</em>.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 288" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two responses to the loop. Prescribe: one recommender issues directions down to the field, concentrating the choice. Describe: the field's own output is reflected back to it, leaving the choice dispersed.">
+  <defs>
+    <marker id="d2-orange" markerWidth="8" markerHeight="8" refX="5.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#f59e0b"/></marker>
+    <marker id="d2-blue" markerWidth="8" markerHeight="8" refX="5.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#3b82f6"/></marker>
+  </defs>
+  <line x1="360" y1="34" x2="360" y2="268" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4 5"/>
+
+  <text x="180" y="28" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.08em" fill="#b45309">PRESCRIBE</text>
+  <text x="180" y="47" text-anchor="middle" font-size="10.5" fill="#64748b">tell the field where to go</text>
+  <rect x="105" y="72" width="150" height="44" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="180" y="99" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="0.03em" fill="#b45309">RECOMMENDER</text>
+  <line x1="180" y1="118" x2="90" y2="220" stroke="#f59e0b" stroke-width="1.6" marker-end="url(#d2-orange)"/>
+  <line x1="180" y1="118" x2="135" y2="220" stroke="#f59e0b" stroke-width="1.6" marker-end="url(#d2-orange)"/>
+  <line x1="180" y1="118" x2="180" y2="220" stroke="#f59e0b" stroke-width="1.6" marker-end="url(#d2-orange)"/>
+  <line x1="180" y1="118" x2="225" y2="220" stroke="#f59e0b" stroke-width="1.6" marker-end="url(#d2-orange)"/>
+  <line x1="180" y1="118" x2="270" y2="220" stroke="#f59e0b" stroke-width="1.6" marker-end="url(#d2-orange)"/>
+  <circle cx="90" cy="232" r="8" fill="#94a3b8"/>
+  <circle cx="135" cy="232" r="8" fill="#94a3b8"/>
+  <circle cx="180" cy="232" r="8" fill="#94a3b8"/>
+  <circle cx="225" cy="232" r="8" fill="#94a3b8"/>
+  <circle cx="270" cy="232" r="8" fill="#94a3b8"/>
+  <text x="180" y="266" text-anchor="middle" font-size="10.5" fill="#64748b">the power to choose collapses to one source</text>
+
+  <text x="540" y="28" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.08em" fill="#1e40af">DESCRIBE</text>
+  <text x="540" y="47" text-anchor="middle" font-size="10.5" fill="#64748b">show the field to itself</text>
+  <text x="540" y="76" text-anchor="middle" font-size="9.5" letter-spacing="0.14em" fill="#94a3b8">THE FIELD</text>
+  <circle cx="450" cy="100" r="8" fill="#3b82f6"/>
+  <circle cx="495" cy="100" r="8" fill="#3b82f6"/>
+  <circle cx="540" cy="100" r="8" fill="#3b82f6"/>
+  <circle cx="585" cy="100" r="8" fill="#3b82f6"/>
+  <circle cx="630" cy="100" r="8" fill="#3b82f6"/>
+  <line x1="505" y1="114" x2="505" y2="184" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#d2-blue)"/>
+  <line x1="575" y1="184" x2="575" y2="114" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#d2-blue)"/>
+  <text x="498" y="152" text-anchor="end" font-size="10" fill="#64748b">output</text>
+  <text x="582" y="152" text-anchor="start" font-size="10" fill="#64748b">reflected</text>
+  <rect x="440" y="190" width="200" height="40" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="540" y="215" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="0.03em" fill="#1e40af">THE FIELD, REFLECTED</text>
+  <text x="540" y="266" text-anchor="middle" font-size="10.5" fill="#64748b">each reader sees the skew and decides</text>
+</svg>
+<figcaption><strong>Two ways to answer the loop.</strong> A recommender <em>prescribes</em> &mdash; one source tells the field where to go, concentrating the choice and becoming the loop&rsquo;s fastest engine. A mirror <em>describes</em> &mdash; it folds the field&rsquo;s own output back into a form the field can read, leaving the judgment dispersed across thousands of independent minds.</figcaption>
+</figure>
 
 <p>The existing loop runs on attention-as-proxy because attention is the only cheap signal of where value lies. That proxy is exactly what is broken. And the one thing that can weaken a broken proxy is not a louder counter-signal but visibility of the distortion itself. A faithful, current description of the field (one that shows plainly where attention and money have piled up, and which important directions sit starved beside them) hands every independent actor the information to correct on their <em>own</em> judgment. It does not tell anyone what to do. It makes the imbalance legible enough that people can choose to push against it.</p>
 
@@ -309,13 +421,19 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <li><strong>The field gets a shared, contestable substrate.</strong> When both sides of a disagreement about where the field should go can cite the same traceable starting point, and disagree openly about how it is sliced because the underlying sources are public, the quality of the field&rsquo;s debate with itself rises. Argument improves when everyone is arguing over the same legible facts.</li>
 </ul>
 
-<p>What makes a map able to play this role rather than corrupt it is discipline of a particular kind: open data, so anyone can re-cut the framing they disagree with; every figure traceable to a source; a published, forkable taxonomy; counts presented as what exists rather than as progress, since volume is not the same as advancement; and the map&rsquo;s own funders reported on exactly the same terms as everyone else. Those constraints are not bureaucratic niceties. They are fidelity conditions: the difference between a system that sees itself as it is and one that sees itself through a warped surface.</p>
+
 
 <h2>The general principle</h2>
 
 <p>The deepest mistake in responding to a hidden feedback loop in a decentralized field is to reach for a controller. The loop&rsquo;s invisibility tempts you to install an authority that can finally direct things properly, and that authority simply becomes the loop&rsquo;s most efficient engine, now with a halo of objectivity.</p>
 
 <p>The better response is almost anticlimactic. You do not need someone to steer the field. You need the field to be able to see itself clearly enough to steer on its own. Against an invisible loop, the right instrument is not an allocator. It is the field&rsquo;s own reflection, kept faithful and kept current, and watched closely for the day the reflection starts giving orders.</p>
+
+<a class="readnext" href="/posts/open-in-principle-blind-in-practice/">
+  <p class="rn-label">Read next &rarr;</p>
+  <p class="rn-title">Open in Principle, Blind in Practice</p>
+  <p class="rn-desc">Why not just fund the neglected directions? A funder willing to back overlooked work still needs the map &mdash; and without it reproduces the very loop they mean to escape, only running it in reverse.</p>
+</a>
 
 <footer>
   <p class="byline">Manu Xaviour Thaisseril Shaju &middot; June 2026</p>
