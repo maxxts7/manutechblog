@@ -35,6 +35,15 @@
   --reading-width: 700px;
   --reading-align: left;
   --dropcap: block;
+  --dropcap-size: 3.5rem;
+  /* heading type scale (multipliers on --reading-size; defaults reproduce the site) */
+  --h1-scale: 2.35;
+  --h2-scale: 1.46;
+  --sub-scale: 1.08;
+  --lead-scale: 1.12;
+  --head-wrap: balance;
+  --num: normal;
+  --ligatures: normal;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -99,7 +108,7 @@ nav.top a:hover { color: var(--blue); text-decoration: none; }
   max-width: 980px; margin: 0 auto; padding: 0.75rem 1.5rem 1rem;
 }
 /* tabs */
-.tab-strip { display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--gray-200); }
+.tab-strip { display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--gray-200); flex-wrap: wrap; }
 .tab-btn {
   font-size: 0.82rem; font-weight: 600; padding: 0.55rem 0.9rem;
   border: none; border-bottom: 2px solid transparent; background: none;
@@ -155,8 +164,9 @@ nav.top a:hover { color: var(--blue); text-decoration: none; }
 }
 .readout code {
   font-family: var(--font-mono); font-size: 0.74rem; color: var(--gray-700);
-  line-height: 1.55; white-space: pre-wrap; word-break: break-word;
+  line-height: 1.55; white-space: pre-wrap; word-break: break-word; flex: 1 1 320px;
 }
+.readout-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .readout button {
   font-size: 0.78rem; font-weight: 600; padding: 0.45rem 0.85rem; border-radius: 8px;
   border: 1px solid var(--gray-200); background: var(--bg); color: var(--gray-700); cursor: pointer;
@@ -180,18 +190,26 @@ header.post .eyebrow {
 }
 header.post h1 {
   font-family: var(--font-head);
-  font-size: 2.5rem; font-weight: var(--head-weight, 800); line-height: 1.12; margin: 0 0 0.85rem;
-  letter-spacing: -0.03em; color: var(--preview-text, var(--text)); text-wrap: balance;
+  font-size: calc(var(--reading-size) * var(--h1-scale, 2.35));
+  font-weight: var(--head-weight, 800); line-height: 1.12; margin: 0 0 0.85rem;
+  letter-spacing: -0.03em; color: var(--preview-text, var(--text));
+  text-wrap: var(--head-wrap, balance); font-variant-ligatures: var(--ligatures, normal);
 }
 header.post .subtitle {
   font-family: var(--font-body);
-  font-size: 1.15rem; color: var(--preview-muted, var(--text-secondary));
+  font-size: calc(var(--reading-size) * var(--sub-scale, 1.08));
+  color: var(--preview-muted, var(--text-secondary));
   margin: 0 0 1.75rem; font-weight: 400; line-height: 1.5; text-wrap: pretty;
 }
 header.post .author-line { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; font-family: var(--font-body); }
 header.post .author-name { font-size: 0.92rem; font-weight: 600; color: var(--preview-text, var(--text)); }
 header.post .dot { color: var(--gray-400); }
 header.post .meta-date { font-size: 0.92rem; color: var(--gray-400); }
+
+/* ── Eyebrow styles ── */
+.preview-wrap.eb-smallcaps header.post .eyebrow { text-transform: none; font-variant: small-caps; letter-spacing: 0.06em; }
+.preview-wrap.eb-plain header.post .eyebrow { text-transform: none; letter-spacing: 0; font-weight: 600; }
+.preview-wrap.eb-hidden header.post .eyebrow { display: none; }
 
 .preview-wrap p, .preview-wrap li {
   font-family: var(--font-body);
@@ -200,26 +218,52 @@ header.post .meta-date { font-size: 0.92rem; color: var(--gray-400); }
   font-weight: var(--body-weight, 400);
   letter-spacing: var(--letter-spacing, normal);
   word-spacing: var(--word-spacing, normal);
+  font-variant-numeric: var(--num, normal);
+  font-variant-ligatures: var(--ligatures, normal);
 }
 .preview-wrap p { margin: 0 0 var(--para-gap, 1.3rem); text-wrap: pretty; }
 .preview-wrap strong { font-weight: 600; color: var(--preview-text, var(--text)); }
 .preview-wrap em { font-style: italic; }
 .preview-wrap a { color: var(--preview-accent, var(--blue)); }
 
+/* ── Hyphenation ── */
+.preview-wrap.hyphenate p, .preview-wrap.hyphenate li { -webkit-hyphens: auto; hyphens: auto; }
+
+/* ── First-line indent (book style) ── */
+.preview-wrap.para-indent p:not(.lead):not(.statement) { margin-bottom: 0; text-indent: 1.5em; }
+.preview-wrap.para-indent h2 + p:not(.lead):not(.statement) { text-indent: 0; }
+
 .preview-wrap h2 {
   font-family: var(--font-head);
-  margin: var(--head-space, 3rem) 0 1.3rem; font-size: 1.55rem; font-weight: var(--head-weight, 700); line-height: 1.25;
-  letter-spacing: -0.02em; color: var(--preview-text, var(--text)); text-wrap: balance;
+  margin: var(--head-space, 3rem) 0 1.3rem;
+  font-size: calc(var(--reading-size) * var(--h2-scale, 1.46));
+  font-weight: var(--head-weight, 700); line-height: 1.25;
+  letter-spacing: -0.02em; color: var(--preview-text, var(--text));
+  text-wrap: var(--head-wrap, balance); font-variant-ligatures: var(--ligatures, normal);
   padding-left: 0.85rem; border-left: 3px solid var(--preview-accent, var(--blue));
   text-align: left;
 }
-.preview-wrap.no-rule h2 { padding-left: 0; border-left: none; }
-.preview-wrap.center-head h2 { text-align: center; padding-left: 0; border-left: none; }
+/* heading treatments */
+.preview-wrap.hs-underline h2 {
+  border-left: none; padding-left: 0; padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--preview-accent, var(--blue));
+}
+.preview-wrap.hs-highlight h2 {
+  border-left: none; padding: 0.12em 0.45em; margin-left: -0.45em;
+  background: color-mix(in srgb, var(--preview-accent, #3b82f6) 16%, transparent);
+  border-radius: 5px; display: inline-block;
+}
+.preview-wrap.hs-plain h2 { border-left: none; padding-left: 0; }
+.preview-wrap.center-head h2 { text-align: center; }
+.preview-wrap.center-head.hs-rule h2 { border-left: none; padding-left: 0; }
 
-.lead { font-size: calc(var(--reading-size) + 2px); line-height: 1.6; color: var(--preview-text, var(--text)); margin-bottom: 1.4rem; }
+.lead {
+  font-size: calc(var(--reading-size) * var(--lead-scale, 1.12));
+  line-height: 1.6; color: var(--preview-text, var(--text)); margin-bottom: 1.4rem;
+}
 .lead::first-letter {
   display: var(--dropcap);
-  float: left; font-family: var(--font-head); font-size: 3.5rem; line-height: 0.78;
+  float: left; font-family: var(--font-head); font-size: var(--dropcap-size, 3.5rem); line-height: 0.78;
   font-weight: var(--head-weight, 800); padding: 0.32rem 0.62rem 0 0; color: var(--preview-accent-dark, var(--blue-dark));
 }
 
@@ -235,7 +279,7 @@ blockquote {
   font-family: var(--font-head);
   position: relative; margin: 3rem auto; padding-top: 2.1rem; max-width: 34ch;
   text-align: center; font-size: 1.5rem; font-weight: var(--head-weight, 700); line-height: 1.32;
-  letter-spacing: -0.02em; color: var(--preview-text, var(--text)); text-wrap: balance;
+  letter-spacing: -0.02em; color: var(--preview-text, var(--text)); text-wrap: var(--head-wrap, balance);
 }
 .statement::before {
   content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
@@ -266,7 +310,6 @@ footer.post {
 
 @media (max-width: 700px) {
   .intro h1 { font-size: 1.7rem; }
-  header.post h1 { font-size: 1.9rem; }
   .controls-inner { padding: 0.85rem 1.25rem; }
 }
 </style>
@@ -280,7 +323,7 @@ footer.post {
 <div class="intro">
   <p class="eyebrow">Sandbox</p>
   <h1>Typography Playground</h1>
-  <p>A scratch page for trying fonts, pairings, themes, and reading settings against real post content. Tweak the controls &mdash; the sample below updates live. The CSS readout at the bottom of the panel shows exactly what to paste into a post&rsquo;s stylesheet. This page is <code class="inline">noindex</code> and isn&rsquo;t linked from the homepage.</p>
+  <p>A scratch page for trying fonts, pairings, themes, and reading settings against real post content. Tweak the controls &mdash; the sample below updates live. The CSS readout shows what to paste into a post&rsquo;s stylesheet; settings persist across reloads and <strong>Copy link</strong> bundles them into a shareable URL. This page is <code class="inline">noindex</code> and isn&rsquo;t linked from the homepage.</p>
 </div>
 
 <!-- ════════ CONTROLS ════════ -->
@@ -297,6 +340,7 @@ footer.post {
     <div class="tab-strip" role="tablist">
       <button class="tab-btn" type="button" role="tab" id="tab-type"   aria-controls="panel-type"   aria-selected="true">Fonts &amp; Theme</button>
       <button class="tab-btn" type="button" role="tab" id="tab-layout" aria-controls="panel-layout" aria-selected="false">Typesetting &amp; Layout</button>
+      <button class="tab-btn" type="button" role="tab" id="tab-detail" aria-controls="panel-detail" aria-selected="false">Headings &amp; Detail</button>
     </div>
 
     <!-- ── Tab 1: Fonts & Theme ── -->
@@ -329,6 +373,11 @@ footer.post {
 
     <!-- ── Tab 2: Typesetting & Layout ── -->
     <div class="tab-panel" id="panel-layout" role="tabpanel" aria-labelledby="tab-layout" hidden>
+      <div class="field full">
+        <label>Density</label>
+        <div class="btn-row" id="density"></div>
+      </div>
+
       <div class="field">
         <div class="field-row"><label for="size">Body size</label><span class="val" id="sizeVal"></span></div>
         <input type="range" id="size" min="14" max="22" step="0.5" value="17">
@@ -392,22 +441,100 @@ footer.post {
         <div class="toggle-row">
           <label class="toggle"><input type="checkbox" id="justify"> Justify body text</label>
           <label class="toggle"><input type="checkbox" id="dropcap" checked> Drop cap on lead</label>
-          <label class="toggle"><input type="checkbox" id="rule" checked> Accent rule on headings</label>
           <label class="toggle"><input type="checkbox" id="centerHead"> Center headings</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tab 3: Headings & Detail ── -->
+    <div class="tab-panel" id="panel-detail" role="tabpanel" aria-labelledby="tab-detail" hidden>
+      <div class="field">
+        <label for="scale">Type scale (hierarchy)</label>
+        <select id="scale">
+          <option value="">Default</option>
+          <option value="1.125">1.125 &middot; Major 2nd</option>
+          <option value="1.2">1.2 &middot; Minor 3rd</option>
+          <option value="1.25">1.25 &middot; Major 3rd</option>
+          <option value="1.333">1.333 &middot; Perfect 4th</option>
+          <option value="1.414">1.414 &middot; Aug. 4th</option>
+          <option value="1.5">1.5 &middot; Perfect 5th</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="headStyle">Heading treatment</label>
+        <select id="headStyle">
+          <option value="rule">Accent rule (left)</option>
+          <option value="underline">Underline</option>
+          <option value="highlight">Highlight</option>
+          <option value="plain">Plain</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="headWrap">Heading line wrap</label>
+        <select id="headWrap">
+          <option value="balance">Balance</option>
+          <option value="pretty">Pretty</option>
+          <option value="normal">Normal</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="eyebrow">Eyebrow style</label>
+        <select id="eyebrow">
+          <option value="upper">Uppercase tracked</option>
+          <option value="smallcaps">Small caps</option>
+          <option value="plain">Plain</option>
+          <option value="hidden">Hidden</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="paraStyle">Paragraph layout</label>
+        <select id="paraStyle">
+          <option value="spaced">Spaced (blank line)</option>
+          <option value="indent">First-line indent</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="numerals">Numerals</label>
+        <select id="numerals">
+          <option value="normal">Lining (default)</option>
+          <option value="oldstyle-nums">Old-style</option>
+          <option value="tabular-nums">Tabular</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="field-row"><label for="dropcapSize">Drop-cap size</label><span class="val" id="dropcapSizeVal"></span></div>
+        <input type="range" id="dropcapSize" min="2" max="5" step="0.25" value="3.5">
+      </div>
+
+      <div class="field full">
+        <label>Detail options</label>
+        <div class="toggle-row">
+          <label class="toggle"><input type="checkbox" id="ligatures" checked> Ligatures</label>
+          <label class="toggle"><input type="checkbox" id="hyphens"> Hyphenate</label>
         </div>
       </div>
     </div>
 
     <div class="readout">
       <code id="cssOut"></code>
-      <button id="copyBtn" type="button">Copy CSS</button>
+      <div class="readout-actions">
+        <button id="copyBtn" type="button">Copy CSS</button>
+        <button id="linkBtn" type="button">Copy link</button>
+        <button id="resetBtn" type="button">Reset</button>
+      </div>
     </div>
 
   </div>
 </div>
 
 <!-- ════════ LIVE PREVIEW ════════ -->
-<div class="preview-wrap theme-light" id="preview">
+<div class="preview-wrap theme-light hs-rule eb-upper" id="preview">
   <article>
 
     <header class="post">
@@ -494,14 +621,33 @@ const THEMES = [
   { cls:'theme-dark',   label:'Dark'   },
 ];
 
+const DENSITY = [
+  { id:'compact',     label:'Compact',     size:15.5, lh:1.55, paragap:0.95, headspace:2.25 },
+  { id:'comfortable', label:'Comfortable', size:17,   lh:1.75, paragap:1.3,  headspace:3 },
+  { id:'spacious',    label:'Spacious',    size:18.5, lh:1.95, paragap:1.8,  headspace:4 },
+];
+
 const root = document.documentElement;
 const preview = document.getElementById('preview');
 const $ = id => document.getElementById(id);
+const STORE_KEY = 'typoPlayground';
 
-const state = { head:'system', body:'system', mono:'jetbrains', theme:'theme-light',
-                size:17, lh:1.75, width:700, justify:false, dropcap:true,
-                tracking:0, wordspace:0, paragap:1.3, headspace:3,
-                headWeight:'', bodyWeight:'', rule:true, centerHead:false };
+const DEFAULTS = {
+  head:'system', body:'system', mono:'jetbrains', theme:'theme-light',
+  size:17, lh:1.75, width:700, justify:false, dropcap:true,
+  tracking:0, wordspace:0, paragap:1.3, headspace:3,
+  headWeight:'', bodyWeight:'', centerHead:false,
+  scale:'', headStyle:'rule', headWrap:'balance', eyebrow:'upper',
+  paraStyle:'spaced', numerals:'normal', ligatures:true, hyphens:false, dropcapSize:3.5
+};
+const state = Object.assign({}, DEFAULTS);
+
+// derive heading-scale multipliers from a modular ratio
+function scaleVars(id){
+  if (!id) return { h1:2.35, h2:1.46, sub:1.08, lead:1.12 };
+  const r = parseFloat(id);
+  return { h1: Math.pow(r, 3.4), h2: Math.pow(r, 2), sub: r, lead: 1 + (r - 1) * 0.5 };
+}
 
 // populate font selects
 function fillSelect(sel, list){
@@ -520,7 +666,7 @@ const presetBox = $('presets');
 PRESETS.forEach(p => {
   const b = document.createElement('button');
   b.className = 'chip'; b.type = 'button'; b.textContent = p.label;
-  b.onclick = () => { state.head = p.head; state.body = p.body; syncControls(); apply(); markPresets(); };
+  b.onclick = () => { state.head = p.head; state.body = p.body; syncControls(); apply(); };
   b.dataset.head = p.head; b.dataset.body = p.body;
   presetBox.appendChild(b);
 });
@@ -534,11 +680,30 @@ const themeBox = $('themes');
 THEMES.forEach(t => {
   const b = document.createElement('button');
   b.className = 'chip'; b.type = 'button'; b.textContent = t.label; b.dataset.cls = t.cls;
-  b.onclick = () => { state.theme = t.cls; apply(); markThemes(); };
+  b.onclick = () => { state.theme = t.cls; apply(); };
   themeBox.appendChild(b);
 });
 function markThemes(){
   [...themeBox.children].forEach(b => b.setAttribute('aria-pressed', b.dataset.cls === state.theme));
+}
+
+// density chips
+const densityBox = $('density');
+DENSITY.forEach(d => {
+  const b = document.createElement('button');
+  b.className = 'chip'; b.type = 'button'; b.textContent = d.label; b.dataset.id = d.id;
+  b.onclick = () => {
+    state.size = d.size; state.lh = d.lh; state.paragap = d.paragap; state.headspace = d.headspace;
+    syncControls(); apply();
+  };
+  densityBox.appendChild(b);
+});
+function markDensity(){
+  [...densityBox.children].forEach(b => {
+    const d = DENSITY.find(x => x.id === b.dataset.id);
+    b.setAttribute('aria-pressed', !!d && state.size === d.size && state.lh === d.lh
+      && state.paragap === d.paragap && state.headspace === d.headspace);
+  });
 }
 
 function syncControls(){
@@ -556,13 +721,22 @@ function syncControls(){
   $('bodyWeight').value = state.bodyWeight;
   $('justify').checked = state.justify;
   $('dropcap').checked = state.dropcap;
-  $('rule').checked = state.rule;
   $('centerHead').checked = state.centerHead;
+  $('scale').value = state.scale;
+  $('headStyle').value = state.headStyle;
+  $('headWrap').value = state.headWrap;
+  $('eyebrow').value = state.eyebrow;
+  $('paraStyle').value = state.paraStyle;
+  $('numerals').value = state.numerals;
+  $('dropcapSize').value = state.dropcapSize;
+  $('ligatures').checked = state.ligatures;
+  $('hyphens').checked = state.hyphens;
   $('headFont').style.fontFamily = byId(state.head).stack;
   $('bodyFont').style.fontFamily = byId(state.body).stack;
 }
 
 function apply(){
+  const sc = scaleVars(state.scale);
   root.style.setProperty('--font-head', byId(state.head).stack);
   root.style.setProperty('--font-body', byId(state.body).stack);
   root.style.setProperty('--font-mono', (MONO.find(m=>m.id===state.mono)||MONO[0]).stack);
@@ -571,49 +745,79 @@ function apply(){
   root.style.setProperty('--reading-width', state.width + 'px');
   root.style.setProperty('--reading-align', state.justify ? 'justify' : 'left');
   root.style.setProperty('--dropcap', state.dropcap ? 'block' : 'none');
+  root.style.setProperty('--dropcap-size', state.dropcapSize + 'rem');
   root.style.setProperty('--letter-spacing', state.tracking ? state.tracking + 'em' : 'normal');
   root.style.setProperty('--word-spacing', state.wordspace ? state.wordspace + 'px' : 'normal');
   root.style.setProperty('--para-gap', state.paragap + 'rem');
   root.style.setProperty('--head-space', state.headspace + 'rem');
+  root.style.setProperty('--h1-scale', sc.h1);
+  root.style.setProperty('--h2-scale', sc.h2);
+  root.style.setProperty('--sub-scale', sc.sub);
+  root.style.setProperty('--lead-scale', sc.lead);
+  root.style.setProperty('--head-wrap', state.headWrap);
+  root.style.setProperty('--num', state.numerals);
+  root.style.setProperty('--ligatures', state.ligatures ? 'normal' : 'none');
   if (state.headWeight) root.style.setProperty('--head-weight', state.headWeight);
   else root.style.removeProperty('--head-weight');
   if (state.bodyWeight) root.style.setProperty('--body-weight', state.bodyWeight);
   else root.style.removeProperty('--body-weight');
 
-  preview.className = 'preview-wrap ' + state.theme
-    + (state.rule || state.centerHead ? '' : ' no-rule')
-    + (state.centerHead ? ' center-head' : '');
+  preview.className = ['preview-wrap', state.theme, 'hs-' + state.headStyle, 'eb-' + state.eyebrow,
+    state.centerHead ? 'center-head' : '',
+    state.paraStyle === 'indent' ? 'para-indent' : '',
+    state.hyphens ? 'hyphenate' : ''].filter(Boolean).join(' ');
+
   $('headFont').style.fontFamily = byId(state.head).stack;
   $('bodyFont').style.fontFamily = byId(state.body).stack;
 
-  $('sizeVal').textContent      = state.size + 'px';
-  $('lhVal').textContent        = state.lh;
-  $('widthVal').textContent     = state.width + 'px';
-  $('trackingVal').textContent  = state.tracking + 'em';
-  $('wordspaceVal').textContent = state.wordspace + 'px';
-  $('paragapVal').textContent   = state.paragap + 'rem';
-  $('headspaceVal').textContent = state.headspace + 'rem';
+  $('sizeVal').textContent       = state.size + 'px';
+  $('lhVal').textContent         = state.lh;
+  $('widthVal').textContent      = state.width + 'px';
+  $('trackingVal').textContent   = state.tracking + 'em';
+  $('wordspaceVal').textContent  = state.wordspace + 'px';
+  $('paragapVal').textContent    = state.paragap + 'rem';
+  $('headspaceVal').textContent  = state.headspace + 'rem';
+  $('dropcapSizeVal').textContent = state.dropcapSize + 'rem';
 
-  // build a pasteable CSS readout
+  buildReadout(sc);
+  markPresets(); markThemes(); markDensity();
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e){}
+}
+
+// build a pasteable CSS readout from the current state
+function buildReadout(sc){
   const body = ['font-size: ' + state.size + 'px', 'line-height: ' + state.lh];
-  if (state.bodyWeight) body.push('font-weight: ' + state.bodyWeight);
-  if (state.tracking)   body.push('letter-spacing: ' + state.tracking + 'em');
-  if (state.wordspace)  body.push('word-spacing: ' + state.wordspace + 'px');
-  if (state.justify)    body.push('text-align: justify');
+  if (state.bodyWeight)            body.push('font-weight: ' + state.bodyWeight);
+  if (state.tracking)              body.push('letter-spacing: ' + state.tracking + 'em');
+  if (state.wordspace)             body.push('word-spacing: ' + state.wordspace + 'px');
+  if (state.numerals !== 'normal') body.push('font-variant-numeric: ' + state.numerals);
+  if (!state.ligatures)            body.push('font-variant-ligatures: none');
+  if (state.justify)               body.push('text-align: justify');
+  if (state.hyphens)               body.push('hyphens: auto');
+  const pTail = state.paraStyle === 'indent'
+    ? 'margin-bottom: 0; text-indent: 1.5em'
+    : 'margin-bottom: ' + state.paragap + 'rem';
+
   let out =
     '--font-head: ' + byId(state.head).stack + ';\n' +
     '--font-body: ' + byId(state.body).stack + ';\n' +
     '.article { max-width: ' + state.width + 'px; }\n' +
-    'p { ' + body.join('; ') + '; margin-bottom: ' + state.paragap + 'rem; }';
-  const h2 = [];
-  if (state.headspace !== 3) h2.push('margin-top: ' + state.headspace + 'rem');
-  if (state.headWeight)      h2.push('font-weight: ' + state.headWeight);
-  if (state.centerHead)      h2.push('text-align: center', 'border-left: none', 'padding-left: 0');
-  else if (!state.rule)      h2.push('border-left: none', 'padding-left: 0');
-  if (h2.length) out += '\nh2 { ' + h2.join('; ') + '; }';
-  $('cssOut').textContent = out;
+    'p { ' + body.join('; ') + '; ' + pTail + '; }';
 
-  markPresets(); markThemes();
+  if (state.scale) out += '\nh1 { font-size: ' + (state.size * sc.h1).toFixed(1) + 'px; }';
+
+  const h2 = [];
+  if (state.scale)              h2.push('font-size: ' + (state.size * sc.h2).toFixed(1) + 'px');
+  if (state.headspace !== 3)    h2.push('margin-top: ' + state.headspace + 'rem');
+  if (state.headWeight)         h2.push('font-weight: ' + state.headWeight);
+  if (state.headWrap !== 'balance') h2.push('text-wrap: ' + state.headWrap);
+  if (state.headStyle === 'underline') h2.push('border-left: none', 'padding-left: 0', 'border-bottom: 2px solid', 'padding-bottom: 0.3rem');
+  else if (state.headStyle === 'plain') h2.push('border-left: none', 'padding-left: 0');
+  else if (state.headStyle === 'highlight') h2.push('border-left: none', 'background: <accent>/16%', 'padding: 0.12em 0.45em');
+  if (state.centerHead)         h2.push('text-align: center');
+  if (h2.length) out += '\nh2 { ' + h2.join('; ') + '; }';
+
+  $('cssOut').textContent = out;
 }
 
 // wire controls
@@ -631,11 +835,23 @@ $('headWeight').onchange = e => { state.headWeight = e.target.value; apply(); };
 $('bodyWeight').onchange = e => { state.bodyWeight = e.target.value; apply(); };
 $('justify').onchange    = e => { state.justify = e.target.checked; apply(); };
 $('dropcap').onchange    = e => { state.dropcap = e.target.checked; apply(); };
-$('rule').onchange       = e => { state.rule = e.target.checked; apply(); };
 $('centerHead').onchange = e => { state.centerHead = e.target.checked; apply(); };
+$('scale').onchange      = e => { state.scale = e.target.value; apply(); };
+$('headStyle').onchange  = e => { state.headStyle = e.target.value; apply(); };
+$('headWrap').onchange   = e => { state.headWrap = e.target.value; apply(); };
+$('eyebrow').onchange    = e => { state.eyebrow = e.target.value; apply(); };
+$('paraStyle').onchange  = e => { state.paraStyle = e.target.value; apply(); };
+$('numerals').onchange   = e => { state.numerals = e.target.value; apply(); };
+$('dropcapSize').oninput = e => { state.dropcapSize = parseFloat(e.target.value); apply(); };
+$('ligatures').onchange  = e => { state.ligatures = e.target.checked; apply(); };
+$('hyphens').onchange    = e => { state.hyphens = e.target.checked; apply(); };
 
 // tab switching
-const tabs = [{ btn:'tab-type', panel:'panel-type' }, { btn:'tab-layout', panel:'panel-layout' }];
+const tabs = [
+  { btn:'tab-type',   panel:'panel-type' },
+  { btn:'tab-layout', panel:'panel-layout' },
+  { btn:'tab-detail', panel:'panel-detail' },
+];
 function selectTab(id){
   tabs.forEach(t => {
     const on = t.btn === id;
@@ -644,16 +860,26 @@ function selectTab(id){
   });
 }
 tabs.forEach(t => $(t.btn).onclick = () => {
-  // expand the dashboard if it was folded, then show the chosen tab
   if ($('controls').classList.contains('folded')) $('foldBtn').click();
   selectTab(t.btn);
 });
 
-$('copyBtn').onclick = () => {
-  navigator.clipboard.writeText($('cssOut').textContent).then(() => {
-    const b = $('copyBtn'); const t = b.textContent;
-    b.textContent = 'Copied ✓'; setTimeout(() => b.textContent = t, 1400);
-  });
+// flash a button's label briefly
+function flash(btn, msg){ const t = btn.textContent; btn.textContent = msg; setTimeout(() => btn.textContent = t, 1400); }
+
+$('copyBtn').onclick = () => navigator.clipboard.writeText($('cssOut').textContent).then(() => flash($('copyBtn'), 'Copied ✓'));
+
+$('linkBtn').onclick = () => {
+  const url = location.origin + location.pathname + '#' + encodeURIComponent(btoa(JSON.stringify(state)));
+  navigator.clipboard.writeText(url).then(() => flash($('linkBtn'), 'Link copied ✓'));
+};
+
+$('resetBtn').onclick = () => {
+  Object.assign(state, DEFAULTS);
+  try { localStorage.removeItem(STORE_KEY); } catch(e){}
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  syncControls(); apply();
+  flash($('resetBtn'), 'Reset ✓');
 };
 
 // fold / unfold the controls dashboard and return to the top
@@ -664,6 +890,17 @@ $('foldBtn').onclick = () => {
   if (folded) window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
+// restore from a shared URL hash (wins) or saved localStorage
+function loadState(){
+  let saved = null;
+  try { if (location.hash.length > 1) saved = JSON.parse(atob(decodeURIComponent(location.hash.slice(1)))); } catch(e){}
+  if (!saved) { try { const ls = localStorage.getItem(STORE_KEY); if (ls) saved = JSON.parse(ls); } catch(e){} }
+  if (saved && typeof saved === 'object') {
+    Object.keys(DEFAULTS).forEach(k => { if (k in saved) state[k] = saved[k]; });
+  }
+}
+
+loadState();
 syncControls();
 apply();
 </script>
