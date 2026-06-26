@@ -1,3 +1,9 @@
 [build]
   publish = "."
   command = "echo 'Static site, no build needed'"
+
+# Private typography playground: unlisted, unguessable URL, never indexed.
+[[headers]]
+  for = "/posts/typography-playground-d7b2839ccc1303c5/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
