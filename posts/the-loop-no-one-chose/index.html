@@ -104,7 +104,7 @@ header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
   border-radius: 14px;
   text-align: center;
 }
-.hero svg { display: block; width: 185px; max-width: 100%; height: auto; margin: 0 auto; }
+.hero svg { display: block; width: 230px; max-width: 100%; height: auto; margin: 0 auto; }
 .hero figcaption {
   margin: 0.9rem auto 0;
   max-width: 28ch;
@@ -269,36 +269,48 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <p class="lead">Decentralization is supposed to be a safeguard. Spread decisions across many independent actors, strip out the profit motive, and you are meant to be protected from the pathologies of centralized power: the captured agenda, the controlled narrative, the single point of failure. A field like technical AI safety (dozens of small nonprofits, scattered independent researchers, a handful of mission-driven funders) looks like exactly that safeguard in action. No one is in charge, so the worry goes, no one can steer it wrong.</p>
 
 <figure class="hero">
-  <svg viewBox="100 70 280 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A feedback loop with attention and resources concentrated on one arc while other nodes sit neglected.">
+  <svg viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A field of feedback loops. Each direction runs the same loop of attention drawing more attention; one loop has caught fire and filled with attention, a second is catching on, and the rest stay tiny and never close.">
     <defs>
-      <marker id="hero-ah" markerUnits="userSpaceOnUse" markerWidth="30" markerHeight="30" refX="6" refY="10" orient="auto">
-        <path d="M0,0 L20,10 L0,20 Z" fill="#3b82f6"/>
+      <marker id="hero-ah-lg" markerUnits="userSpaceOnUse" markerWidth="24" markerHeight="24" refX="6" refY="9" orient="auto">
+        <path d="M0,0 L18,9 L0,18 Z" fill="#1e40af"/>
+      </marker>
+      <marker id="hero-ah-md" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" refX="4" refY="6" orient="auto">
+        <path d="M0,0 L12,6 L0,12 Z" fill="#2563eb"/>
       </marker>
     </defs>
-    <g transform="translate(240,210)">
-      <!-- feedback ring (the loop), with gap + clockwise arrowhead -->
-      <path d="M 10.3 -117.5 A 118 118 0 1 1 -10.3 -117.5"
-            fill="none" stroke="#93c5fd" stroke-width="7" stroke-linecap="round"
-            marker-end="url(#hero-ah)"/>
-      <!-- neglected, starved nodes thinly spread around the cycle -->
-      <circle cx="-59"    cy="102.2"  r="6" fill="#94a3b8" opacity="0.85"/>
-      <circle cx="-96.7"  cy="67.7"   r="6" fill="#94a3b8" opacity="0.85"/>
-      <circle cx="-116.2" cy="20.5"   r="6" fill="#94a3b8" opacity="0.85"/>
-      <circle cx="-114"   cy="-30.5"  r="6" fill="#94a3b8" opacity="0.85"/>
-      <circle cx="-90.4"  cy="-75.8"  r="6" fill="#94a3b8" opacity="0.85"/>
-      <circle cx="-44.2"  cy="-109.4" r="6" fill="#94a3b8" opacity="0.85"/>
-      <circle cx="59"     cy="-102.2" r="6" fill="#94a3b8" opacity="0.85"/>
-      <circle cx="96.7"   cy="-67.7"  r="6" fill="#94a3b8" opacity="0.85"/>
-      <circle cx="114"    cy="-30.5"  r="6" fill="#94a3b8" opacity="0.85"/>
-      <!-- concentration: attention + money pile up on one arc -->
-      <circle cx="115.4" cy="24.5"  r="12" fill="#2563eb"/>
-      <circle cx="98.9"  cy="64.3"  r="13" fill="#3b82f6"/>
-      <circle cx="72.6"  cy="93.0"  r="12" fill="#1d4ed8"/>
-      <circle cx="40.4"  cy="110.9" r="13" fill="#3b82f6"/>
-      <circle cx="4.1"   cy="117.9" r="10" fill="#60a5fa"/>
-    </g>
+
+    <!-- faint loops that never caught: tiny, thin, mostly empty -->
+    <path d="M 55.96 35.04 A 11 11 0 1 1 54.04 35.04"  fill="none" stroke="#cbd5e1" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 165.87 28.04 A 10 10 0 1 1 164.13 28.04" fill="none" stroke="#cbd5e1" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 282.78 99.03 A 9 9 0 1 1 281.22 99.03"   fill="none" stroke="#cbd5e1" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 263.13 145.05 A 13 13 0 1 1 260.87 145.05" fill="none" stroke="#cbd5e1" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 49.05 193.05 A 12 12 0 1 1 46.95 193.05" fill="none" stroke="#cbd5e1" stroke-width="2.4" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 152.87 215.04 A 10 10 0 1 1 151.13 215.04" fill="none" stroke="#cbd5e1" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 278.87 205.04 A 10 10 0 1 1 277.13 205.04" fill="none" stroke="#cbd5e1" stroke-width="2.2" stroke-linecap="round" opacity="0.6"/>
+    <!-- the odd starved direction that holds a single unit of attention -->
+    <circle cx="165" cy="38"  r="2.6" fill="#94a3b8" opacity="0.85"/>
+    <circle cx="262" cy="158" r="3"   fill="#94a3b8" opacity="0.85"/>
+    <circle cx="48"  cy="205" r="3"   fill="#94a3b8" opacity="0.85"/>
+
+    <!-- a second loop catching on -->
+    <path d="M 227.44 44.11 A 28 28 0 1 1 222.56 44.11" fill="none" stroke="#3b82f6" stroke-width="4" stroke-linecap="round" marker-end="url(#hero-ah-md)"/>
+    <circle cx="225" cy="72" r="5" fill="#3b82f6"/>
+    <circle cx="213" cy="66" r="4" fill="#60a5fa"/>
+    <circle cx="236" cy="80" r="4" fill="#2563eb"/>
+
+    <!-- the loop that caught fire: bold, fast, filling with attention -->
+    <path d="M 113.06 70.22 A 58 58 0 1 1 102.94 70.22" fill="none" stroke="#1e40af" stroke-width="6" stroke-linecap="round" marker-end="url(#hero-ah-lg)"/>
+    <circle cx="108" cy="128" r="7" fill="#1e40af"/>
+    <circle cx="88"  cy="110" r="6" fill="#2563eb"/>
+    <circle cx="128" cy="112" r="6" fill="#3b82f6"/>
+    <circle cx="86"  cy="146" r="6" fill="#3b82f6"/>
+    <circle cx="130" cy="144" r="6" fill="#2563eb"/>
+    <circle cx="108" cy="94"  r="5" fill="#60a5fa"/>
+    <circle cx="106" cy="160" r="5" fill="#3b82f6"/>
+    <circle cx="72"  cy="128" r="5" fill="#2563eb"/>
+    <circle cx="144" cy="128" r="5" fill="#60a5fa"/>
   </svg>
-  <figcaption>Attention and resources pile up on one arc of the loop while the rest of the field sits thinly funded: a skew no one chose.</figcaption>
+  <figcaption>Every direction runs the same loop &mdash; attention drawing more attention. A few catch and compound; most never close. The skew is in <em>which</em> loops spin up, and no one chose it.</figcaption>
 </figure>
 
 <p>This is half true, and the false half is where the danger lives. Decentralized, good-faith efforts are not immune to the dynamics we associate with central control. They are merely immune to the <em>visible</em> versions of them. The narrative still gets steered, resources still concentrate, the field still bends away from its most important work, but no one decides any of it, which is precisely what makes it so hard to see and so hard to fix.</p>
