@@ -154,6 +154,8 @@ header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
   border-radius: 14px;
 }
 .diagram svg { display: block; width: 100%; height: auto; }
+/* near-square diagrams cap their width so they don't tower over the text */
+.diagram.narrow svg { max-width: 520px; margin-left: auto; margin-right: auto; }
 .diagram svg text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
 .diagram figcaption {
   margin: 1.15rem auto 0;
@@ -380,7 +382,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>Some directions are neglected because they deserve to be: they are premature, or unpromising, or quiet dead ends the field has correctly walked away from. The diffuse judgment of a field is not pure noise. It gets a great deal wrong (that is the whole premise), but some of what it ignores, it ignores for good reason. An organization chartered to work <em>only</em> on the neglected has, by that charter, committed to a contrarian bet as standing policy. It will fund the unpromising-and-ignored right alongside the important-and-ignored, because its selection criterion cannot tell them apart. Neglect is all it can see, and neglect does not distinguish buried treasure from what was buried for cause.</p>
 
-<figure class="diagram">
+<figure class="diagram narrow">
 <svg viewBox="0 0 640 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A two-by-two of attention against importance. The top row is the neglected work; it contains both important-and-ignored buried treasure and unpromising work that is ignored for good reason. A policy of only funding neglect cannot tell the two apart.">
   <!-- brace over the top row -->
   <text x="378" y="22" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="0.04em" fill="#b45309">&ldquo;only fund neglected&rdquo; takes this whole row &mdash; treasure and dead ends alike</text>
