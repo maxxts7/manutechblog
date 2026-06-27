@@ -24,6 +24,10 @@
 <meta name="twitter:description" content="Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map that reflects the field back to itself instead of telling it what to do.">
 <meta name="twitter:image" content="https://manutechblog.netlify.app/posts/the-loop-no-one-chose/og.png">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --text: #1a1a2e;
@@ -42,14 +46,23 @@
   --orange: #f59e0b;
   --orange-dark: #b45309;
   --orange-light: #fef3c7;
+
+  /* reading knobs — single source of truth; re-tune here (paste from the typography playground) */
+  --font-head: 'Noto Serif', Georgia, serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --reading-width: 860px;
+  --reading-size: 17px;
+  --reading-lh: 1.75;
+  --h1-size: 36.3px;
+  --h2-size: 26.6px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.75;
+  font-family: var(--font-body);
+  font-size: var(--reading-size);
+  line-height: var(--reading-lh);
   color: var(--text);
   background: var(--bg);
   margin: 0;
@@ -58,7 +71,7 @@ body {
 
 ::selection { background: var(--blue-light); color: var(--blue-dark); }
 
-article { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+article { max-width: var(--reading-width); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
 
 /* ── Header ── */
 header { margin-bottom: 3.25rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
@@ -71,7 +84,8 @@ header .eyebrow {
   margin: 0 0 0.9rem;
 }
 header h1 {
-  font-size: 2.5rem;
+  font-family: var(--font-head);
+  font-size: var(--h1-size);
   font-weight: 800;
   line-height: 1.12;
   margin: 0 0 0.85rem;
@@ -143,8 +157,9 @@ a:hover { text-decoration: underline; }
 
 /* ── Section headings ── */
 h2 {
+  font-family: var(--font-head);
   margin: 3.5rem 0 1.3rem;
-  font-size: 1.55rem;
+  font-size: var(--h2-size);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.02em;
@@ -158,6 +173,7 @@ h2 {
 .lead { font-size: 1.16rem; line-height: 1.62; color: var(--text); margin-bottom: 1.4rem; }
 .lead::first-letter {
   float: left;
+  font-family: var(--font-head);
   font-size: 3.5rem;
   line-height: 0.78;
   font-weight: 800;
@@ -167,12 +183,13 @@ h2 {
 
 /* ── Display statement ── */
 .statement {
+  font-family: var(--font-head);
   position: relative;
   margin: 3.25rem auto;
   padding-top: 2.1rem;
   max-width: 33ch;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.32;
   letter-spacing: -0.02em;
@@ -240,15 +257,15 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 .readnext .rn-desc { font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
 
 @media (max-width: 700px) {
-  header h1 { font-size: 1.9rem; }
+  header h1 { font-size: calc(var(--h1-size) * 0.8); }
   .lead { font-size: 1.08rem; }
   .lead::first-letter { font-size: 3rem; }
-  .statement { font-size: 1.25rem; }
+  .statement { font-size: 1.15rem; }
 }
 </style>
 </head>
 <body>
-<nav style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem 0;">
+<nav style="max-width:var(--reading-width);margin:0 auto;padding:1.5rem 1.5rem 0;">
   <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
     <span>&larr;</span> Manu Xaviour Thaisseril Shaju
   </a>
@@ -356,17 +373,17 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>When a central body misallocates resources, there is a decision to criticize, a policy to change, a person to hold accountable. When a <em>decentralized</em> field misallocates, there is none of that. There is only the aggregate of free choices, which looks like the market working as intended. No one chose the skew, so there is no choice to contest. The distortion wears the costume of liberty.</p>
 
-<p>The nonprofit, mission-driven framing adds a final twist that makes it worse, not better. Everyone in such a field believes they are optimizing for importance: for impact, for the mission, for the neglected problem. But the proxy they actually follow is attention, and attention diverges systematically from importance. It favors the recent over the enduring, the legible over the subtle, the well-connected over the isolated, and the already-crowded over the genuinely neglected. So a field full of people sincerely trying to work on what matters can be pulled, in aggregate, toward what is merely visible, while each participant feels they are being rigorously impact-driven.</p>
-
 <p class="statement">Good faith does not break the loop. It camouflages it.</p>
+
+<p>The nonprofit, mission-driven framing adds a final twist that makes it worse, not better. Everyone in such a field believes they are optimizing for importance: for impact, for the mission, for the neglected problem. But the proxy they actually follow is attention, and attention diverges systematically from importance. It favors the recent over the enduring, the legible over the subtle, the well-connected over the isolated, and the already-crowded over the genuinely neglected. So a field full of people sincerely trying to work on what matters can be pulled, in aggregate, toward what is merely visible, while each participant feels they are being rigorously impact-driven.</p>
 
 <h2>The fixer&rsquo;s trap</h2>
 
 <p>Once you see the loop, the obvious response is to correct it directly: build a central map, a prioritization, a recommendation engine that tells the field where the real gaps are and points people toward the neglected work. Surely better guidance beats a blind proxy.</p>
 
-<p>This is a trap, and it is worth being precise about why. A single, authoritative recommender does not stand outside the loop; it becomes a concentrated, fast version of it, bolted on top of the diffuse one already turning. The existing loop runs through many channels and corrects slowly; an authoritative source that says &ldquo;work on this&rdquo; is a sharp, centralized forcing function that is <em>harder</em> to push back on precisely because it carries authority. And it is reflexive in the most direct way: it learns from the behavior it shapes. It recommends a direction, the field moves, the movement registers as signal, the recommendation is reinforced. The cure reintroduces exactly the centralized narrative-control that the field&rsquo;s decentralized structure was supposed to rule out, now wearing the badge of objectivity.</p>
-
 <p class="statement">So the instinct to fix the loop by issuing better instructions makes you the loop&rsquo;s new engine.</p>
+
+<p>This is a trap, and it is worth being precise about why. A single, authoritative recommender does not stand outside the loop; it becomes a concentrated, fast version of it, bolted on top of the diffuse one already turning. The existing loop runs through many channels and corrects slowly; an authoritative source that says &ldquo;work on this&rdquo; is a sharp, centralized forcing function that is <em>harder</em> to push back on precisely because it carries authority. And it is reflexive in the most direct way: it learns from the behavior it shapes. It recommends a direction, the field moves, the movement registers as signal, the recommendation is reinforced. The cure reintroduces exactly the centralized narrative-control that the field&rsquo;s decentralized structure was supposed to rule out, now wearing the badge of objectivity.</p>
 
 <h2>The resolution: a mirror with no one holding it</h2>
 
