@@ -9,7 +9,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Literata:ital,wght@0,400;0,600;0,700;1,400&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<!-- Web fonts are requested dynamically from the FONTS / MONO tables in the script
+     below (single source of truth) — see the loadFonts() IIFE. -->
 
 <style>
 :root {
@@ -106,6 +107,7 @@ nav.top a:hover { color: var(--blue); text-decoration: none; }
 .controls.folded .controls-inner { display: none; }
 .controls-inner {
   max-width: 980px; margin: 0 auto; padding: 0.75rem 1.5rem 1rem;
+  max-height: calc(100vh - 64px); overflow-y: auto;
 }
 /* tabs */
 .tab-strip { display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--gray-200); flex-wrap: wrap; }
@@ -154,6 +156,9 @@ nav.top a:hover { color: var(--blue); text-decoration: none; }
 .toggle input { accent-color: var(--blue); width: 16px; height: 16px; cursor: pointer; }
 
 .full { grid-column: 1 / -1; }
+.preset-stack { display: flex; flex-direction: column; gap: 1rem; }
+.axis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.9rem 1.4rem; }
+.field label .hint { text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-secondary); }
 
 /* readout / copy */
 .readout {
@@ -274,6 +279,20 @@ blockquote {
   font-size: calc(var(--reading-size) + 1px); color: var(--preview-muted, var(--gray-700));
   text-align: left;
 }
+/* blockquote treatments */
+.preview-wrap.bq-plain blockquote { border-left: none; padding-left: 0; font-style: normal; }
+.preview-wrap.bq-center blockquote {
+  border-left: none; padding-left: 0; text-align: center; font-style: normal;
+  max-width: 34ch; margin-left: auto; margin-right: auto;
+}
+.preview-wrap.bq-bigmark blockquote {
+  border-left: none; padding-left: 0; padding-top: 1.7rem; position: relative; font-style: normal;
+}
+.preview-wrap.bq-bigmark blockquote::before {
+  content: '\201C'; position: absolute; top: 0; left: -0.1rem;
+  font-family: var(--font-head); font-size: 3.4rem; line-height: 1;
+  color: var(--preview-accent, var(--blue));
+}
 
 .statement {
   font-family: var(--font-head);
@@ -345,10 +364,7 @@ footer.post {
 
     <!-- ── Tab 1: Fonts & Theme ── -->
     <div class="tab-panel" id="panel-type" role="tabpanel" aria-labelledby="tab-type">
-      <div class="field full">
-        <label>Pairing presets</label>
-        <div class="btn-row" id="presets"></div>
-      </div>
+      <div class="full preset-stack" id="fontGroups"></div>
 
       <div class="field">
         <label for="headFont">Heading font</label>
@@ -373,10 +389,7 @@ footer.post {
 
     <!-- ── Tab 2: Typesetting & Layout ── -->
     <div class="tab-panel" id="panel-layout" role="tabpanel" aria-labelledby="tab-layout" hidden>
-      <div class="field full">
-        <label>Density</label>
-        <div class="btn-row" id="density"></div>
-      </div>
+      <div class="full axis-grid" id="layoutAxes"></div>
 
       <div class="field">
         <div class="field-row"><label for="size">Body size</label><span class="val" id="sizeVal"></span></div>
@@ -467,6 +480,16 @@ footer.post {
           <option value="rule">Accent rule (left)</option>
           <option value="underline">Underline</option>
           <option value="highlight">Highlight</option>
+          <option value="plain">Plain</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="quoteStyle">Quote style</label>
+        <select id="quoteStyle">
+          <option value="bar">Accent bar (left)</option>
+          <option value="bigmark">Big quote mark</option>
+          <option value="center">Centered</option>
           <option value="plain">Plain</option>
         </select>
       </div>
@@ -575,41 +598,106 @@ footer.post {
 </div>
 
 <script>
+// Each entry carries its Google Fonts css2 spec (gf); entries without one are
+// system faces. cat groups them in the dropdown. This table is the single source
+// of truth — loadFonts() builds the stylesheet request from it.
 const FONTS = [
-  { id:'system',   label:'System sans (default)', stack:"-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" },
-  { id:'inter',    label:'Inter',                 stack:"'Inter', sans-serif" },
-  { id:'space',    label:'Space Grotesk',         stack:"'Space Grotesk', sans-serif" },
-  { id:'plexsans', label:'IBM Plex Sans',         stack:"'IBM Plex Sans', sans-serif" },
-  { id:'georgia',  label:'Georgia (system serif)',stack:"Georgia, 'Times New Roman', serif" },
-  { id:'source',   label:'Source Serif 4',        stack:"'Source Serif 4', Georgia, serif" },
-  { id:'news',     label:'Newsreader',            stack:"'Newsreader', Georgia, serif" },
-  { id:'lora',     label:'Lora',                  stack:"'Lora', Georgia, serif" },
-  { id:'basker',   label:'Libre Baskerville',     stack:"'Libre Baskerville', Georgia, serif" },
-  { id:'garamond', label:'EB Garamond',           stack:"'EB Garamond', Georgia, serif" },
-  { id:'crimson',  label:'Crimson Pro',           stack:"'Crimson Pro', Georgia, serif" },
-  { id:'spectral', label:'Spectral',              stack:"'Spectral', Georgia, serif" },
-  { id:'literata', label:'Literata',              stack:"'Literata', Georgia, serif" },
-  { id:'merri',    label:'Merriweather',          stack:"'Merriweather', Georgia, serif" },
-  { id:'plexserif',label:'IBM Plex Serif',        stack:"'IBM Plex Serif', Georgia, serif" },
-  { id:'fraunces', label:'Fraunces',              stack:"'Fraunces', Georgia, serif" },
-  { id:'playfair', label:'Playfair Display',      stack:"'Playfair Display', Georgia, serif" },
+  // ── Sans ──
+  { id:'system',    cat:'Sans', label:'System sans (default)', stack:"-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" },
+  { id:'inter',     cat:'Sans', label:'Inter',             stack:"'Inter', sans-serif",             gf:'Inter:wght@400;500;600;700;800' },
+  { id:'space',     cat:'Sans', label:'Space Grotesk',     stack:"'Space Grotesk', sans-serif",     gf:'Space+Grotesk:wght@400;500;600;700' },
+  { id:'plexsans',  cat:'Sans', label:'IBM Plex Sans',     stack:"'IBM Plex Sans', sans-serif",     gf:'IBM+Plex+Sans:wght@400;500;600;700' },
+  { id:'work',      cat:'Sans', label:'Work Sans',         stack:"'Work Sans', sans-serif",         gf:'Work+Sans:wght@400;500;600;700' },
+  { id:'jakarta',   cat:'Sans', label:'Plus Jakarta Sans', stack:"'Plus Jakarta Sans', sans-serif", gf:'Plus+Jakarta+Sans:wght@400;500;600;700' },
+  { id:'manrope',   cat:'Sans', label:'Manrope',           stack:"'Manrope', sans-serif",           gf:'Manrope:wght@400;500;600;700' },
+  { id:'figtree',   cat:'Sans', label:'Figtree',           stack:"'Figtree', sans-serif",           gf:'Figtree:wght@400;500;600;700' },
+  { id:'outfit',    cat:'Sans', label:'Outfit',            stack:"'Outfit', sans-serif",            gf:'Outfit:wght@400;500;600;700' },
+  { id:'lexend',    cat:'Sans', label:'Lexend',            stack:"'Lexend', sans-serif",            gf:'Lexend:wght@400;500;600;700' },
+  { id:'sora',      cat:'Sans', label:'Sora',              stack:"'Sora', sans-serif",              gf:'Sora:wght@400;500;600;700' },
+  { id:'publicsans',cat:'Sans', label:'Public Sans',       stack:"'Public Sans', sans-serif",       gf:'Public+Sans:wght@400;500;600;700' },
+  { id:'albert',    cat:'Sans', label:'Albert Sans',       stack:"'Albert Sans', sans-serif",       gf:'Albert+Sans:wght@400;500;600;700' },
+  { id:'hanken',    cat:'Sans', label:'Hanken Grotesk',    stack:"'Hanken Grotesk', sans-serif",    gf:'Hanken+Grotesk:wght@400;500;600;700' },
+  { id:'redhat',    cat:'Sans', label:'Red Hat Display',   stack:"'Red Hat Display', sans-serif",   gf:'Red+Hat+Display:wght@400;500;600;700' },
+  { id:'dmsans',    cat:'Sans', label:'DM Sans',           stack:"'DM Sans', sans-serif",           gf:'DM+Sans:wght@400;500;600;700' },
+  { id:'bricolage', cat:'Sans', label:'Bricolage Grotesque',stack:"'Bricolage Grotesque', sans-serif", gf:'Bricolage+Grotesque:wght@400;500;600;700' },
+  { id:'atkinson',  cat:'Sans', label:'Atkinson Hyperlegible', stack:"'Atkinson Hyperlegible', sans-serif", gf:'Atkinson+Hyperlegible:wght@400;700' },
+
+  // ── Serif ──
+  { id:'georgia',   cat:'Serif', label:'Georgia (system serif)', stack:"Georgia, 'Times New Roman', serif" },
+  { id:'source',    cat:'Serif', label:'Source Serif 4',    stack:"'Source Serif 4', Georgia, serif", gf:'Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'news',      cat:'Serif', label:'Newsreader',        stack:"'Newsreader', Georgia, serif",  gf:'Newsreader:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'lora',      cat:'Serif', label:'Lora',              stack:"'Lora', Georgia, serif",        gf:'Lora:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'basker',    cat:'Serif', label:'Libre Baskerville', stack:"'Libre Baskerville', Georgia, serif", gf:'Libre+Baskerville:ital,wght@0,400;0,700;1,400' },
+  { id:'garamond',  cat:'Serif', label:'EB Garamond',       stack:"'EB Garamond', Georgia, serif", gf:'EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400' },
+  { id:'crimson',   cat:'Serif', label:'Crimson Pro',       stack:"'Crimson Pro', Georgia, serif", gf:'Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'spectral',  cat:'Serif', label:'Spectral',          stack:"'Spectral', Georgia, serif",    gf:'Spectral:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'literata',  cat:'Serif', label:'Literata',          stack:"'Literata', Georgia, serif",    gf:'Literata:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'merri',     cat:'Serif', label:'Merriweather',      stack:"'Merriweather', Georgia, serif",gf:'Merriweather:ital,wght@0,400;0,700;1,400' },
+  { id:'plexserif', cat:'Serif', label:'IBM Plex Serif',    stack:"'IBM Plex Serif', Georgia, serif", gf:'IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'ptserif',   cat:'Serif', label:'PT Serif',          stack:"'PT Serif', Georgia, serif",    gf:'PT+Serif:ital,wght@0,400;0,700;1,400' },
+  { id:'vollkorn',  cat:'Serif', label:'Vollkorn',          stack:"'Vollkorn', Georgia, serif",    gf:'Vollkorn:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'alegreya',  cat:'Serif', label:'Alegreya',          stack:"'Alegreya', Georgia, serif",    gf:'Alegreya:ital,wght@0,400;0,500;0,700;1,400' },
+  { id:'notoserif', cat:'Serif', label:'Noto Serif',        stack:"'Noto Serif', Georgia, serif",  gf:'Noto+Serif:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'stix',      cat:'Serif', label:'STIX Two Text',     stack:"'STIX Two Text', Georgia, serif", gf:'STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'gelasio',   cat:'Serif', label:'Gelasio',           stack:"'Gelasio', Georgia, serif",     gf:'Gelasio:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'domine',    cat:'Serif', label:'Domine',            stack:"'Domine', Georgia, serif",      gf:'Domine:wght@400;500;600;700' },
+  { id:'frankruhl', cat:'Serif', label:'Frank Ruhl Libre',  stack:"'Frank Ruhl Libre', Georgia, serif", gf:'Frank+Ruhl+Libre:wght@400;500;700' },
+
+  // ── Slab ──
+  { id:'bitter',    cat:'Slab', label:'Bitter',            stack:"'Bitter', Georgia, serif",       gf:'Bitter:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'zilla',     cat:'Slab', label:'Zilla Slab',        stack:"'Zilla Slab', Georgia, serif",   gf:'Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400' },
+  { id:'robotoslab',cat:'Slab', label:'Roboto Slab',       stack:"'Roboto Slab', Georgia, serif",  gf:'Roboto+Slab:wght@400;500;700' },
+
+  // ── Display ──
+  { id:'fraunces',  cat:'Display', label:'Fraunces',       stack:"'Fraunces', Georgia, serif",     gf:'Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400' },
+  { id:'playfair',  cat:'Display', label:'Playfair Display',stack:"'Playfair Display', Georgia, serif", gf:'Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400' },
+  { id:'cormorant', cat:'Display', label:'Cormorant Garamond', stack:"'Cormorant Garamond', Georgia, serif", gf:'Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400' },
+  { id:'dmserif',   cat:'Display', label:'DM Serif Display',stack:"'DM Serif Display', Georgia, serif", gf:'DM+Serif+Display:ital,wght@0,400;1,400' },
+  { id:'bodoni',    cat:'Display', label:'Bodoni Moda',     stack:"'Bodoni Moda', Georgia, serif",  gf:'Bodoni+Moda:ital,wght@0,400;0,700;0,900;1,400' },
+  { id:'marcellus', cat:'Display', label:'Marcellus',       stack:"'Marcellus', Georgia, serif",    gf:'Marcellus' },
+  { id:'instrument',cat:'Display', label:'Instrument Serif',stack:"'Instrument Serif', Georgia, serif", gf:'Instrument+Serif:ital,wght@0,400;1,400' },
+  { id:'young',     cat:'Display', label:'Young Serif',     stack:"'Young Serif', Georgia, serif",  gf:'Young+Serif' },
 ];
 const MONO = [
-  { id:'jetbrains', label:'JetBrains Mono', stack:"'JetBrains Mono', ui-monospace, monospace" },
-  { id:'plexmono',  label:'System mono',    stack:"ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" },
+  { id:'jetbrains', cat:'Mono', label:'JetBrains Mono',  stack:"'JetBrains Mono', ui-monospace, monospace", gf:'JetBrains+Mono:wght@400;500;700' },
+  { id:'plexmono',  cat:'Mono', label:'System mono',     stack:"ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" },
+  { id:'ibmplexmono',cat:'Mono',label:'IBM Plex Mono',   stack:"'IBM Plex Mono', ui-monospace, monospace", gf:'IBM+Plex+Mono:wght@400;500;700' },
+  { id:'spacemono', cat:'Mono', label:'Space Mono',      stack:"'Space Mono', ui-monospace, monospace", gf:'Space+Mono:wght@400;700' },
+  { id:'firacode',  cat:'Mono', label:'Fira Code',       stack:"'Fira Code', ui-monospace, monospace", gf:'Fira+Code:wght@400;500;700' },
+  { id:'sourcecode',cat:'Mono', label:'Source Code Pro', stack:"'Source Code Pro', ui-monospace, monospace", gf:'Source+Code+Pro:wght@400;500;700' },
+  { id:'dmmono',    cat:'Mono', label:'DM Mono',         stack:"'DM Mono', ui-monospace, monospace", gf:'DM+Mono:wght@400;500' },
+  { id:'robotomono',cat:'Mono', label:'Roboto Mono',     stack:"'Roboto Mono', ui-monospace, monospace", gf:'Roboto+Mono:wght@400;500;700' },
 ];
 const byId = id => FONTS.find(f => f.id === id) || FONTS[0];
 
-const PRESETS = [
-  { label:'System',        head:'system',   body:'system'   },
-  { label:'Inter Clean',   head:'inter',    body:'inter'    },
-  { label:'Modern Editorial', head:'fraunces', body:'source' },
-  { label:'Classic Book',  head:'basker',   body:'lora'     },
-  { label:'Newspaper',     head:'playfair', body:'spectral' },
-  { label:'Plex Tech',     head:'plexsans', body:'plexserif'},
-  { label:'Garamond',      head:'garamond', body:'garamond' },
-  { label:'Grotesk × Serif', head:'space',  body:'news'     },
-  { label:'Literata',      head:'literata', body:'literata' },
+// build the Google Fonts request from the tables above (css2 wants families A→Z)
+(function loadFonts(){
+  const specs = [...new Set([...FONTS, ...MONO].map(f => f.gf).filter(Boolean))];
+  specs.sort((a, b) => a.split(':')[0].toLowerCase().localeCompare(b.split(':')[0].toLowerCase()));
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'https://fonts.googleapis.com/css2?' + specs.map(s => 'family=' + s).join('&') + '&display=swap';
+  document.head.appendChild(link);
+})();
+
+// font pairings grouped by BEHAVIOUR: the contrast relationship between head & body
+const FONT_GROUPS = [
+  { id:'unison', label:'Unison', hint:'one face, both roles', pairs:[
+    { label:'Garamond',     head:'garamond', body:'garamond' },
+    { label:'Literata',     head:'literata', body:'literata' },
+    { label:'Source Serif', head:'source',   body:'source'   },
+    { label:'Inter',        head:'inter',    body:'inter'    },
+  ]},
+  { id:'tonal', label:'Tonal', hint:'same class, two faces', pairs:[
+    { label:'Baskerville × Lora',    head:'basker', body:'lora'     },
+    { label:'Newsreader × Spectral', head:'news',   body:'spectral' },
+    { label:'Space × Inter',         head:'space',  body:'inter'    },
+  ]},
+  { id:'cross', label:'Cross-contrast', hint:'sans × serif', pairs:[
+    { label:'Space × Newsreader',   head:'space',    body:'news'   },
+    { label:'Inter × Merriweather', head:'inter',    body:'merri'  },
+    { label:'Fraunces × Source',    head:'fraunces', body:'source' },
+  ]},
 ];
 
 const THEMES = [
@@ -621,10 +709,38 @@ const THEMES = [
   { cls:'theme-dark',   label:'Dark'   },
 ];
 
-const DENSITY = [
-  { id:'compact',     label:'Compact',     size:15.5, lh:1.55, paragap:0.95, headspace:2.25 },
-  { id:'comfortable', label:'Comfortable', size:17,   lh:1.75, paragap:1.3,  headspace:3 },
-  { id:'spacious',    label:'Spacious',    size:18.5, lh:1.95, paragap:1.8,  headspace:4 },
+// layout presets grouped by BEHAVIOUR: each axis is one dimension, single-select,
+// touching a disjoint set of dials so they compose freely and highlight cleanly.
+const LAYOUT_AXES = [
+  { id:'rhythm', label:'Rhythm', hint:'air between lines & blocks',
+    keys:['size','lh','paragap','headspace'], stops:[
+      { label:'Tight',  vals:{ size:15.5, lh:1.55, paragap:0.95, headspace:2.25 } },
+      { label:'Normal', vals:{ size:17,   lh:1.75, paragap:1.3,  headspace:3 } },
+      { label:'Open',   vals:{ size:18.5, lh:1.95, paragap:1.8,  headspace:4 } },
+    ]},
+  { id:'measure', label:'Measure', hint:'line length',
+    keys:['width'], stops:[
+      { label:'Narrow',   vals:{ width:600 } },
+      { label:'Standard', vals:{ width:700 } },
+      { label:'Wide',     vals:{ width:800 } },
+    ]},
+  { id:'contrast', label:'Contrast', hint:'heading dominance',
+    keys:['scale'], stops:[
+      { label:'Flat',     vals:{ scale:'1.125' } },
+      { label:'Moderate', vals:{ scale:'1.25'  } },
+      { label:'Strong',   vals:{ scale:'1.414' } },
+    ]},
+  { id:'flow', label:'Flow', hint:'paragraph separation & edge',
+    keys:['paraStyle','justify','hyphens'], stops:[
+      { label:'Ragged', vals:{ paraStyle:'spaced', justify:false, hyphens:false } },
+      { label:'Block',  vals:{ paraStyle:'indent', justify:true,  hyphens:true  } },
+    ]},
+  { id:'ornament', label:'Ornament', hint:'decorative signalling',
+    keys:['dropcap','eyebrow','headStyle','dropcapSize'], stops:[
+      { label:'Plain',     vals:{ dropcap:false, eyebrow:'plain',     headStyle:'plain',     dropcapSize:3.5 } },
+      { label:'Marked',    vals:{ dropcap:true,  eyebrow:'upper',     headStyle:'rule',      dropcapSize:3.5 } },
+      { label:'Decorated', vals:{ dropcap:true,  eyebrow:'smallcaps', headStyle:'highlight', dropcapSize:4   } },
+    ]},
 ];
 
 const root = document.documentElement;
@@ -638,7 +754,8 @@ const DEFAULTS = {
   tracking:0, wordspace:0, paragap:1.3, headspace:3,
   headWeight:'', bodyWeight:'', centerHead:false,
   scale:'', headStyle:'rule', headWrap:'balance', eyebrow:'upper',
-  paraStyle:'spaced', numerals:'normal', ligatures:true, hyphens:false, dropcapSize:3.5
+  paraStyle:'spaced', numerals:'normal', ligatures:true, hyphens:false, dropcapSize:3.5,
+  quote:'bar'
 };
 const state = Object.assign({}, DEFAULTS);
 
@@ -651,27 +768,53 @@ function scaleVars(id){
 
 // populate font selects
 function fillSelect(sel, list){
-  list.forEach(f => {
-    const o = document.createElement('option');
-    o.value = f.id; o.textContent = f.label; o.style.fontFamily = f.stack;
-    sel.appendChild(o);
+  const cats = [];
+  list.forEach(f => { if (!cats.includes(f.cat)) cats.push(f.cat); });
+  cats.forEach(cat => {
+    const og = document.createElement('optgroup');
+    og.label = cat;
+    list.filter(f => f.cat === cat).forEach(f => {
+      const o = document.createElement('option');
+      o.value = f.id; o.textContent = f.label; o.style.fontFamily = f.stack;
+      og.appendChild(o);
+    });
+    sel.appendChild(og);
   });
 }
 fillSelect($('headFont'), FONTS);
 fillSelect($('bodyFont'), FONTS);
 fillSelect($('monoFont'), MONO);
 
-// preset chips
-const presetBox = $('presets');
-PRESETS.forEach(p => {
-  const b = document.createElement('button');
-  b.className = 'chip'; b.type = 'button'; b.textContent = p.label;
-  b.onclick = () => { state.head = p.head; state.body = p.body; syncControls(); apply(); };
-  b.dataset.head = p.head; b.dataset.body = p.body;
-  presetBox.appendChild(b);
+// helper: a labelled chip group (short label + lighter behaviour hint)
+function makeGroup(box, label, hint){
+  const field = document.createElement('div');
+  field.className = 'field';
+  const lab = document.createElement('label');
+  lab.textContent = label + ' ';
+  const h = document.createElement('span');
+  h.className = 'hint'; h.textContent = hint;
+  lab.appendChild(h);
+  const row = document.createElement('div');
+  row.className = 'btn-row';
+  field.appendChild(lab); field.appendChild(row);
+  box.appendChild(field);
+  return row;
+}
+
+// font-pairing groups (behaviour: head/body contrast)
+const fontGroupsBox = $('fontGroups');
+FONT_GROUPS.forEach(g => {
+  const row = makeGroup(fontGroupsBox, g.label, g.hint);
+  g.pairs.forEach(p => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.type = 'button'; b.textContent = p.label;
+    b.dataset.head = p.head; b.dataset.body = p.body;
+    b.onclick = () => { state.head = p.head; state.body = p.body; syncControls(); apply(); };
+    row.appendChild(b);
+  });
 });
-function markPresets(){
-  [...presetBox.children].forEach(b =>
+function markFontGroups(){
+  fontGroupsBox.querySelectorAll('button[data-head]').forEach(b =>
     b.setAttribute('aria-pressed', b.dataset.head === state.head && b.dataset.body === state.body));
 }
 
@@ -687,23 +830,21 @@ function markThemes(){
   [...themeBox.children].forEach(b => b.setAttribute('aria-pressed', b.dataset.cls === state.theme));
 }
 
-// density chips
-const densityBox = $('density');
-DENSITY.forEach(d => {
-  const b = document.createElement('button');
-  b.className = 'chip'; b.type = 'button'; b.textContent = d.label; b.dataset.id = d.id;
-  b.onclick = () => {
-    state.size = d.size; state.lh = d.lh; state.paragap = d.paragap; state.headspace = d.headspace;
-    syncControls(); apply();
-  };
-  densityBox.appendChild(b);
-});
-function markDensity(){
-  [...densityBox.children].forEach(b => {
-    const d = DENSITY.find(x => x.id === b.dataset.id);
-    b.setAttribute('aria-pressed', !!d && state.size === d.size && state.lh === d.lh
-      && state.paragap === d.paragap && state.headspace === d.headspace);
+// layout axes (behaviour-based: one dimension each, single-select, composable)
+const layoutAxesBox = $('layoutAxes');
+LAYOUT_AXES.forEach(ax => {
+  const row = makeGroup(layoutAxesBox, ax.label, ax.hint);
+  ax.stops.forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.type = 'button'; b.textContent = s.label;
+    b._vals = s.vals; b._keys = ax.keys;
+    b.onclick = () => { Object.assign(state, s.vals); syncControls(); apply(); };
+    row.appendChild(b);
   });
+});
+function markAxes(){
+  layoutAxesBox.querySelectorAll('button').forEach(b =>
+    b.setAttribute('aria-pressed', b._keys.every(k => state[k] === b._vals[k])));
 }
 
 function syncControls(){
@@ -728,6 +869,7 @@ function syncControls(){
   $('eyebrow').value = state.eyebrow;
   $('paraStyle').value = state.paraStyle;
   $('numerals').value = state.numerals;
+  $('quoteStyle').value = state.quote;
   $('dropcapSize').value = state.dropcapSize;
   $('ligatures').checked = state.ligatures;
   $('hyphens').checked = state.hyphens;
@@ -762,7 +904,7 @@ function apply(){
   if (state.bodyWeight) root.style.setProperty('--body-weight', state.bodyWeight);
   else root.style.removeProperty('--body-weight');
 
-  preview.className = ['preview-wrap', state.theme, 'hs-' + state.headStyle, 'eb-' + state.eyebrow,
+  preview.className = ['preview-wrap', state.theme, 'hs-' + state.headStyle, 'eb-' + state.eyebrow, 'bq-' + state.quote,
     state.centerHead ? 'center-head' : '',
     state.paraStyle === 'indent' ? 'para-indent' : '',
     state.hyphens ? 'hyphenate' : ''].filter(Boolean).join(' ');
@@ -780,7 +922,7 @@ function apply(){
   $('dropcapSizeVal').textContent = state.dropcapSize + 'rem';
 
   buildReadout(sc);
-  markPresets(); markThemes(); markDensity();
+  markFontGroups(); markThemes(); markAxes();
   try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch(e){}
 }
 
@@ -817,6 +959,16 @@ function buildReadout(sc){
   if (state.centerHead)         h2.push('text-align: center');
   if (h2.length) out += '\nh2 { ' + h2.join('; ') + '; }';
 
+  if (state.quote !== 'bar') {
+    const bq = ['border-left: none', 'padding-left: 0', 'font-style: normal'];
+    if (state.quote === 'center')  bq.push('text-align: center', 'max-width: 34ch', 'margin-left: auto', 'margin-right: auto');
+    if (state.quote === 'bigmark') bq.push('position: relative', 'padding-top: 1.7rem');
+    out += '\nblockquote { ' + bq.join('; ') + '; }';
+    if (state.quote === 'bigmark')
+      out += "\nblockquote::before { content: '\\201C'; position: absolute; top: 0; left: -0.1rem; "
+           + 'font-family: ' + byId(state.head).stack + '; font-size: 3.4rem; line-height: 1; }';
+  }
+
   $('cssOut').textContent = out;
 }
 
@@ -842,6 +994,7 @@ $('headWrap').onchange   = e => { state.headWrap = e.target.value; apply(); };
 $('eyebrow').onchange    = e => { state.eyebrow = e.target.value; apply(); };
 $('paraStyle').onchange  = e => { state.paraStyle = e.target.value; apply(); };
 $('numerals').onchange   = e => { state.numerals = e.target.value; apply(); };
+$('quoteStyle').onchange = e => { state.quote = e.target.value; apply(); };
 $('dropcapSize').oninput = e => { state.dropcapSize = parseFloat(e.target.value); apply(); };
 $('ligatures').onchange  = e => { state.ligatures = e.target.checked; apply(); };
 $('hyphens').onchange    = e => { state.hyphens = e.target.checked; apply(); };
