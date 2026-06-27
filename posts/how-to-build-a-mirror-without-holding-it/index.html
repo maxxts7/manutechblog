@@ -209,6 +209,45 @@ h2 {
   background: var(--blue);
 }
 
+/* ── Concept box ── */
+.concept {
+  margin: 2.5rem 0;
+  padding: 1.15rem 1.4rem 1.25rem 1.45rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-left: 3px solid var(--blue);
+  border-radius: 10px;
+}
+.concept-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.5rem;
+}
+.concept-label svg { display: block; flex: none; }
+.concept-term {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+}
+.concept-body {
+  font-size: 0.92rem;
+  line-height: 1.62;
+  color: var(--gray-700);
+  margin: 0;
+}
+.concept-body + .concept-body { margin-top: 0.7rem; }
+.concept-body strong { color: var(--text); font-weight: 700; }
+.concept-body a { font-weight: 600; }
+
 /* ── Read next ── */
 .readnext {
   display: block;
@@ -307,11 +346,23 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   <figcaption>The map as the field&rsquo;s own record, kept in version control and free to fork &mdash; a mirror that stands on its own, with no hand to hold it.</figcaption>
 </figure>
 
+<aside class="concept">
+  <p class="concept-label"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5C17.7 10.2 18 9 18 7.5a6 6 0 0 0-12 0c0 1.5.3 2.7 1.5 4 .8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Concept &middot; from the first essay</p>
+  <p class="concept-term">The attention loop</p>
+  <p class="concept-body">In a field with no central allocator, each actor has to pick what to work on, and the cheapest signal available is what everyone else is already doing. Attention becomes the proxy for importance, so talent and money chase the crowded directions; the resulting pile-up of output reads as proof that <em>this is where it&rsquo;s at</em>, pulling in the next wave. No one chooses the skew &mdash; which is exactly what makes it so hard to see and so hard to fix. <a href="/posts/the-loop-no-one-chose/">The Loop No One Chose</a> is the full argument.</p>
+</aside>
+
 <p>The natural shape for the thing is one the software world already settled: version control for a field&rsquo;s description of itself.</p>
 
 <h2>Version control for a field</h2>
 
 <p>Picture the map as a repository. Each node, a research direction, a bottleneck, a result, is a file. A change to the map is a pull request. The labor that worried the original sketch, admins adjudicating edits by hand while requests pile up and the map goes stale, is the labor of a maintainer reviewing PRs, and it is exactly the labor that continuous integration was invented to absorb. Replace the human first pass with automated checks, and the maintainer reviews what survives them. Disagreement that cannot be reconciled does not deadlock the trunk; it forks, the way a repository forks, and because the structure is granular the fork can be a single subtree rather than a schism of the whole. The discussion the design imagined generating after a fork is the project&rsquo;s changelog of disagreement, the record of why two versions of the field diverged.</p>
+
+<aside class="concept">
+  <p class="concept-label"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5C17.7 10.2 18 9 18 7.5a6 6 0 0 0-12 0c0 1.5.3 2.7 1.5 4 .8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Concept</p>
+  <p class="concept-term">Version control, in a minute</p>
+  <p class="concept-body">The whole design borrows one machine from software. A <strong>repository</strong> is the map; each <strong>node</strong> &mdash; a direction, a result, a bottleneck &mdash; is a file. A proposed change is a <strong>pull request</strong>, and an automated <strong>CI check</strong> (continuous integration) vets it before any human looks. A clean change <strong>merges</strong> into the shared trunk; disagreement that can&rsquo;t be reconciled doesn&rsquo;t deadlock it but <strong>forks</strong> into a parallel version that keeps its own history.</p>
+</aside>
 
 <p>Almost all of this maps cleanly onto the essays. One piece does not map by default, and it is the piece everything else rests on: what, precisely, the automated check is allowed to check.</p>
 
@@ -381,6 +432,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <figcaption><strong>The one line that decides everything.</strong> Point the check at an entry&rsquo;s cited source and even a weak checker fails safe, a more capable one only more useful. Point it at &ldquo;the field&rdquo; and it judges by belonging, reproducing the attention skew it absorbed &mdash; and grows <em>more</em> dangerous as it grows more capable.</figcaption>
 </figure>
 
+<aside class="concept">
+  <p class="concept-label"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5C17.7 10.2 18 9 18 7.5a6 6 0 0 0-12 0c0 1.5.3 2.7 1.5 4 .8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Concept &middot; from the first essay</p>
+  <p class="concept-term">The fixer&rsquo;s trap</p>
+  <p class="concept-body">Once you can see the loop, the instinct is to fix it directly &mdash; appoint a central authority to tell the field where the real gaps are. But an authoritative &ldquo;work on this&rdquo; doesn&rsquo;t stand outside the loop; it becomes its fastest engine, now carrying the badge of objectivity. The trap is that the cure reproduces the very concentration it set out to dissolve. Aiming a check at what <em>belongs</em> in the field, rather than at whether a claim matches its source, is that same trap in engineering costume.</p>
+</aside>
+
 <p>The first target is fidelity in the exact sense the first essay meant by it. The ground truth is external and public, the task is a comparison of a claim to its source. Aimed here, a weak checker fails safely: it misses discrepancies a human reviewer can still catch, and its misses are visible, because the source it was checking against is sitting right there to inspect. The second target is the fixer&rsquo;s trap in an engineering costume, and it fails in the opposite, more dangerous direction. Whatever an automated judge has absorbed about &ldquo;the field&rdquo; it absorbed from the field&rsquo;s own past output, which is to say from the attention distribution: most signal on the canonical, least on the frontier and the genuinely neglected, which is precisely the work the map exists to surface. To the degree such a judge works at all, it works by reproducing that distribution, so aiming it at belonging imports the loop wholesale and stamps it with the authority of a passing check. And the two diverge as the tools improve: a fidelity check only gets more useful, a canon check more dangerous, since a more capable model reproduces the prevailing distribution more faithfully.</p>
 
 <p class="statement">Closed-book on the field, open-book on the citation.</p>
@@ -393,11 +450,13 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>What push does not do is make visibility free of attention. It swaps one attention game for another. The new winners are whoever has the time, the fluency, and the inclination to maintain an entry, which is the same resource axis the first essay named when it said attention favors the well connected over the isolated. The researcher who is neglected <em>and</em> silent, who will not promote their work in any medium, stays dark under a pure-push system, and once a node&rsquo;s mere presence reads as legitimacy there is a quieter editing-herd effect of the kind the second essay described. The repair is not to abandon push but to pair it with pull rebuilt as automation: candidate entries drafted from the open record, arXiv, OpenReview, grant databases, then confirmed or corrected by the named authors. Pull reaches the silent, push lets the motivated enrich, and both flow through the same source-fidelity check, so the map does not decay precisely where authors are too scarce to tend it. And when engagement is displayed at all, it must be reported by life-stage, frontier, consolidating, canonical, as the first essay argued, or a raw engagement count will re-bury the newest work and undo the very thing push was built to fix.</p>
 
+<p class="statement">Push doesn&rsquo;t make visibility free of attention. It swaps one attention game for another.</p>
+
 <h2>Don&rsquo;t gate the fork; fork the gate</h2>
 
 <p>Forking is where the design can betray itself with a single misplaced check, so two things the phrasing tends to fuse should be held apart. Gating a <em>merge</em> behind the tests is fine; that is just CI keeping the trunk faithful to its sources. Gating <em>permission to fork</em> behind the tests is the one move that breaks the essays, because forking is the mechanism by which a center&rsquo;s authority disperses. Make the right to fork conditional on passing the center&rsquo;s gates and you have handed the center a veto over dissent, which is the concentration the whole design exists to avoid.</p>
 
-<p class="statement">You do not gate the fork. You fork the gate.</p>
+<p class="statement">Gate the right to fork, and the center keeps a veto over dissent.</p>
 
 <p>The powerful version is the inversion. A fork inherits its parent&rsquo;s test suite and is free to rewrite it, and because forking is granular it can fork the gate for one subtree rather than splitting the entire map. Now the difference between two test suites, these checks added, those relaxed, becomes the most precise statement of a disagreement the field could hope to have: two versions of a discipline arguing in a diff over what each one counts as a valid claim. That is the first essay&rsquo;s &ldquo;shared, contestable substrate&rdquo; made literal. The auto-generated discussion should be seeded from that artifact, the suite diff together with the authors&rsquo; stated reasons, rather than from a model&rsquo;s guess about why people disagree, and it should be a draft that humans correct rather than the record itself.</p>
 
@@ -444,6 +503,8 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <h2>The loop is recursive</h2>
 
 <p>The first essay treated the attention loop as a property of the field: talent and money chase visible activity, the visible compounds, the neglected starves. But the moment you build tools to expose that loop, the loop reappears one level up, now running over the tools themselves. Which gate gets adopted, which schema becomes the one everyone uses, which crawler&rsquo;s notion of &ldquo;the record&rdquo; is treated as complete: none of these is settled by fidelity. They are settled by attention, the same cheap proxy, the same compounding. A gate that many people use is used because many people use it, and that is the loop, verbatim, with software for an asset.</p>
+
+<p class="statement">Build a tool to expose the loop, and the loop climbs onto the tool.</p>
 
 <figure class="diagram">
 <svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A staircase of floors, each carrying the same loop. The field; the tools that expose it; the meta-tool that audits the tools; a fading meta-meta floor above. Each floor runs the same attention loop, and the stairs trail off with no top floor.">
@@ -493,6 +554,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>The loop is not a defect in a particular tool that a better tool removes; it is a property of choosing under a cheap signal, and choosing does not stop when you go meta. The dream of the neutral, complete, finally unbiased map is the fixer&rsquo;s trap in its last and most technical costume. This time the halo is not objectivity or virtue but engineering rigor, the belief that one more layer of design reaches the fixed point. It does not. Every tool the system runs on will have blind spots, necessarily, because every tool encodes a finite set of choices made under the same proxy as everything else.</p>
 
+<aside class="concept">
+  <p class="concept-label"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5C17.7 10.2 18 9 18 7.5a6 6 0 0 0-12 0c0 1.5.3 2.7 1.5 4 .8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>Concept</p>
+  <p class="concept-term">Fixed point vs. gradient</p>
+  <p class="concept-body">A <strong>fixed point</strong> is a resting state a process settles into and stops &mdash; here, the dream of one neutral, finished, finally unbiased tool. The recursion says it doesn&rsquo;t exist: every tool encodes a finite set of choices made under the same cheap signal, so every tool keeps a blind spot. A <strong>gradient</strong> is the alternative &mdash; no destination, only a direction of improvement that many hands stay free to climb. Trading the chase for the climb is what turns the recursion from a paralysis into a job.</p>
+</aside>
+
 <p>If there is no fixed point, you stop trying to reach one. You do not chase the perfect tool. You build the best tool currently available, you make it relentlessly improvable, and you hand the improving to many hands, because the correction for a recursive loop is not a final answer but a live gradient that many people are free to climb. That single shift, from fixed point to gradient, is what turns the recursion from a paralysis into a job description.</p>
 
 <h2>Toolmaker, community manager, and then out of the way</h2>
@@ -501,19 +568,25 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>But a toolmaker is not neutral, and the recursion is exactly why. The org&rsquo;s hand has not lifted; it has moved from the editorial to the architectural, and the architectural choices are the org&rsquo;s own blind spots, the place its slice of the loop lives. Two of them matter most.</p>
 
+<p class="statement">The hand never lifts. It moves from the editorial to the architectural.</p>
+
 <p>The deepest is the schema, the granularity model itself. A data model is an ontology, and an ontology is a soft prescription. If the format cannot express a kind of work, a bottleneck that is not a &ldquo;paper,&rdquo; a direction that does not fit the shape of a node, a life-stage the taxonomy omits, then no amount of self-editing surfaces that work, because an author can only enter what the format admits. This is the org&rsquo;s blind spot in its purest form, and it wears the costume of a file format rather than a judgment, which is what makes it the lever most worth disclosing. The honest response is not to claim the schema is complete, which the recursion says it cannot be, but to make it forkable: whoever thinks the ontology is blinding the field to something forks the schema for their subtree, and the diff between two schemas becomes as legible a disagreement as the diff between two gate suites.</p>
+
+<p class="statement">A data model is an ontology, and an ontology is a soft prescription.</p>
 
 <p>The second is defaults, and here the first essay supplied the warning in advance. Everything is forkable, but most people live on the path of least resistance, so the default schema, the default gate, the default crawler are the field&rsquo;s de facto policy however freely they could be replaced. This is the recursion at its most concrete: the default wins because it is the default. The toolmaker&rsquo;s discipline is therefore not the operator&rsquo;s &ldquo;do not prescribe.&rdquo; It is &ldquo;make the faithful path the easy path.&rdquo; Bake the closed-book-on-the-field constraint into the <em>default</em> gate, so the safe configuration is the one a user gets for free and the prescriptive one is something they must deliberately assemble. Fidelity should be the gradient the system rolls down, not a virtue each user is independently asked to supply.</p>
 
-<p>The sharpest danger here is not seizing the map but seizing it by accident, through the very thing the mission names: support. Support and a reference instance are precisely how a toolmaker slides into an operator. You stand up a flagship map to show what the tooling can do; the demonstration becomes the thing people cite; the default becomes the canon; and the organization is curating content again, now with a halo. So the line runs inside the word &ldquo;support&rdquo; itself, between capability and curation. Host the infrastructure, write the docs, fix the bugs, run a reference deployment if it helps, but the instant the org decides <em>which entries are correct</em> on a flagship to &ldquo;show how it is done,&rdquo; it is holding the mirror. It is the same slide the second essay traced in the funder who moves from &ldquo;we fund the gaps&rdquo; to &ldquo;we decide what the gaps are,&rdquo; now reading &ldquo;we provide the tools&rdquo; hardening into &ldquo;we run the real map.&rdquo;</p>
+<p class="statement">Make the faithful path the easy path.</p>
 
-<p class="statement">To support is to make others capable. It is never to do the content work in their place.</p>
+<p>The sharpest danger here is not seizing the map but seizing it by accident, through the very thing the mission names: support. Support and a reference instance are precisely how a toolmaker slides into an operator. You stand up a flagship map to show what the tooling can do; the demonstration becomes the thing people cite; the default becomes the canon; and the organization is curating content again, now with a halo. So the line runs inside the word &ldquo;support&rdquo; itself, between capability and curation. Host the infrastructure, write the docs, fix the bugs, run a reference deployment if it helps, but the instant the org decides <em>which entries are correct</em> on a flagship to &ldquo;show how it is done,&rdquo; it is holding the mirror. It is the same slide the second essay traced in the funder who moves from &ldquo;we fund the gaps&rdquo; to &ldquo;we decide what the gaps are,&rdquo; now reading &ldquo;we provide the tools&rdquo; hardening into &ldquo;we run the real map.&rdquo;</p>
 
 <h2>What the job actually is</h2>
 
 <p>The job, then, is narrow, and given the recursion the only honest one. It is not to build the map. It is not to make the tool neutral, which is impossible, or final, which is incoherent, or free of blind spots, which the recursion forbids. It is to keep the tool the best available, state of the art in fidelity and in usability, and to keep it iteratively improvable and forkable, so the blind spots the org cannot see are the ones the community corrects without having to ask. The org supplies the current best floor and the means to raise it; the field supplies the raising. A living instrument, not a perfect one, kept sharp and kept open, with the choosing dispersed.</p>
 
 <p>It also fixes the measure of success. An operator grades itself on the quality of its map. The toolmaker&rsquo;s measure is not the number of maps. A thousand forks or a single one everyone uses, that count is itself a proxy, the same visible-activity stand-in the rest of the essay distrusts. What counts is capacity: how much friction the tooling has taken out of the work, how cheap a fork is, how robustly anyone can check a map&rsquo;s quality, and how accurately the tooling finds the blind spots the community keeps hitting and adapts to them. One map or many is beside the point. A single map everyone uses is a success when they stay by choice, because forking is nearly free and quality is checkable from outside and the friction keeps falling. It is a failure only when the singularity is lock-in instead: when forking has grown costly, when quality can no longer be checked, when the defaults function as legitimacy rather than convenience. The recursion guarantees the org always has some slice of the loop running through its defaults; the discipline is to keep forking cheap, the quality checks robust, and the blind-spot tracking honest, so that whatever number of maps emerges, it emerges from real choice on good tooling. When that slice starts dictating rather than serving, the toolmaker has become an allocator without ever editing an entry, and the mission obliges it to disclose and counteract the drift rather than enjoy it.</p>
+
+<p class="statement">A single map is a success when they stay by choice, a failure when they can&rsquo;t leave.</p>
 
 <p>An operator, believing a neutral map is reachable, would chase it forever and become the loop&rsquo;s most efficient engine in the chase. A toolmaker who has accepted that the loop climbs into every tool stops chasing the unreachable and does the reachable thing instead: build the best tool there is, make it improvable, tend the commons around it, and get out of the way. The first essay asked for a mirror kept faithful and kept current, and watched closely for the moment it starts giving orders. This is what it looks like to build one, accept that it can never be perfect, keep it the best available and endlessly improvable, and then, deliberately, step back and let the field hold it.</p>
 
