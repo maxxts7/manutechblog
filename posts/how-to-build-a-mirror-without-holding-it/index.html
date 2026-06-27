@@ -24,6 +24,10 @@
 <meta name="twitter:description" content="The attention loop climbs into the very tools meant to expose it. How to build the mirror anyway, keep it forkable, and step out of the way. A companion to The Loop No One Chose.">
 <meta name="twitter:image" content="https://manutechblog.netlify.app/posts/how-to-build-a-mirror-without-holding-it/og.png">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400..900&family=Noto+Serif:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
 <style>
 :root {
   --text: #1a1a2e;
@@ -46,14 +50,23 @@
   --green: #66bb6a;
   --green-dark: #2e7d32;
   --green-light: #e8f5e9;
+
+  /* reading knobs — single source of truth; re-tune here (paste from the typography playground) */
+  --font-head: 'Merriweather', Georgia, serif;
+  --font-body: 'Noto Serif', Georgia, serif;
+  --reading-width: 860px;
+  --reading-size: 15.5px;
+  --reading-lh: 1.55;
+  --h1-size: 36.3px;
+  --h2-size: 26.6px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.75;
+  font-family: var(--font-body);
+  font-size: var(--reading-size);
+  line-height: var(--reading-lh);
   color: var(--text);
   background: var(--bg);
   margin: 0;
@@ -62,7 +75,7 @@ body {
 
 ::selection { background: var(--blue-light); color: var(--blue-dark); }
 
-article { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+article { max-width: var(--reading-width); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
 
 /* ── Header ── */
 header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
@@ -75,7 +88,8 @@ header .eyebrow {
   margin: 0 0 0.9rem;
 }
 header h1 {
-  font-size: 2.5rem;
+  font-family: var(--font-head);
+  font-size: var(--h1-size);
   font-weight: 800;
   line-height: 1.12;
   margin: 0 0 0.85rem;
@@ -153,7 +167,7 @@ header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
 .diagram figcaption em { font-style: italic; }
 
 /* ── Typography ── */
-p { margin: 0 0 1.3rem; text-wrap: pretty; }
+p { margin: 0 0 0.95rem; text-wrap: pretty; }
 strong { font-weight: 600; }
 em { font-style: italic; }
 a { color: var(--blue); text-decoration: none; }
@@ -161,8 +175,9 @@ a:hover { text-decoration: underline; }
 
 /* ── Section headings ── */
 h2 {
-  margin: 3.5rem 0 1.3rem;
-  font-size: 1.55rem;
+  font-family: var(--font-head);
+  margin: 2.25rem 0 1.3rem;
+  font-size: var(--h2-size);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.02em;
@@ -176,6 +191,7 @@ h2 {
 .lead { font-size: 1.16rem; line-height: 1.62; color: var(--text); margin-bottom: 1.4rem; }
 .lead::first-letter {
   float: left;
+  font-family: var(--font-head);
   font-size: 3.5rem;
   line-height: 0.78;
   font-weight: 800;
@@ -185,12 +201,13 @@ h2 {
 
 /* ── Display statement ── */
 .statement {
+  font-family: var(--font-head);
   position: relative;
   margin: 3.25rem auto;
   padding-top: 2.1rem;
-  max-width: 36ch;
+  max-width: 33ch;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.32;
   letter-spacing: -0.02em;
@@ -282,15 +299,15 @@ footer .back { font-size: 0.85rem; color: var(--text-secondary); }
 footer .back:hover { color: var(--blue); text-decoration: none; }
 
 @media (max-width: 700px) {
-  header h1 { font-size: 1.9rem; }
+  header h1 { font-size: calc(var(--h1-size) * 0.8); }
   .lead { font-size: 1.08rem; }
   .lead::first-letter { font-size: 3rem; }
-  .statement { font-size: 1.25rem; }
+  .statement { font-size: 1.15rem; }
 }
 </style>
 </head>
 <body>
-<nav style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem 0;">
+<nav style="max-width:var(--reading-width);margin:0 auto;padding:1.5rem 1.5rem 0;">
   <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
     <span>&larr;</span> Manu Xaviour Thaisseril Shaju
   </a>

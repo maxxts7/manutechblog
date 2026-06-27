@@ -26,7 +26,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400..900&family=Noto+Serif:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -52,11 +52,11 @@
   --green-light: #e8f5e9;
 
   /* reading knobs — single source of truth; re-tune here (paste from the typography playground) */
-  --font-head: 'Noto Serif', Georgia, serif;
-  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-head: 'Merriweather', Georgia, serif;
+  --font-body: 'Noto Serif', Georgia, serif;
   --reading-width: 860px;
-  --reading-size: 17px;
-  --reading-lh: 1.75;
+  --reading-size: 15.5px;
+  --reading-lh: 1.55;
   --h1-size: 36.3px;
   --h2-size: 26.6px;
 }
@@ -154,8 +154,14 @@ header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
   border-radius: 14px;
 }
 .diagram svg { display: block; width: 100%; height: auto; }
-/* near-square diagrams cap their width so they don't tower over the text */
-.diagram.narrow svg { max-width: 520px; margin-left: auto; margin-right: auto; }
+/* capped diagrams hug their art instead of sitting full-bleed with empty
+   gutters; the box shrinks to the diagram and centres in the column */
+.diagram.narrow,
+.diagram.compact { width: fit-content; max-width: 100%; margin-left: auto; margin-right: auto; }
+.diagram.narrow svg,
+.diagram.compact svg { max-width: 100%; margin-left: auto; margin-right: auto; }
+.diagram.narrow svg { width: 520px; }
+.diagram.compact svg { width: 600px; }
 .diagram svg text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
 .diagram figcaption {
   margin: 1.15rem auto 0;
@@ -169,7 +175,7 @@ header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
 .diagram figcaption em { font-style: italic; }
 
 /* ── Typography ── */
-p { margin: 0 0 1.3rem; text-wrap: pretty; }
+p { margin: 0 0 0.95rem; text-wrap: pretty; }
 strong { font-weight: 600; }
 em { font-style: italic; }
 a { color: var(--blue); text-decoration: none; }
@@ -178,7 +184,7 @@ a:hover { text-decoration: underline; }
 /* ── Section headings ── */
 h2 {
   font-family: var(--font-head);
-  margin: 3.5rem 0 1.3rem;
+  margin: 2.25rem 0 1.3rem;
   font-size: var(--h2-size);
   font-weight: 700;
   line-height: 1.25;
@@ -335,7 +341,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p class="statement">Chasing the inverse of a broken proxy is still chasing the proxy.</p>
 
-<figure class="diagram">
+<figure class="diagram compact">
 <svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The reverse herd: money rushes to the direction that looks most neglected; the moment it fills, it is no longer the underdog, so the money moves to the next empty corner, and oscillates.">
   <defs>
     <marker id="rh-orange" markerWidth="8" markerHeight="8" refX="5.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#f59e0b"/></marker>
@@ -383,13 +389,13 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <p>Some directions are neglected because they deserve to be: they are premature, or unpromising, or quiet dead ends the field has correctly walked away from. The diffuse judgment of a field is not pure noise. It gets a great deal wrong (that is the whole premise), but some of what it ignores, it ignores for good reason. An organization chartered to work <em>only</em> on the neglected has, by that charter, committed to a contrarian bet as standing policy. It will fund the unpromising-and-ignored right alongside the important-and-ignored, because its selection criterion cannot tell them apart. Neglect is all it can see, and neglect does not distinguish buried treasure from what was buried for cause.</p>
 
 <figure class="diagram narrow">
-<svg viewBox="0 0 640 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A two-by-two of attention against importance. The top row is the neglected work; it contains both important-and-ignored buried treasure and unpromising work that is ignored for good reason. A policy of only funding neglect cannot tell the two apart.">
+<svg viewBox="46 4 568 434" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A two-by-two of attention against importance. The top row is the neglected work; it contains both important-and-ignored buried treasure and unpromising work that is ignored for good reason. A policy of only funding neglect cannot tell the two apart.">
   <!-- brace over the top row -->
   <text x="378" y="22" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="0.04em" fill="#b45309">&ldquo;only fund neglected&rdquo; takes this whole row &mdash; treasure and dead ends alike</text>
   <path d="M 260 56 V 46 H 496 V 56" fill="none" stroke="#b45309" stroke-width="1.5" stroke-dasharray="3 3"/>
 
   <!-- y axis -->
-  <text x="26" y="220" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#64748b" transform="rotate(-90 26 220)">ATTENTION</text>
+  <text x="60" y="220" text-anchor="middle" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#64748b" transform="rotate(-90 60 220)">ATTENTION</text>
   <text x="138" y="142" text-anchor="end" font-size="10.5" font-weight="600" fill="#94a3b8">neglected</text>
   <text x="138" y="306" text-anchor="end" font-size="10.5" font-weight="600" fill="#94a3b8">crowded</text>
 
