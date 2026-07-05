@@ -208,6 +208,57 @@ h2 {
   background: var(--blue);
 }
 
+/* ── TL;DR block ── */
+.tldr {
+  margin: 0 0 3rem;
+  padding: 2rem 2rem 1.75rem;
+  position: relative;
+  background-image:
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text));
+  background-size:
+    32px 2px, 32px 2px, 32px 2px, 32px 2px,
+    2px 32px, 2px 32px, 2px 32px, 2px 32px;
+  background-position:
+    top left, top right, bottom left, bottom right,
+    top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+}
+.tldr .tldr-label {
+  position: absolute;
+  top: -0.7rem;
+  left: 2.25rem;
+  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: var(--bg);
+  padding: 0 0.75rem;
+  z-index: 1;
+  line-height: 1;
+}
+.tldr p {
+  margin: 0 0 1.15rem;
+  font-size: 0.97rem;
+  line-height: 1.72;
+  color: var(--gray-700);
+}
+.tldr p:last-child { margin-bottom: 0; }
+.tldr p:first-of-type {
+  font-size: 1.08rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+.tldr p strong { color: var(--text); font-weight: 600; }
+
 /* ── Gains list ── */
 .gains { list-style: none; padding: 0; margin: 1.75rem 0 2rem; }
 .gains li {
@@ -281,6 +332,16 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
     <span class="meta-date">June 2026</span>
   </div>
 </header>
+
+<aside class="tldr">
+<span class="tldr-label">TL;DR</span>
+
+<p>In a decentralized field with no one setting priorities, each actor needs a signal for what&rsquo;s worth working on, and the cheapest signal is what everyone else is already doing. <strong>Attention becomes the proxy for importance</strong>: talent and money follow it, the resulting pile-up of output reads as proof of value, and the loop feeds itself. Decentralization doesn&rsquo;t prevent this dynamic &mdash; it hides it. No one chose the skew, so there is no decision to contest, and because everyone is sincerely mission-driven, the bias wears the camouflage of good faith.</p>
+
+<p>The obvious fixes fail. <strong>Issuing better instructions doesn&rsquo;t work</strong>: a central recommender that tells the field where to go doesn&rsquo;t stand outside the loop, it becomes its fastest engine. And the field&rsquo;s existing maps, good as they are, are <strong>descriptive and mostly static</strong> &mdash; they catalogue what exists but can&rsquo;t tell you what&rsquo;s blocking each direction right now, or where to go next.</p>
+
+<p>The proposal is a <strong>live reflection of the field&rsquo;s current state</strong> &mdash; its funding, talent, and research output folded back into a form the field can read &mdash; that prescribes nothing. It makes <strong>neglected work findable</strong>, keeps the newest research <strong>discoverable</strong> instead of buried under citation lag, and gives the field a <strong>common, contestable map</strong> to argue over, so the correction comes from many independent readers rather than a controller.</p>
+</aside>
 
 <p class="lead">Decentralization is supposed to be a safeguard. Spread decisions across many independent actors, strip out the profit motive, and you are meant to be protected from the pathologies of centralized power: the captured agenda, the controlled narrative, the single point of failure. A field like technical AI safety (dozens of small nonprofits, scattered independent researchers, a handful of mission-driven funders) looks like exactly that safeguard in action. No one is in charge, so the worry goes, no one can steer it wrong.</p>
 
