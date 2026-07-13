@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paying Down Research Debt | Manu Xaviour Thaisseril Shaju</title>
+<meta name="description" content="A tool for reading AI safety research: papers unbundled into cited concepts and relations, anchored by a living, human-curated canon - and the field-level orientation layer that assembles itself as a byproduct.">
+<link rel="canonical" href="https://manutechblog.netlify.app/posts/paying-down-research-debt/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Manu Xaviour Thaisseril Shaju">
+<meta property="og:title" content="Paying Down Research Debt">
+<meta property="og:description" content="A tool for reading AI safety research: papers unbundled into cited concepts and relations, anchored by a living, human-curated canon - and the field-level orientation layer that assembles itself as a byproduct.">
+<meta property="og:url" content="https://manutechblog.netlify.app/posts/paying-down-research-debt/">
+<meta property="og:image" content="https://manutechblog.netlify.app/posts/paying-down-research-debt/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Paying Down Research Debt - a research paper unbundled into a bold insight layer and a dense verification layer.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Paying Down Research Debt">
+<meta name="twitter:description" content="A tool for reading AI safety research: papers unbundled into cited concepts and relations, anchored by a living, human-curated canon - and the field-level orientation layer that assembles itself as a byproduct.">
+<meta name="twitter:image" content="https://manutechblog.netlify.app/posts/paying-down-research-debt/og.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400..900&family=Noto+Serif:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --text: #1a1a2e;
+  --text-secondary: #64748b;
+  --bg: #ffffff;
+  --border: #e2e8f0;
+  --blue: #3b82f6;
+  --blue-dark: #1e40af;
+  --blue-light: #dbeafe;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-400: #94a3b8;
+  --gray-700: #334155;
+  --blue-muted: #60a5fa;
+  --orange: #f59e0b;
+  --orange-dark: #b45309;
+  --orange-light: #fef3c7;
+
+  /* reading knobs — single source of truth; re-tune here (paste from the typography playground) */
+  --font-head: 'Merriweather', Georgia, serif;
+  --font-body: 'Noto Serif', Georgia, serif;
+  --reading-width: 860px;
+  --reading-size: 15.5px;
+  --reading-lh: 1.55;
+  --h1-size: 36.3px;
+  --h2-size: 26.6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--reading-size);
+  line-height: var(--reading-lh);
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--blue-light); color: var(--blue-dark); }
+
+article { max-width: var(--reading-width); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+
+/* ── Header ── */
+header { margin-bottom: 3.25rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+header .eyebrow {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.9rem;
+}
+header h1 {
+  font-family: var(--font-head);
+  font-size: var(--h1-size);
+  font-weight: 800;
+  line-height: 1.12;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  text-wrap: balance;
+}
+header .subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin: 0 0 1.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 38ch;
+  text-wrap: pretty;
+}
+header .author-line { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+header .dot { color: var(--gray-200); }
+header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
+
+/* ── Hero figure ── */
+.hero {
+  width: fit-content;
+  max-width: 100%;
+  margin: 2.25rem auto 2.5rem;
+  padding: 1.5rem 1.6rem 1.25rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  text-align: center;
+}
+.hero svg { display: block; width: 230px; max-width: 100%; height: auto; margin: 0 auto; }
+.hero figcaption {
+  margin: 0.9rem auto 0;
+  max-width: 28ch;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ── Inline diagrams ── */
+.diagram {
+  margin: 2.75rem -1.5rem;
+  padding: 1.75rem 1.6rem 1.5rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+}
+.diagram svg { display: block; width: 100%; height: auto; }
+.diagram svg text { font-family: var(--font-body); }
+.diagram figcaption {
+  margin: 1.15rem auto 0;
+  max-width: 56ch;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.diagram figcaption strong { color: var(--gray-700); font-weight: 600; }
+.diagram figcaption em { font-style: italic; }
+
+/* ── Typography ── */
+p { margin: 0 0 0.95rem; text-wrap: pretty; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Section headings ── */
+h2 {
+  font-family: var(--font-head);
+  margin: 2.25rem 0 1.3rem;
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--blue);
+}
+
+/* ── Lead paragraph + drop cap ── */
+.lead { font-size: var(--reading-size); line-height: var(--reading-lh); color: var(--text); margin-bottom: 1.4rem; }
+.lead::first-letter {
+  float: left;
+  font-family: var(--font-head);
+  font-size: 3.5rem;
+  line-height: 0.78;
+  font-weight: 800;
+  padding: 0.32rem 0.62rem 0 0;
+  color: var(--blue-dark);
+}
+
+/* ── Display statement ── */
+.statement {
+  font-family: var(--font-head);
+  position: relative;
+  margin: 3.25rem auto;
+  padding-top: 2.1rem;
+  max-width: 33ch;
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.statement::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+
+/* ── TL;DR block ── */
+.tldr {
+  margin: 0 0 3rem;
+  padding: 2rem 2rem 1.75rem;
+  position: relative;
+  background-image:
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text));
+  background-size:
+    32px 2px, 32px 2px, 32px 2px, 32px 2px,
+    2px 32px, 2px 32px, 2px 32px, 2px 32px;
+  background-position:
+    top left, top right, bottom left, bottom right,
+    top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+}
+.tldr .tldr-label {
+  position: absolute;
+  top: -0.7rem;
+  left: 2.25rem;
+  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: var(--bg);
+  padding: 0 0.75rem;
+  z-index: 1;
+  line-height: 1;
+}
+.tldr p {
+  margin: 0 0 1.15rem;
+  font-size: 0.97rem;
+  line-height: 1.72;
+  color: var(--gray-700);
+}
+.tldr p:last-child { margin-bottom: 0; }
+.tldr p strong { color: var(--text); font-weight: 600; }
+
+/* ── Gains list ── */
+.gains { list-style: none; padding: 0; margin: 1.75rem 0 2rem; }
+.gains li {
+  margin: 0 0 1.5rem;
+  padding: 0 0 0 1.35rem;
+  border-left: 2px solid var(--blue-light);
+}
+.gains li:last-child { margin-bottom: 0; }
+.gains li strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+/* ── Footer ── */
+footer {
+  margin-top: 4rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+footer .byline { margin: 0; font-size: 0.85rem; color: var(--gray-400); }
+footer .back { font-size: 0.85rem; color: var(--text-secondary); }
+footer .back:hover { color: var(--blue); text-decoration: none; }
+
+/* ── Read next ── */
+.readnext {
+  display: block;
+  margin: 3.5rem 0 0;
+  padding: 1.4rem 1.65rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--gray-50);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.readnext:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(59,130,246,0.08); text-decoration: none; }
+.readnext .rn-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.4rem; }
+.readnext .rn-title { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.35rem; }
+.readnext .rn-desc { font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+@media (max-width: 700px) {
+  header h1 { font-size: calc(var(--h1-size) * 0.8); }
+  .lead::first-letter { font-size: 3rem; }
+  .statement { font-size: 1.15rem; }
+}
+</style>
+</head>
+<body>
+<nav style="max-width:var(--reading-width);margin:0 auto;padding:1.5rem 1.5rem 0;">
+  <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
+    <span>&larr;</span> Manu Xaviour Thaisseril Shaju
+  </a>
+</nav>
+<article>
+
+<header>
+  <p class="eyebrow">Essay</p>
+  <h1>Paying Down Research Debt</h1>
+  <p class="subtitle">A tool for reading AI safety research, and the living canon it leaves behind</p>
+  <div class="author-line">
+    <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
+    <span class="dot">&middot;</span>
+    <span class="meta-date">July 2026</span>
+  </div>
+</header>
+
+<aside class="tldr">
+<span class="tldr-label">TL;DR</span>
+
+<p>A research paper is two documents wearing one trenchcoat: a verification layer that lets a skeptic confirm the result, and an insight layer that carries what it means. <strong>Every reader pays to unbundle them</strong> &mdash; for the paper, and for the chain of prerequisites behind it. Olah and Carter named this research debt, and its unit cost is interpretive labor: either the author pays once by distilling clearly, or thousands of readers pay separately to decode. Academia rewards novelty, not clarity, so the readers pay.</p>
+
+<p>The tool described here <strong>does the interpretive labor once, ahead of time, and inspectably</strong>. Every paper in the corpus is broken into concepts and relations, each cited back to a specific span in the source and connected across the field &mdash; anchored by a small, human-curated canon whose weight keeps the vocabulary coherent without freezing it. The unit of work is the <strong>concept, not the paper</strong>: the granularity at which models are competent and checkable. Humans keep taste. Machines absorb the grind. Readers keep the thinking.</p>
+
+<p>The primary act is small: read one paper well, and know where it sits. But the exhaust compounds. Read enough papers this way and a <strong>field-level orientation layer assembles itself</strong> &mdash; arriving just as AI makes research execution cheap and orientation becomes the scarce thing.</p>
+</aside>
+
+<p class="lead">A research paper is not optimized for the person trying to learn from it. It is two documents wearing one trenchcoat. One is a verification layer made of methods, appendices, and reproducibility detail, the machinery that lets a skeptical reader confirm the result holds. The other is an insight layer that carries the hypothesis, the finding, and what it changes. They are bundled only because the same person had to read both. Every reader pays to unbundle them. And the paper rarely stands alone. Behind it is a chain of prerequisites, each demanding the same work. Getting blocked on one paper means getting blocked on the paper behind it.</p>
+
+<figure class="hero">
+  <svg viewBox="0 0 300 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A research paper unbundled: one bundled document splits into a bold insight layer and a dense verification layer, still joined by a thin thread.">
+    <!-- the bundled paper: insight and verification interleaved -->
+    <rect x="22" y="50" width="92" height="126" rx="8" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
+    <line x1="34" y1="68" x2="102" y2="68" stroke="#1e40af" stroke-width="3" stroke-linecap="round"/>
+    <line x1="34" y1="80" x2="92"  y2="80" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+    <line x1="34" y1="96"  x2="102" y2="96"  stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="34" y1="106" x2="96"  y2="106" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="34" y1="116" x2="102" y2="116" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="34" y1="126" x2="90"  y2="126" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="34" y1="136" x2="100" y2="136" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="34" y1="146" x2="94"  y2="146" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="34" y1="156" x2="102" y2="156" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="34" y1="166" x2="88"  y2="166" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+
+    <!-- unbundling arrow -->
+    <defs>
+      <marker id="hero-unb" markerWidth="10" markerHeight="10" refX="6.5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#3b82f6"/></marker>
+    </defs>
+    <line x1="124" y1="113" x2="150" y2="113" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" marker-end="url(#hero-unb)"/>
+
+    <!-- the insight layer, up front -->
+    <rect x="164" y="34" width="112" height="58" rx="8" fill="#ffffff" stroke="#1e40af" stroke-width="2.5"/>
+    <line x1="178" y1="54" x2="262" y2="54" stroke="#1e40af" stroke-width="3" stroke-linecap="round"/>
+    <line x1="178" y1="67" x2="250" y2="67" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+    <line x1="178" y1="79" x2="232" y2="79" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- one click away -->
+    <line x1="220" y1="94" x2="220" y2="112" stroke="#94a3b8" stroke-width="1.6" stroke-dasharray="2 4" stroke-linecap="round"/>
+
+    <!-- the verification layer, one click below -->
+    <rect x="164" y="114" width="112" height="82" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <line x1="178" y1="130" x2="262" y2="130" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="178" y1="140" x2="254" y2="140" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="178" y1="150" x2="262" y2="150" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="178" y1="160" x2="246" y2="160" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="178" y1="170" x2="260" y2="170" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+    <line x1="178" y1="180" x2="240" y2="180" stroke="#cbd5e1" stroke-width="1.6" stroke-linecap="round"/>
+  </svg>
+  <figcaption>Two documents wearing one trenchcoat &mdash; a bold insight layer bundled with the machinery of verification. Unbundled once, for everyone, each claim stays one click from its source.</figcaption>
+</figure>
+
+<p>This problem has a name. In 2017 Chris Olah and Shan Carter published <a href="https://distill.pub/2017/research-debt/" rel="noopener" target="_blank">&ldquo;Research Debt&rdquo;</a> on Distill.pub, still the sharpest statement of it. Fields accumulate debt the way codebases do, piling up undigested ideas, noisy exposition, bad abstractions, and a rising cost of entry. Their central concept is interpretive labor. Understanding an idea takes work, and someone always pays. Either the author pays once, by distilling it clearly, or thousands of readers pay separately to decode it. Academia rewards novelty, not clarity, so there is no professional distiller.</p>
+
+<p class="statement">Every reader re-climbs the same mountain alone.</p>
+
+<p>The project described here is a tool for paying that labor down. Its purpose is narrow. It helps a researcher read a new paper and connect it to the rest of the field. Everything else it produces is a byproduct.</p>
+
+<h2>The LLM workaround, and where it stops</h2>
+
+<p>The current workaround is to hand the paper to an LLM and prompt until it makes sense. It works when the paper is adjacent to what you already know and turns counterproductive when it is not. Two constraints sit underneath, and both are real.</p>
+
+<p>The first is engineering. Understanding a paper properly means understanding it against the field, and a field does not fit in a context window. A thousand papers is on the order of ten million tokens. No window holds that, and long before the hard limit, retrieval degrades. This is the needle-in-a-haystack problem, where the model misses what is buried in the middle. Even as windows grow, re-reading the whole field on every question is the wrong architecture. Indexes exist because scanning everything every time never scales. The engineering answer is a corpus indexed ahead of time, with concepts and relations extracted at rest, stored with citations, and retrieved when needed.</p>
+
+<p>The second constraint is epistemic. Chat is pull-based. It answers the questions you have, and in a foreign field you do not know which questions to ask. Precomputed structure surfaces the unknown unknowns.</p>
+
+<p>Both constraints point the same direction. Do the interpretive labor once, ahead of time, and inspectably, instead of re-deriving it inside every private chat session.</p>
+
+<h2>What the tool does</h2>
+
+<p>It unbundles the paper, once, for everyone. Every paper in the corpus is broken down into concepts, relationships, and overarching themes. Those units are connected across the corpus by agentic search and repeated LLM passes, and every unit carries a citation back to a specific span in the source. The structure is an index into the papers, never a replacement for them. Every claim sits one click from the sentence that grounds it.</p>
+
+<p>The graph this produces is not the product. Most researchers may never look at it. The product is the reading experience it enables. A researcher meets a new paper, and this is the fastest honest way to understand it and place it. Relations are explicit and grouped rather than scattered through prose. The insight layer is up front, the verification layer one click away. Prerequisites are laid out in order instead of discovered by getting stuck.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The pipeline: a corpus of papers is broken into concepts and relations, each keeping a citation thread back to its source span, and the structure powers a reading experience with relations grouped and prerequisites in order.">
+  <defs>
+    <marker id="rd-fwd" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#3b82f6"/></marker>
+  </defs>
+
+  <!-- corpus -->
+  <text x="92" y="34" text-anchor="middle" font-size="12.5" font-weight="700" letter-spacing="0.06em" fill="#1e40af">THE CORPUS</text>
+  <rect x="58" y="52" width="72" height="98" rx="6" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <rect x="46" y="62" width="72" height="98" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="34" y="72" width="72" height="98" rx="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="44" y1="88"  x2="96" y2="88"  stroke="#1e40af" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="44" y1="102" x2="96" y2="102" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="44" y1="112" x2="90" y2="112" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="44" y1="122" x2="96" y2="122" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="44" y1="132" x2="86" y2="132" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="44" y1="142" x2="94" y2="142" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="44" y1="152" x2="88" y2="152" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="92" y="196" text-anchor="middle" font-size="10.5" fill="#64748b">papers &amp; posts</text>
+
+  <line x1="160" y1="118" x2="192" y2="118" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#rd-fwd)"/>
+
+  <!-- concepts & relations -->
+  <text x="315" y="34" text-anchor="middle" font-size="12.5" font-weight="700" letter-spacing="0.06em" fill="#1e40af">CONCEPTS &amp; RELATIONS</text>
+  <!-- citation threads back to the source spans -->
+  <line x1="241" y1="94"  x2="112" y2="100" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="2 4"/>
+  <line x1="287" y1="144" x2="112" y2="150" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="2 4"/>
+  <!-- edges -->
+  <line x1="250" y1="90"  x2="315" y2="62"  stroke="#93c5fd" stroke-width="2"/>
+  <line x1="250" y1="90"  x2="295" y2="140" stroke="#93c5fd" stroke-width="2"/>
+  <line x1="315" y1="62"  x2="370" y2="100" stroke="#93c5fd" stroke-width="2"/>
+  <line x1="295" y1="140" x2="370" y2="100" stroke="#93c5fd" stroke-width="2"/>
+  <line x1="295" y1="140" x2="350" y2="160" stroke="#93c5fd" stroke-width="2"/>
+  <line x1="370" y1="100" x2="395" y2="55"  stroke="#93c5fd" stroke-width="2"/>
+  <line x1="370" y1="100" x2="350" y2="160" stroke="#93c5fd" stroke-width="2"/>
+  <!-- nodes -->
+  <circle cx="250" cy="90"  r="9"   fill="#1e40af"/>
+  <circle cx="315" cy="62"  r="7"   fill="#3b82f6"/>
+  <circle cx="295" cy="140" r="8"   fill="#2563eb"/>
+  <circle cx="370" cy="100" r="7"   fill="#3b82f6"/>
+  <circle cx="350" cy="160" r="6"   fill="#60a5fa"/>
+  <circle cx="395" cy="55"  r="5.5" fill="#60a5fa"/>
+  <text x="315" y="196" text-anchor="middle" font-size="10.5" fill="#64748b">every unit cited to a span in the source</text>
+
+  <line x1="430" y1="118" x2="462" y2="118" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#rd-fwd)"/>
+
+  <!-- the reading experience -->
+  <text x="577" y="34" text-anchor="middle" font-size="12.5" font-weight="700" letter-spacing="0.06em" fill="#1e40af">THE READING EXPERIENCE</text>
+  <rect x="478" y="52" width="198" height="128" rx="10" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <line x1="494" y1="74" x2="600" y2="74" stroke="#1e40af" stroke-width="3" stroke-linecap="round"/>
+  <line x1="494" y1="94"  x2="638" y2="94"  stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="494" y1="103" x2="624" y2="103" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="648" y="90" width="9" height="9" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <line x1="494" y1="121" x2="638" y2="121" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="494" y1="130" x2="616" y2="130" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="648" y="117" width="9" height="9" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <line x1="494" y1="148" x2="638" y2="148" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="494" y1="157" x2="630" y2="157" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="648" y="144" width="9" height="9" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
+  <text x="577" y="196" text-anchor="middle" font-size="10.5" fill="#64748b">relations grouped, prerequisites in order</text>
+</svg>
+<figcaption><strong>An index into the papers, never a replacement.</strong> Concepts and relations are extracted once and connected across the corpus; every claim keeps a citation thread back to the sentence that grounds it. The graph is not the product &mdash; the reading experience it powers is.</figcaption>
+</figure>
+
+<h2>Granularity is the design decision</h2>
+
+<p>There is a reason the unit is the concept and not the paper. Distill&rsquo;s unit of work was the whole paper, a full re-exposition done beautifully. That requires Olah-grade writing, and there were never enough humans who could supply it. Current LLMs cannot supply it either. Ask a model to rehash an entire research paper and you get plausible gloss, not distillation. The naive &ldquo;AI distiller&rdquo; inherits Distill&rsquo;s bottleneck directly.</p>
+
+<p>So the project drops the unit of work to the level where models are competent and checkable. A model can extract a concept, state a relation, and attach the evidence. The machine does the extraction and connection. The reader does the sense-making. Nobody, human or machine, is asked to write the perfect essay. Understanding is assembled by the person who needs it, from parts small enough to verify.</p>
+
+<h2>The living canon</h2>
+
+<p>The corpus has a deliberate shape. A few hundred papers are handpicked and maintained live by human curators, and a much larger periphery is crawled. The canonical papers are not special in kind. They are weighted. When the LLM granularizes and connects, the canon counts for more. Its framings, terminology, and results form the center of gravity everything else is read against.</p>
+
+<p class="statement">The papers are canonical. The concepts are not.</p>
+
+<p>No one decrees whether &ldquo;reward hacking&rdquo; and &ldquo;specification gaming&rdquo; are one concept or two. The vocabulary stays open, free to merge, split, and drift as the periphery pushes on it. But because canonical papers are weighted in every pass, the terminology gravitates toward how the best papers use it. Canonicalization is the problem where scientific knowledge graphs historically die, and this soft anchor makes it tractable instead of fatal. Not solved by decree. Held in place by weight.</p>
+
+<h2>Distill&rsquo;s lesson</h2>
+
+<p>Olah and Carter did not stop at diagnosis. Distill.pub was the fix, a real journal that treated distillation as a legitimate research contribution. It went on hiatus in 2021, not because the diagnosis was wrong but because the labor model did not scale. The editors burned out. The supply of people who can write at that level is tiny. Their post-mortem asked whether distillation should have been a movement rather than a journal. Olah&rsquo;s own next act was the Transformer Circuits thread, rolling, living, and outside traditional publishing. It is a quiet vote for &ldquo;maintained live.&rdquo;</p>
+
+<p>This project keeps Distill&rsquo;s diagnosis and changes the division of labor, splitting it three ways instead of one. Humans keep taste, choosing and maintaining the canon. Machines absorb the grinding per-paper extraction and connection, at a granularity they can handle. Readers keep the thinking. The final synthesis is theirs. Distill asked the same few people to supply all three, and the middle one broke them. The one-sentence version is paying down research debt with automated interpretive labor. Distill proved humans can build one beautiful trail a month. This keeps every trail cleared continuously and saves human judgment for deciding which mountains matter.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two labor models. Distill: the same few people supply taste, per-paper distillation, and synthesis, and burn out. This project: humans keep taste, machines absorb extraction and connection, readers keep the synthesis.">
+  <text x="360" y="28" text-anchor="middle" font-size="12.5" font-weight="700" letter-spacing="0.08em" fill="#b45309">DISTILL&rsquo;S MODEL</text>
+  <rect x="110" y="44" width="500" height="56" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="360" y="68" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="0.03em" fill="#b45309">THE SAME FEW PEOPLE</text>
+  <text x="360" y="87" text-anchor="middle" font-size="10.5" fill="#92702a">taste + per-paper distillation + final synthesis</text>
+  <text x="360" y="122" text-anchor="middle" font-size="10.5" font-style="italic" fill="#b45309">the middle job broke them</text>
+
+  <line x1="40" y1="140" x2="680" y2="140" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4 5"/>
+
+  <text x="360" y="164" text-anchor="middle" font-size="12.5" font-weight="700" letter-spacing="0.08em" fill="#1e40af">SPLIT THREE WAYS</text>
+  <rect x="40" y="176" width="190" height="62" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="135" y="202" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="0.04em" fill="#1e40af">HUMANS</text>
+  <text x="135" y="221" text-anchor="middle" font-size="10.5" fill="#64748b">taste &mdash; curate the canon</text>
+  <text x="247.5" y="212" text-anchor="middle" font-size="16" font-weight="600" fill="#94a3b8">+</text>
+  <rect x="265" y="176" width="190" height="62" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="360" y="202" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="0.04em" fill="#1e40af">MACHINES</text>
+  <text x="360" y="221" text-anchor="middle" font-size="10.5" fill="#64748b">extraction &amp; connection</text>
+  <text x="472.5" y="212" text-anchor="middle" font-size="16" font-weight="600" fill="#94a3b8">+</text>
+  <rect x="490" y="176" width="190" height="62" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="585" y="202" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="0.04em" fill="#1e40af">READERS</text>
+  <text x="585" y="221" text-anchor="middle" font-size="10.5" fill="#64748b">sense-making &amp; synthesis</text>
+</svg>
+<figcaption><strong>Changing the division of labor.</strong> Distill asked a handful of writers to supply taste, per-paper distillation, and synthesis &mdash; and the middle one broke them. Here humans keep taste, machines absorb the grind at a granularity they can handle, and readers keep the thinking.</figcaption>
+</figure>
+
+<h2>Why AI safety</h2>
+
+<p>Safety is the rare field where this is tractable. The corpus is small, thousands of core papers plus forum posts. The terminology is young. The community is dense enough that one shared reference can become <em>the</em> reference. And the field&rsquo;s end goals are explicit, which makes &ldquo;gap&rdquo; and &ldquo;tension&rdquo; definable rather than aesthetic. A tension between two papers, or a direction two results jointly enable, can be surfaced against a known objective. A general-science version of this dies on the ontology. A safety version might not.</p>
+
+<p>Surfaced tensions are attention direction, not discovery. The system points at two results that bear on each other, and the researcher judges. It should arrive as a periodic digest, not wait behind a query box. This is the part that compounds as models strengthen.</p>
+
+<h2>What to build first</h2>
+
+<p>The best-fit reader is someone new to an area, facing the prerequisite chain at its steepest. &ldquo;What must I understand before this paper, and in what order&rdquo; is a question nobody answers well, and one this structure supports natively.</p>
+
+<p>The first build is not graph visualization. It is concept pages. Each concept gets an auto-assembled mini-review, fully cited and always current. The page gathers every claim about the concept across the corpus, grouped by relation type, with each claim linked to its source span and canonical papers weighted first. That is &ldquo;relations in group format, not scattered,&rdquo; in a form researchers already know how to read. Then prerequisite paths. Then the tension digest.</p>
+
+<h2>The byproduct</h2>
+
+<p>Nobody wakes up wanting a map of a field, and nobody here has to. Every paper read through the tool leaves behind indexed structure made of concepts, relations, and tensions, each cited and weighted against the canon. Read enough papers this way and a field-level layer assembles itself, without anyone having built it on purpose.</p>
+
+<p>That byproduct is about to matter. AI systems are becoming able to execute research. They can run the experiments, sweep the parameters, and check the correctness. As that happens, the cost of producing a result falls toward the cost of compute, and scarcity moves. It moves to orientation. Orientation means knowing what has been done, what is worth doing next, and where the leverage is. The field&rsquo;s current machinery for this is a throttle. Peer review, conferences, and citation counts form a coordination mechanism that assumes output is scarce. It decides what gets in. It does not say where anything sits. Under abundance it fails in both directions. Keep the throttle and the field cannot notice work fast enough. Remove it and effort scatters into duplicated experiments, parallel reinvention nobody knows is parallel, and high-leverage questions left open because no one realized they were.</p>
+
+<p class="statement">The project does not have to sell orientation. It accrues it.</p>
+
+<p>The primary act is reading one paper well. The accumulated exhaust of that act is the orientation layer the field is about to need. And because that layer is cited, current, and open to correction, it can become the field&rsquo;s living reference, a place researchers not only read but write, sharing insight with the public. Stronger models only make it more valuable, because maintenance gets cheaper while the accumulated verification stays.</p>
+
+<h2>Closing</h2>
+
+<p>The primary act here is small and daily. Read one paper well, and know where it sits. Do that enough times, over a curated core, and something larger accumulates that no one asked for. The field&rsquo;s orientation layer takes shape, arriving just as execution gets cheap and orientation becomes the scarce thing. The version of this that matters in a few years is not the paper reader alone. It is the living canon the reading leaves behind.</p>
+
+<a class="readnext" href="/posts/the-loop-no-one-chose/">
+  <p class="rn-label">Read next &rarr;</p>
+  <p class="rn-title">The Loop No One Chose</p>
+  <p class="rn-desc">Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map that reflects the field back to itself instead of telling it what to do.</p>
+</a>
+
+<footer>
+  <p class="byline">Manu Xaviour Thaisseril Shaju &middot; July 2026</p>
+  <a class="back" href="/">&larr; All writing</a>
+</footer>
+
+</article>
+</body>
+</html>
