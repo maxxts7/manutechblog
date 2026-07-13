@@ -394,7 +394,9 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>The first is engineering. Understanding a paper properly means understanding it against the field, and a field does not fit in a context window. A thousand papers is on the order of ten million tokens. No window holds that, and long before the hard limit, retrieval degrades. This is the needle-in-a-haystack problem, where the model misses what is buried in the middle. Even as windows grow, re-reading the whole field on every question is the wrong architecture. Indexes exist because scanning everything every time never scales. The engineering answer is a corpus indexed ahead of time, with concepts and relations extracted at rest, stored with citations, and retrieved when needed.</p>
 
-<p>The second constraint is epistemic. Chat is pull-based. It answers the questions you have, and in a foreign field you do not know which questions to ask. Precomputed structure surfaces the unknown unknowns.</p>
+<p>The second constraint is epistemic. Chat is pull-based. It answers the questions you have, and in a foreign field you do not know which questions to ask.</p>
+
+<p class="statement">Precomputed structure surfaces the unknown unknowns.</p>
 
 <p>Both constraints point the same direction. Do the interpretive labor once, ahead of time, and inspectably, instead of re-deriving it inside every private chat session.</p>
 
@@ -472,7 +474,9 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>There is a reason the unit is the concept and not the paper. Distill&rsquo;s unit of work was the whole paper, a full re-exposition done beautifully. That requires Olah-grade writing, and there were never enough humans who could supply it. Current LLMs cannot supply it either. Ask a model to rehash an entire research paper and you get plausible gloss, not distillation. The naive &ldquo;AI distiller&rdquo; inherits Distill&rsquo;s bottleneck directly.</p>
 
-<p>So the project drops the unit of work to the level where models are competent and checkable. A model can extract a concept, state a relation, and attach the evidence. The machine does the extraction and connection. The reader does the sense-making. Nobody, human or machine, is asked to write the perfect essay. Understanding is assembled by the person who needs it, from parts small enough to verify.</p>
+<p>So the project drops the unit of work to the level where models are competent and checkable. A model can extract a concept, state a relation, and attach the evidence. Nobody, human or machine, is asked to write the perfect essay. Understanding is assembled by the person who needs it, from parts small enough to verify.</p>
+
+<p class="statement">The machine does the extraction and connection. The reader does the sense-making.</p>
 
 <h2>The living canon</h2>
 
@@ -516,7 +520,9 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <h2>Why AI safety</h2>
 
-<p>Safety is the rare field where this is tractable. The corpus is small, thousands of core papers plus forum posts. The terminology is young. The community is dense enough that one shared reference can become <em>the</em> reference. And the field&rsquo;s end goals are explicit, which makes &ldquo;gap&rdquo; and &ldquo;tension&rdquo; definable rather than aesthetic. A tension between two papers, or a direction two results jointly enable, can be surfaced against a known objective. A general-science version of this dies on the ontology. A safety version might not.</p>
+<p>Safety is the rare field where this is tractable. The corpus is small, thousands of core papers plus forum posts. The terminology is young. The community is dense enough that one shared reference can become <em>the</em> reference. And the field&rsquo;s end goals are explicit, which makes &ldquo;gap&rdquo; and &ldquo;tension&rdquo; definable rather than aesthetic. A tension between two papers, or a direction two results jointly enable, can be surfaced against a known objective.</p>
+
+<p class="statement">A general-science version of this dies on the ontology. A safety version might not.</p>
 
 <p>Surfaced tensions are attention direction, not discovery. The system points at two results that bear on each other, and the researcher judges. It should arrive as a periodic digest, not wait behind a query box. This is the part that compounds as models strengthen.</p>
 
@@ -538,7 +544,9 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <h2>Closing</h2>
 
-<p>The primary act here is small and daily. Read one paper well, and know where it sits. Do that enough times, over a curated core, and something larger accumulates that no one asked for. The field&rsquo;s orientation layer takes shape, arriving just as execution gets cheap and orientation becomes the scarce thing. The version of this that matters in a few years is not the paper reader alone. It is the living canon the reading leaves behind.</p>
+<p>The primary act here is small and daily. Read one paper well, and know where it sits. Do that enough times, over a curated core, and something larger accumulates that no one asked for. The field&rsquo;s orientation layer takes shape, arriving just as execution gets cheap and orientation becomes the scarce thing. The version of this that matters in a few years is not the paper reader alone.</p>
+
+<p class="statement">It is the living canon the reading leaves behind.</p>
 
 <a class="readnext" href="/posts/the-loop-no-one-chose/">
   <p class="rn-label">Read next &rarr;</p>
