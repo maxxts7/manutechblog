@@ -338,7 +338,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <p>As models grow capable, building becomes cheap, where the implementations and coding will be handled by the models, and <strong>knowing the field becomes the scarce skill</strong>. That knowledge accumulates here as a side effect of reading. Newcomers gain most, and the field's output strengthens with them.</p>
 </aside>
 
-<p class="lead">A research paper is not optimized for the person trying to learn from it. It is two documents wearing one trenchcoat. One is a verification layer made of methods, appendices, and reproducibility detail, the machinery that lets a skeptical reader confirm the result holds. The other is an insight layer that carries the hypothesis, the finding, and what it changes. They are bundled only because the same person had to read both. Every reader pays to unbundle them. And the paper rarely stands alone. Behind it is a chain of prerequisites, each demanding the same work. Getting blocked on one paper means getting blocked on the paper behind it.</p>
+<p class="lead">A research paper is hard to learn from because it is two documents wearing one trenchcoat. One is a verification layer made of methods, appendices, and reproducibility detail, the machinery that lets a skeptical reader confirm the result holds. The other is an insight layer that carries the hypothesis, the finding, and what it changes. They are bundled only because the same person had to read both. Every reader pays to unbundle them. And the paper rarely stands alone. Behind it is a chain of prerequisites, each demanding the same work. Getting blocked on one paper means getting blocked on the paper behind it.</p>
 
 <figure class="hero">
   <svg viewBox="0 0 300 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A research paper unbundled: one bundled document splits into a bold insight layer and a dense verification layer, still joined by a thin thread.">
@@ -382,7 +382,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   <figcaption>Two documents wearing one trenchcoat &mdash; a bold insight layer bundled with the machinery of verification. Unbundled once, for everyone, each claim stays one click from its source.</figcaption>
 </figure>
 
-<p>This problem has a name. In 2017 Chris Olah and Shan Carter published <a href="https://distill.pub/2017/research-debt/" rel="noopener" target="_blank">&ldquo;Research Debt&rdquo;</a> on Distill.pub, still the sharpest statement of it. Fields accumulate debt the way codebases do, piling up undigested ideas, noisy exposition, bad abstractions, and a rising cost of entry. Their central concept is interpretive labor. Understanding an idea takes work, and someone always pays. Either the author pays once, by distilling it clearly, or thousands of readers pay separately to decode it. Academia rewards novelty, not clarity, so there is no professional distiller.</p>
+<p>This problem has a name. In 2017 Chris Olah and Shan Carter published <a href="https://distill.pub/2017/research-debt/" rel="noopener" target="_blank">&ldquo;Research Debt&rdquo;</a> on Distill.pub, still the sharpest statement of it. Fields accumulate debt the way codebases do, piling up undigested ideas, noisy exposition, bad abstractions, and a rising cost of entry. Their central concept is interpretive labor. Understanding an idea takes work, and someone always pays. Either the author pays once, by distilling it clearly, or thousands of readers pay separately to decode it. Academia rewards novelty and leaves clarity unpaid, so there is no professional distiller.</p>
 
 <p class="statement">Every reader re-climbs the same mountain alone.</p>
 
@@ -402,11 +402,11 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <h2>What the tool does</h2>
 
-<p>It unbundles the paper, once, for everyone. Every paper in the corpus is broken down into concepts, relationships, and overarching themes. Those units are connected across the corpus by agentic search and repeated LLM passes, and every unit carries a citation back to a specific span in the source. The structure is an index into the papers, never a replacement for them. Every claim sits one click from the sentence that grounds it.</p>
+<p>It unbundles the paper, once, for everyone. Every paper in the corpus is broken down into concepts, relationships, and overarching themes. Those units are connected across the corpus by agentic search and repeated LLM passes, and every unit carries a citation back to a specific span in the source. The structure is an index into the papers. Every claim sits one click from the sentence that grounds it.</p>
 
-<p class="statement">The graph this produces is not the product.</p>
+<p class="statement">The graph is infrastructure. The product is the reading experience.</p>
 
-<p>Most researchers may never look at it. The product is the reading experience it enables. A researcher meets a new paper, and this is the fastest honest way to understand it and place it. Relations are explicit and grouped rather than scattered through prose. The insight layer is up front, the verification layer one click away. Prerequisites are laid out in order instead of discovered by getting stuck.</p>
+<p>Most researchers may never look at the graph itself. A researcher meets a new paper, and this is the fastest honest way to understand it and place it. Relations are explicit and grouped rather than scattered through prose. The insight layer is up front, the verification layer one click away. Prerequisites are laid out in order instead of discovered by getting stuck.</p>
 
 <figure class="diagram">
 <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The pipeline: a corpus of papers is broken into concepts and relations, each keeping a citation thread back to its source span, and the structure powers a reading experience with relations grouped and prerequisites in order.">
@@ -469,12 +469,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   <rect x="648" y="144" width="9" height="9" rx="2" fill="#dbeafe" stroke="#3b82f6" stroke-width="1"/>
   <text x="577" y="196" text-anchor="middle" font-size="10.5" fill="#64748b">relations grouped, prerequisites in order</text>
 </svg>
-<figcaption><strong>An index into the papers, never a replacement.</strong> Concepts and relations are extracted once and connected across the corpus; every claim keeps a citation thread back to the sentence that grounds it. The graph is not the product &mdash; the reading experience it powers is.</figcaption>
+<figcaption><strong>An index into the papers.</strong> Concepts and relations are extracted once and connected across the corpus; every claim keeps a citation thread back to the sentence that grounds it. The graph exists to power the reading experience.</figcaption>
 </figure>
 
 <h2>Granularity is the design decision</h2>
 
-<p>There is a reason the unit is the concept and not the paper. Distill&rsquo;s unit of work was the whole paper, a full re-exposition done beautifully. That requires Olah-grade writing, and there were never enough humans who could supply it. Current LLMs cannot supply it either. Ask a model to rehash an entire research paper and you get plausible gloss, not distillation. The naive &ldquo;AI distiller&rdquo; inherits Distill&rsquo;s bottleneck directly.</p>
+<p>There is a reason the unit is the concept. Distill&rsquo;s unit of work was the whole paper, a full re-exposition done beautifully. That requires Olah-grade writing, and there were never enough humans who could supply it. Current LLMs cannot supply it either. Ask a model to rehash an entire research paper and you get plausible gloss. The naive &ldquo;AI distiller&rdquo; inherits Distill&rsquo;s bottleneck directly.</p>
 
 <p>So the project drops the unit of work to the level where models are competent and checkable. A model can extract a concept, state a relation, and attach the evidence. Nobody, human or machine, is asked to write the perfect essay. Understanding is assembled by the person who needs it, from parts small enough to verify.</p>
 
@@ -482,15 +482,15 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <h2>The living canon</h2>
 
-<p>The corpus has a deliberate shape. A few hundred papers are handpicked and maintained live by human curators, and a much larger periphery is crawled. The canonical papers are not special in kind. They are weighted. When the LLM granularizes and connects, the canon counts for more. Its framings, terminology, and results form the center of gravity everything else is read against.</p>
+<p>The corpus has a deliberate shape. A few hundred papers are handpicked and maintained live by human curators, and a much larger periphery is crawled. The canonical papers differ only in weight. When the LLM granularizes and connects, the canon counts for more. Its framings, terminology, and results form the center of gravity everything else is read against.</p>
 
-<p class="statement">The papers are canonical. The concepts are not.</p>
+<p class="statement">The papers are canonical. The concepts keep moving.</p>
 
-<p>No one decrees whether &ldquo;reward hacking&rdquo; and &ldquo;specification gaming&rdquo; are one concept or two. The vocabulary stays open, free to merge, split, and drift as the periphery pushes on it. But because canonical papers are weighted in every pass, the terminology gravitates toward how the best papers use it. Canonicalization is the problem where scientific knowledge graphs historically die, and this soft anchor makes it tractable instead of fatal. Not solved by decree. Held in place by weight.</p>
+<p>No one decrees whether &ldquo;reward hacking&rdquo; and &ldquo;specification gaming&rdquo; are one concept or two. The vocabulary stays open, free to merge, split, and drift as the periphery pushes on it. But because canonical papers are weighted in every pass, the terminology gravitates toward how the best papers use it. Canonicalization is the problem where scientific knowledge graphs historically die, and this soft anchor makes it tractable instead of fatal.</p>
 
 <h2>Distill&rsquo;s lesson</h2>
 
-<p>Olah and Carter did not stop at diagnosis. Distill.pub was the fix, a real journal that treated distillation as a legitimate research contribution. It went on hiatus in 2021, not because the diagnosis was wrong but because the labor model did not scale. The editors burned out. The supply of people who can write at that level is tiny. Their post-mortem asked whether distillation should have been a movement rather than a journal. Olah&rsquo;s own next act was the Transformer Circuits thread, rolling, living, and outside traditional publishing. It is a quiet vote for &ldquo;maintained live.&rdquo;</p>
+<p>Olah and Carter followed the diagnosis with a fix. Distill.pub was a real journal that treated distillation as a legitimate research contribution. It went on hiatus in 2021 because the labor model failed to scale. The editors burned out. The supply of people who can write at that level is tiny. Their post-mortem asked whether distillation should have been a movement rather than a journal. Olah&rsquo;s own next act was the Transformer Circuits thread, rolling, living, and outside traditional publishing. It is a quiet vote for &ldquo;maintained live.&rdquo;</p>
 
 <p>This project keeps Distill&rsquo;s diagnosis and changes the division of labor, splitting it three ways instead of one. Humans keep taste, choosing and maintaining the canon. Machines absorb the grinding per-paper extraction and connection, at a granularity they can handle. Readers keep the thinking. The final synthesis is theirs. Distill asked the same few people to supply all three, and the middle one broke them. The one-sentence version is paying down research debt with automated interpretive labor. Distill proved humans can build one beautiful trail a month. This keeps every trail cleared continuously and saves human judgment for deciding which mountains matter.</p>
 
@@ -524,15 +524,15 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>Safety is the rare field where this is tractable. The corpus is small, thousands of core papers plus forum posts. The terminology is young. The community is dense enough that one shared reference can become <em>the</em> reference. And the field&rsquo;s end goals are explicit, which makes &ldquo;gap&rdquo; and &ldquo;tension&rdquo; definable rather than aesthetic. A tension between two papers, or a direction two results jointly enable, can be surfaced against a known objective.</p>
 
-<p class="statement">Surfaced tensions are attention direction, not discovery.</p>
+<p class="statement">Surfaced tensions direct attention. Judgment stays with the researcher.</p>
 
-<p>The system points at two results that bear on each other, and the researcher judges. It should arrive as a periodic digest, not wait behind a query box. This is the part that compounds as models strengthen.</p>
+<p>The system points at two results that bear on each other. It should arrive as a periodic digest, unprompted. This is the part that compounds as models strengthen.</p>
 
 <h2>What to build first</h2>
 
 <p>The best-fit reader is someone new to an area, facing the prerequisite chain at its steepest. &ldquo;What must I understand before this paper, and in what order&rdquo; is a question nobody answers well, and one this structure supports natively.</p>
 
-<p>The first build is not graph visualization. It is concept pages. Each concept gets an auto-assembled mini-review, fully cited and always current. The page gathers every claim about the concept across the corpus, grouped by relation type, with each claim linked to its source span and canonical papers weighted first. That is &ldquo;relations in group format, not scattered,&rdquo; in a form researchers already know how to read. Then prerequisite paths. Then the tension digest.</p>
+<p>The first build is concept pages. Each concept gets an auto-assembled mini-review, fully cited and always current. The page gathers every claim about the concept across the corpus, grouped by relation type, with each claim linked to its source span and canonical papers weighted first. That is &ldquo;relations in group format&rdquo; in a form researchers already know how to read. Then prerequisite paths. Then the tension digest.</p>
 
 <h2>The byproduct</h2>
 
@@ -540,15 +540,15 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>That byproduct is about to matter. AI systems are becoming able to execute research. They can run the experiments, sweep the parameters, and check the correctness. As that happens, the cost of producing a result falls toward the cost of compute, and scarcity moves. It moves to orientation. Orientation means knowing what has been done, what is worth doing next, and where the leverage is. The field&rsquo;s current machinery for this is a throttle. Peer review, conferences, and citation counts form a coordination mechanism that assumes output is scarce.</p>
 
-<p class="statement">It decides what gets in. It does not say where anything sits.</p>
+<p class="statement">It decides what gets in, and that is all it decides.</p>
 
 <p>Under abundance it fails in both directions. Keep the throttle and the field cannot notice work fast enough. Remove it and effort scatters into duplicated experiments, parallel reinvention nobody knows is parallel, and high-leverage questions left open because no one realized they were.</p>
 
-<p>The project does not have to sell orientation. It accrues it. The primary act is reading one paper well. The accumulated exhaust of that act is the orientation layer the field is about to need. And because that layer is cited, current, and open to correction, it can become the field&rsquo;s living reference, a place researchers not only read but write, sharing insight with the public. Stronger models only make it more valuable, because maintenance gets cheaper while the accumulated verification stays.</p>
+<p>The project accrues orientation on its own. The primary act is reading one paper well. The accumulated exhaust of that act is the orientation layer the field is about to need. And because that layer is cited, current, and open to correction, it can become the field&rsquo;s living reference, a place researchers read and write, sharing insight with the public. Stronger models only make it more valuable, because maintenance gets cheaper while the accumulated verification stays.</p>
 
 <h2>Closing</h2>
 
-<p>The primary act here is small and daily. Read one paper well, and know where it sits. Do that enough times, over a curated core, and something larger accumulates that no one asked for. The field&rsquo;s orientation layer takes shape, arriving just as execution gets cheap and orientation becomes the scarce thing. The version of this that matters in a few years is not the paper reader alone. It is the living canon the reading leaves behind.</p>
+<p>The primary act here is small and daily. Read one paper well, and know where it sits. Do that enough times, over a curated core, and something larger accumulates that no one asked for. The field&rsquo;s orientation layer takes shape, arriving just as execution gets cheap and orientation becomes the scarce thing. The version of this that matters in a few years is the living canon the reading leaves behind.</p>
 
 <a class="readnext" href="/posts/the-loop-no-one-chose/">
   <p class="rn-label">Read next &rarr;</p>
