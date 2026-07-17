@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We&rsquo;ll Coordinate Through Twitter and LessWrong | Manu Xaviour Thaisseril Shaju</title>
+<meta name="description" content="Being able to talk is not the same as being able to see. AI safety's largest money flow is field-building, while field-sensemaking - the ability to read the field's own state - goes not so much underfunded as unnamed.">
+<link rel="canonical" href="https://manutechblog.netlify.app/posts/well-coordinate-through-twitter-and-lesswrong/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Manu Xaviour Thaisseril Shaju">
+<meta property="og:title" content="We'll Coordinate Through Twitter and LessWrong">
+<meta property="og:description" content="Being able to talk is not the same as being able to see. AI safety's largest money flow is field-building, while field-sensemaking goes not so much underfunded as unnamed.">
+<meta property="og:url" content="https://manutechblog.netlify.app/posts/well-coordinate-through-twitter-and-lesswrong/">
+<meta property="og:image" content="https://manutechblog.netlify.app/posts/well-coordinate-through-twitter-and-lesswrong/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="We'll Coordinate Through Twitter and LessWrong - speech bubbles in busy conversation above the empty dashed outline of a map no one drew.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="We'll Coordinate Through Twitter and LessWrong">
+<meta name="twitter:description" content="Being able to talk is not the same as being able to see. AI safety's largest money flow is field-building, while field-sensemaking goes not so much underfunded as unnamed.">
+<meta name="twitter:image" content="https://manutechblog.netlify.app/posts/well-coordinate-through-twitter-and-lesswrong/og.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400..900&family=Noto+Serif:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --text: #1a1a2e;
+  --text-secondary: #64748b;
+  --bg: #ffffff;
+  --border: #e2e8f0;
+  --blue: #3b82f6;
+  --blue-dark: #1e40af;
+  --blue-light: #dbeafe;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-700: #334155;
+  --blue-muted: #60a5fa;
+
+  /* reading knobs — single source of truth; re-tune here (paste from the typography playground) */
+  --font-head: 'Merriweather', Georgia, serif;
+  --font-body: 'Noto Serif', Georgia, serif;
+  --reading-width: 860px;
+  --reading-size: 15.5px;
+  --reading-lh: 1.55;
+  --h1-size: 36.3px;
+  --h2-size: 26.6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--reading-size);
+  line-height: var(--reading-lh);
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--blue-light); color: var(--blue-dark); }
+
+article { max-width: var(--reading-width); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+
+/* ── Header ── */
+header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+header .eyebrow {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.9rem;
+}
+header h1 {
+  font-family: var(--font-head);
+  font-size: var(--h1-size);
+  font-weight: 800;
+  line-height: 1.12;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  text-wrap: balance;
+}
+header .subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin: 0 0 1.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 42ch;
+  text-wrap: pretty;
+}
+header .author-line { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+header .dot { color: var(--gray-200); }
+header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
+
+/* ── Hero figure ── */
+.hero {
+  width: fit-content;
+  max-width: 100%;
+  margin: 2.25rem auto 2.5rem;
+  padding: 1.5rem 1.6rem 1.25rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  text-align: center;
+}
+.hero svg { display: block; width: 235px; max-width: 100%; height: auto; margin: 0 auto; }
+.hero figcaption {
+  margin: 0.9rem auto 0;
+  max-width: 30ch;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ── Typography ── */
+p { margin: 0 0 0.95rem; text-wrap: pretty; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Section headings ── */
+h2 {
+  font-family: var(--font-head);
+  margin: 2.25rem 0 1.3rem;
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--blue);
+}
+
+/* ── Lead paragraph + drop cap ── */
+.lead { font-size: var(--reading-size); line-height: var(--reading-lh); color: var(--text); margin-bottom: 1.4rem; }
+.lead::first-letter {
+  float: left;
+  font-family: var(--font-head);
+  font-size: 3.5rem;
+  line-height: 0.78;
+  font-weight: 800;
+  padding: 0.32rem 0.62rem 0 0;
+  color: var(--blue-dark);
+}
+
+/* ── Display statement ── */
+.statement {
+  font-family: var(--font-head);
+  position: relative;
+  margin: 3.25rem auto;
+  padding-top: 2.1rem;
+  max-width: 33ch;
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.statement::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+
+/* ── Read next ── */
+.readnext {
+  display: block;
+  margin: 1.1rem 0 0;
+  padding: 1.4rem 1.65rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--gray-50);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.readnext:first-of-type { margin-top: 3.5rem; }
+.readnext:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(59,130,246,0.08); text-decoration: none; }
+.readnext .rn-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.4rem; }
+.readnext .rn-title { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.35rem; }
+.readnext .rn-desc { font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+/* ── Footer ── */
+footer {
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+footer .byline { margin: 0; font-size: 0.85rem; color: var(--gray-400); }
+footer .back { font-size: 0.85rem; color: var(--text-secondary); }
+footer .back:hover { color: var(--blue); text-decoration: none; }
+
+@media (max-width: 700px) {
+  header h1 { font-size: calc(var(--h1-size) * 0.8); }
+  .lead::first-letter { font-size: 3rem; }
+  .statement { font-size: 1.15rem; }
+}
+</style>
+</head>
+<body>
+<nav style="max-width:var(--reading-width);margin:0 auto;padding:1.5rem 1.5rem 0;">
+  <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
+    <span>&larr;</span> Manu Xaviour Thaisseril Shaju
+  </a>
+</nav>
+<article>
+
+<header>
+  <p class="eyebrow">Essay</p>
+  <h1>We&rsquo;ll Coordinate Through Twitter and LessWrong</h1>
+  <p class="subtitle">The field&rsquo;s stock answer to whether it needs to see itself &mdash; and a case that the answer skips a question worth taking seriously</p>
+  <div class="author-line">
+    <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
+    <span class="dot">&middot;</span>
+    <span class="meta-date">July 2026</span>
+  </div>
+</header>
+
+<p class="lead">Ask whether the field needs a way to see its own state, and the usual answer comes back easily: it already does. The important papers get discussed, the good people get followed, the field self-organizes in the open &mdash; on Twitter, on the forums, in the threads. I think that answer is mostly true and still quietly skips a question, because being able to <em>talk</em> is not quite the same as being able to <em>see</em>. One place the difference shows up is the budget. There is a large budget for running the field and very little for reading its own map. In technical AI safety, the single largest flow of money is field-building &mdash; funds, fellowships, talent pipelines, new organizations, something like $326 million in itemized grants by one recent accounting, more than any research direction. Most of that is fuel: it makes the field bigger and faster, more people and papers and shops. Comparatively little of it goes toward the field&rsquo;s ability to see whether that motion is pointed somewhere sensible.</p>
+
+<p>The natural reading is that field-sensemaking is simply underfunded &mdash; a worthy line item that keeps losing the budget fight. I suspect something slightly different is going on, and the distinction matters. Being underfunded implies the thing was weighed and came up short. What seems closer to the truth is that the field hasn&rsquo;t clearly separated sensemaking from building at all &mdash; it has put enormous effort into growing itself and treated that as also tending itself. If that&rsquo;s right, the second thing isn&rsquo;t so much underfunded as unnamed: a category without a clear home or funder, which may be harder to fix than being merely poor, since you can argue for more money but it&rsquo;s harder to argue for a thing no one has named.</p>
+
+<figure class="hero">
+  <svg viewBox="0 0 250 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Speech bubbles in busy conversation above a dashed, empty outline of a map. The talk is abundant; the map beneath it was never drawn.">
+    <!-- the threads: plenty of channels to talk through -->
+    <g>
+      <rect x="18" y="14" width="74" height="36" rx="10" fill="#dbeafe"/>
+      <path d="M 36 48 L 30 61 L 54 48 Z" fill="#dbeafe"/>
+      <line x1="32" y1="28" x2="78" y2="28" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+      <line x1="32" y1="37" x2="62" y2="37" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g>
+      <rect x="150" y="10" width="80" height="40" rx="10" fill="#1e40af"/>
+      <path d="M 214 48 L 222 62 L 194 48 Z" fill="#1e40af"/>
+      <line x1="164" y1="25" x2="216" y2="25" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+      <line x1="164" y1="35" x2="200" y2="35" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g>
+      <rect x="86" y="66" width="72" height="34" rx="10" fill="#bfdbfe"/>
+      <path d="M 104 98 L 98 111 L 122 98 Z" fill="#bfdbfe"/>
+      <line x1="100" y1="79" x2="144" y2="79" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+      <line x1="100" y1="88" x2="128" y2="88" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g>
+      <rect x="184" y="70" width="48" height="28" rx="9" fill="#e2e8f0"/>
+      <line x1="196" y1="84" x2="220" y2="84" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <!-- the aggregate: a map that was never drawn -->
+    <rect x="42" y="130" width="166" height="62" rx="10" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="7 6"/>
+    <path d="M 60 176 C 80 156, 104 168, 122 152 C 138 138, 164 150, 190 144" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+    <path d="M 56 158 C 74 148, 92 156, 110 146" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+    <circle cx="150" cy="172" r="2.5" fill="#e2e8f0"/>
+    <circle cx="170" cy="162" r="2.5" fill="#e2e8f0"/>
+    <circle cx="76" cy="168" r="2.5" fill="#e2e8f0"/>
+  </svg>
+  <figcaption>The channels are real and busy. The aggregate they add up to is the part no one drew.</figcaption>
+</figure>
+
+<h2>Building is not sensemaking</h2>
+
+<p>The distinction is easy to state and easy to skip. Building a field adds capacity &mdash; it raises the rate at which work gets done. Sensemaking is the field&rsquo;s ability to see its own state: where money and talent have piled up, which important directions sit starved beside them, what recently became possible, what quietly stopped mattering. One is fuel, the other is steering, and the two can come apart. A field can keep growing while getting no better &mdash; possibly worse &mdash; at saying what it&rsquo;s neglecting, because each increment of growth adds to the same aggregate no one is watching. More fuel without a gauge doesn&rsquo;t obviously buy you a better-aimed field. It buys a faster one, with its direction left to whatever the underlying dynamics happen to produce.</p>
+
+<h2>The loop, and why the gap is hard to see</h2>
+
+<p>The reason no one is watching the aggregate has a fairly ordinary mechanism behind it. In a field with no central allocator &mdash; many small nonprofits, scattered researchers, a few mission-driven funders &mdash; nobody hands out priorities, so each actor decides for themselves what&rsquo;s worth working on, and to decide they need a signal. Often the cheapest available signal is what everyone else is already doing: what&rsquo;s being published, hired for, funded, discussed. Attention starts to stand in for importance. Talent and money follow attention; the resulting concentration of output reads, to the next person scanning for a signal, as evidence that this is where the value is; and the next wave follows. Hot areas compound and quiet ones can starve somewhat independently of how important they are. This is <a href="/posts/the-loop-no-one-chose/">a familiar dynamic</a> &mdash; a version of it shows up wherever attention is the currency &mdash; and its notable feature is that no one decides the skew. It&rsquo;s the aggregate of many locally reasonable choices, so there&rsquo;s no single decision to contest.</p>
+
+<p>What that does to sensemaking is a second-order effect. The problem isn&rsquo;t that the field examined its own allocation, saw a skew, and shrugged. It&rsquo;s that each participant mostly sees their own choices, which are individually reasonable, and rarely sees the aggregate &mdash; so the question &ldquo;should someone be watching the aggregate?&rdquo; doesn&rsquo;t have an obvious place to arise.</p>
+
+<p class="statement">It&rsquo;s genuinely hard to notice a missing map from inside the thing that would be mapped.</p>
+
+<p>The same structure that hides the skew tends to hide the fact that anyone should be looking, which is why I&rsquo;d resist calling the result simply &ldquo;underfunded.&rdquo; The category may never come into focus sharply enough to be turned down.</p>
+
+<h2>The place you&rsquo;d expect this to be caught</h2>
+
+<p>There&rsquo;s an irony worth flagging, which is that this is a community unusually focused on epistemics. The rationalist and effective-altruist culture around AI safety puts real weight on <em>individual</em> epistemics &mdash; calibration, clean updating, noticing one&rsquo;s own bias. If any field seemed likely to take its own sensemaking seriously, you&rsquo;d think it would be this one.</p>
+
+<p>But individual and collective epistemics aren&rsquo;t the same thing, and the loop is a case where they can diverge. A group can be full of individually careful reasoners and still produce a skewed aggregate, because each person is optimizing on the cheapest legible signal and no one is positioned to see the sum. It might even run the other way: the more diligently everyone chases the same visible signal, the more the aggregate concentrates, so the individual discipline can feed the collective problem rather than fix it. I&rsquo;d hold that last claim loosely &mdash; it&rsquo;s an argument, not a measurement. But at minimum, being well-calibrated as an individual doesn&rsquo;t automatically tell you the field around you has drifted toward what&rsquo;s easy to see. Those look like two different instruments, and the field has invested heavily in one of them.</p>
+
+<h2>The map that got made by hand</h2>
+
+<p>Here&rsquo;s the piece of evidence I find most telling. If field-sensemaking were a recognized category, you&rsquo;d expect it to have a funder, a home, and a slot in the field&rsquo;s own taxonomy of what it works on. As far as I can tell it has none of the three, and the clearest sign is the one recent attempt to actually chart the field&rsquo;s state.</p>
+
+<p>That attempt &mdash; a <a href="https://www.lesswrong.com/posts/k4i6AibKLT54h5Syr/a-genealogy-of-ai-safety-how-directions-are-born-and-how" rel="noopener" target="_blank">genealogy of AI safety</a> assembled by Elena Ericheva, 323 events across two decades, each tied to a primary source &mdash; is close to what a sensemaking function would produce, and it was built by one person, unpaid and uncommissioned, backfilling from tax filings, the Wayback Machine, and arXiv, because no institution was producing it. Its findings are largely things no one seemed to be tracking as they happened: money and scientific attention running out of sync, with interpretability&rsquo;s attention roughly thirty-seven times ahead of what its million or so dollars in grants would predict; government money overtaking philanthropy around 2023; the word &ldquo;Safety&rdquo; quietly leaving the institutes&rsquo; names in 2025. These aren&rsquo;t obscure details &mdash; they&rsquo;re close to the basic shape of the field &mdash; and the fact that they had to be excavated after the fact by a volunteer at least suggests no one was watching the aggregate in real time.</p>
+
+<p>I&rsquo;d put the emphasis less on &ldquo;one person did it&rdquo; than on &ldquo;it was uncommissioned.&rdquo; When the people pointing at a gap are doing it unpaid and unasked, that&rsquo;s some evidence the field hasn&rsquo;t recognized the gap as work &mdash; though I&rsquo;ll grant it isn&rsquo;t conclusive. A couple of volunteers naming something is not nothing, and the honest version is &ldquo;barely recognized,&rdquo; not &ldquo;no one has ever thought about it.&rdquo;</p>
+
+<h2>Why it tends to be nobody&rsquo;s job</h2>
+
+<p>Put the pieces together and the omission looks less like a simple oversight and more like something structural. Field-sensemaking has the shape of a public good: most people benefit from an accurate picture of where the field is starved, and no single actor has much private incentive to pay for it. It also fits awkwardly into the existing slots &mdash; it isn&rsquo;t technical safety, it isn&rsquo;t governance, it isn&rsquo;t a product a lab will ship &mdash; so it lacks an obvious owner. And the incentive that might create one is dampened by the same loop that hides the need. None of that makes the work impossible, or even especially expensive; it mostly means the work tends to fall to no one in particular, for reasons that have little to do with its value.</p>
+
+<p>There&rsquo;s a smaller irony I find hard to unsee. The genealogy sorts the field into families, and field-building sits inside governance-and-infrastructure as the largest money flow. Try to classify the work of mapping the field &mdash; an act of the field observing itself &mdash; and it plausibly files under exactly that: field-building. The field&rsquo;s own scheme for describing itself may quietly fold self-observation into &ldquo;more construction.&rdquo; I don&rsquo;t want to over-read a taxonomy choice, but it does seem to rhyme with the larger point: the category is faint enough that even the field&rsquo;s map of itself doesn&rsquo;t clearly mark it.</p>
+
+<h2>But isn&rsquo;t there already a market?</h2>
+
+<p>The strongest objection I know is that decentralized fields often sort themselves out without anyone building a map. The dot-com bubble spun up thousands of startups, most of them weak, and no one stood up a sensemaking apparatus &mdash; the bad ones failed and the field was, in the end, fine. And safety arguably has it better, because it has real buyers. Labs pay for interpretability, both as venture bets and by folding it into the release cycle; governments pay for evaluations, taking that track from roughly zero itemized dollars to around $97 million in about two years. That demand is genuinely exogenous &mdash; a government funding evals because it got worried is not the field admiring itself &mdash; so a real shakeout can run, and a buyer base of labs, governments, and venture money is more diverse than the near-single philanthropist of a few years ago. I think this is a good objection, and it does soften the funder-concentration worry; an earlier version of my own view overstated the &ldquo;no external signal&rdquo; claim.</p>
+
+<p>But I&rsquo;d point to a premise hidden inside it. The dot-com bubble did have sensemaking &mdash; arguably the most developed version we have, the price system. A share price is a continuous, public, sliceable readout of where the crowd thinks value sits, and it mostly describes rather than prescribes. Markets ship that mirror by default. So the bubble wasn&rsquo;t a field coordinating without a map; it was a field with an unusually good map that still produced a large skew, because for a while enthusiasm drove the price and the price seemed to confirm the enthusiasm. What eventually corrected it wasn&rsquo;t sensemaking showing up late &mdash; it was the map&rsquo;s built-in reality check biting, as price collided with revenue, which is exogenous to sentiment. Pets.com went to zero because customers didn&rsquo;t materialize, not because anyone adjudicated its merit.</p>
+
+<p>That kind of reality check is, I think, the thing the labs-and-governments market only partly supplies. It prices the <em>saleable</em> subset of safety &mdash; what a lab can productize or a government can be moved to fund &mdash; and work outside that subset gets a zero that doesn&rsquo;t distinguish &ldquo;unimportant&rdquo; from &ldquo;not sellable yet.&rdquo; A direction no one attends to produces no product and no contract and so no signal, which leaves the road not taken roughly as dark as before, now with revenue attached to the lit part. And these buyers aren&rsquo;t quite the kind that make market-sorting reliable. Part of what made dot-com sorting work was many independent allocators, so any one being wrong didn&rsquo;t move the whole; safety has a handful of frontier labs and a handful of governments whose demand is fairly correlated &mdash; prompted by the same ChatGPT moment, watching each other, sometimes co-signing the same papers. Correlated buyers don&rsquo;t cancel errors as well as independent ones. And the signal grades something adjacent to, but not identical with, the target: a market checks whether someone will pay, which for safety means roughly &ldquo;is this usable and wanted,&rdquo; not &ldquo;does this reduce catastrophic risk&rdquo; &mdash; and those can diverge, since a lab might reasonably buy interpretability that ships a legible dashboard even if the dashboard misses the failure mode that matters. Some of the evaluation money even comes from labs being evaluated, and government attention has itself moved fast, shifting from &ldquo;safety&rdquo; toward &ldquo;dominance&rdquo; within a year or so.</p>
+
+<p>Followed through, I think this cuts toward the map rather than away from it. If lab and government demand is now doing much of the steering, then interested parties are doing the pulling &mdash; which is more reason, not less, to be able to see the aggregate. The dataset shows something like the fingerprint: government money flowing heavily into evaluations while interpretability&rsquo;s funding lagged well behind its attention. That gap is at least consistent with the market pulling the field toward what&rsquo;s fundable and away from where attention, and plausibly importance, sits. A market existing doesn&rsquo;t remove the need to see the whole; if anything it raises the stakes, because the hand on the tiller now has commercial and political interests of its own. So I&rsquo;d hold both at once: there&rsquo;s more external signal than a pure-attention story admits, and the funder worry is genuinely softer than it was &mdash; but that signal mostly lights the saleable frontier, comes from a correlated few, and grades marketability more than risk reduction.</p>
+
+<p class="statement">The market covers the lit part of the field. A map would be for the dark part, which markets don&rsquo;t obviously light on their own.</p>
+
+<h2>The task before the task</h2>
+
+<p>All of which points, for me, less at a specific solution than at a prior step. It&rsquo;s tempting to jump to mechanisms &mdash; a <a href="/posts/how-to-build-a-mirror-without-holding-it/">live, sliceable data substrate</a>, several independent versions of it, a fix for stale snapshots &mdash; but those are answers to a problem the field would first have to agree it has. You can&rsquo;t really fund a map before the map registers as a thing worth having. So the prior task, and the one I&rsquo;d actually argue for, is fairly modest: taking seriously that coordinating-well is a problem at all &mdash; that a fast-growing decentralized field has a <em>state</em>, that the state can be more or less legible to the field, and that legibility probably doesn&rsquo;t arrive for free as a byproduct of growth.</p>
+
+<p>There&rsquo;s a version of this the field already believes, applied to its object rather than to itself. The reason the field exists is a refusal to assume that powerful systems turn out fine by default &mdash; the case for looking, measuring, and watching rather than trusting the default trajectory. Turned on the field&rsquo;s own allocation, the same reasoning points the same way: a fast-growing, decentralized, high-stakes field probably doesn&rsquo;t end up well-allocated by default either, so it seems worth someone actually looking. I hold this diagnosis more tentatively than the object-level version &mdash; it rests on interpretation more than measurement, and I&rsquo;ve tried to flag where. But if it&rsquo;s even roughly right, the first move isn&rsquo;t building the mirror. It&rsquo;s granting that there&rsquo;s something a mirror would be for.</p>
+
+<a class="readnext" href="/posts/the-loop-no-one-chose/">
+  <p class="rn-label">Read next &rarr;</p>
+  <p class="rn-title">The Loop No One Chose</p>
+  <p class="rn-desc">Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map that reflects the field back to itself instead of telling it what to do.</p>
+</a>
+
+<a class="readnext" href="/posts/how-to-build-a-mirror-without-holding-it/">
+  <p class="rn-label">Then &rarr;</p>
+  <p class="rn-title">How to Build a Mirror Without Holding It</p>
+  <p class="rn-desc">How you actually build the self-observing map &mdash; version control for a field, a check pointed at sources and never at the canon, and a toolmaker who keeps it forkable and steps out of the way.</p>
+</a>
+
+<footer>
+  <p class="byline">Manu Xaviour Thaisseril Shaju &middot; July 2026</p>
+  <a class="back" href="/">&larr; All writing</a>
+</footer>
+
+</article>
+</body>
+</html>
