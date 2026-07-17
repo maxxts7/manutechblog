@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Demand Line | Manu Xaviour Thaisseril Shaju</title>
+<meta name="description" content="Some safety work acquires a customer and the market carries it; the rest is reachable only by philanthropy. Where the demand line runs, how directions cross it, and why watching it is the map's second job.">
+<link rel="canonical" href="https://manutechblog.netlify.app/posts/the-demand-line/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Manu Xaviour Thaisseril Shaju">
+<meta property="og:title" content="The Demand Line">
+<meta property="og:description" content="Some safety work acquires a customer and the market carries it; the rest is reachable only by philanthropy. Where the line runs, how directions cross it, and why watching it is the map's second job. A companion to The Loop No One Chose.">
+<meta property="og:url" content="https://manutechblog.netlify.app/posts/the-demand-line/">
+<meta property="og:image" content="https://manutechblog.netlify.app/posts/the-demand-line/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Demand Line - work above the line hangs from buyers' needs while directions below it run attention loops.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Demand Line">
+<meta name="twitter:description" content="Some safety work acquires a customer and the market carries it; the rest is reachable only by philanthropy. A companion to The Loop No One Chose.">
+<meta name="twitter:image" content="https://manutechblog.netlify.app/posts/the-demand-line/og.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400..900&family=Noto+Serif:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --text: #1a1a2e;
+  --text-secondary: #64748b;
+  --bg: #ffffff;
+  --border: #e2e8f0;
+  --blue: #3b82f6;
+  --blue-dark: #1e40af;
+  --blue-light: #dbeafe;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-700: #334155;
+  --blue-muted: #60a5fa;
+  --orange: #f59e0b;
+  --orange-dark: #b45309;
+  --orange-light: #fef3c7;
+  --green: #66bb6a;
+  --green-dark: #2e7d32;
+  --green-light: #e8f5e9;
+
+  /* reading knobs — single source of truth; re-tune here (paste from the typography playground) */
+  --font-head: 'Merriweather', Georgia, serif;
+  --font-body: 'Noto Serif', Georgia, serif;
+  --reading-width: 860px;
+  --reading-size: 15.5px;
+  --reading-lh: 1.55;
+  --h1-size: 36.3px;
+  --h2-size: 26.6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--reading-size);
+  line-height: var(--reading-lh);
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--blue-light); color: var(--blue-dark); }
+
+article { max-width: var(--reading-width); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+
+/* ── Header ── */
+header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+header .eyebrow {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.9rem;
+}
+header h1 {
+  font-family: var(--font-head);
+  font-size: var(--h1-size);
+  font-weight: 800;
+  line-height: 1.12;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  text-wrap: balance;
+}
+header .subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin: 0 0 1.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 42ch;
+  text-wrap: pretty;
+}
+header .author-line { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+header .dot { color: var(--gray-200); }
+header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
+
+/* ── Companion note ── */
+.companion-note {
+  margin: 0 0 2.25rem;
+  padding: 0.9rem 1.15rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.companion-note a { font-weight: 600; }
+
+/* ── Hero figure ── */
+.hero {
+  width: fit-content;
+  max-width: 100%;
+  margin: 2.25rem auto 2.5rem;
+  padding: 1.5rem 1.6rem 1.25rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  text-align: center;
+}
+.hero svg { display: block; width: 220px; max-width: 100%; height: auto; margin: 0 auto; }
+.hero figcaption {
+  margin: 0.9rem auto 0;
+  max-width: 30ch;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ── Inline diagrams ── */
+.diagram {
+  margin: 2.75rem -1.5rem;
+  padding: 1.75rem 1.6rem 1.5rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+}
+.diagram svg { display: block; width: 100%; height: auto; }
+/* capped diagrams hug their art instead of sitting full-bleed with empty
+   gutters; the box shrinks to the diagram and centres in the column */
+.diagram.narrow,
+.diagram.compact { width: fit-content; max-width: 100%; margin-left: auto; margin-right: auto; }
+.diagram.narrow svg,
+.diagram.compact svg { max-width: 100%; margin-left: auto; margin-right: auto; }
+.diagram.narrow svg { width: 520px; }
+.diagram.compact svg { width: 600px; }
+.diagram svg text { font-family: var(--font-body); }
+.diagram figcaption {
+  margin: 1.15rem auto 0;
+  max-width: 58ch;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.diagram figcaption strong { color: var(--gray-700); font-weight: 600; }
+.diagram figcaption em { font-style: italic; }
+
+/* ── Typography ── */
+p { margin: 0 0 0.95rem; text-wrap: pretty; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Section headings ── */
+h2 {
+  font-family: var(--font-head);
+  margin: 2.25rem 0 1.3rem;
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--blue);
+}
+
+/* ── Lead paragraph + drop cap ── */
+.lead { font-size: var(--reading-size); line-height: var(--reading-lh); color: var(--text); margin-bottom: 1.4rem; }
+.lead::first-letter {
+  float: left;
+  font-family: var(--font-head);
+  font-size: 3.5rem;
+  line-height: 0.78;
+  font-weight: 800;
+  padding: 0.32rem 0.62rem 0 0;
+  color: var(--blue-dark);
+}
+
+/* ── Display statement ── */
+.statement {
+  font-family: var(--font-head);
+  position: relative;
+  margin: 3.25rem auto;
+  padding-top: 2.1rem;
+  max-width: 33ch;
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.statement::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+
+/* ── Read next ── */
+.readnext {
+  display: block;
+  margin: 1.1rem 0 0;
+  padding: 1.4rem 1.65rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--gray-50);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.readnext:first-of-type { margin-top: 3.5rem; }
+.readnext:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(59,130,246,0.08); text-decoration: none; }
+.readnext .rn-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.4rem; }
+.readnext .rn-title { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.35rem; }
+.readnext .rn-desc { font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+/* ── Footer ── */
+footer {
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+footer .byline { margin: 0; font-size: 0.85rem; color: var(--gray-400); }
+footer .back { font-size: 0.85rem; color: var(--text-secondary); }
+footer .back:hover { color: var(--blue); text-decoration: none; }
+
+@media (max-width: 700px) {
+  header h1 { font-size: calc(var(--h1-size) * 0.8); }
+  .lead::first-letter { font-size: 3rem; }
+  .statement { font-size: 1.15rem; }
+}
+</style>
+</head>
+<body>
+<nav style="max-width:var(--reading-width);margin:0 auto;padding:1.5rem 1.5rem 0;">
+  <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
+    <span>&larr;</span> Manu Xaviour Thaisseril Shaju
+  </a>
+</nav>
+<article>
+
+<header>
+  <p class="eyebrow">Essay &middot; Companion</p>
+  <h1>The Demand Line</h1>
+  <p class="subtitle">Which safety work the market will carry, which it never will &mdash; and why watching the border is the map&rsquo;s second job</p>
+  <div class="author-line">
+    <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
+    <span class="dot">&middot;</span>
+    <span class="meta-date">July 2026</span>
+  </div>
+</header>
+
+<p class="companion-note">A companion to <a href="/posts/the-loop-no-one-chose/">The Loop No One Chose</a> &mdash; start there for the core argument &mdash; and to <a href="/posts/open-in-principle-blind-in-practice/">Open in Principle, Blind in Practice</a>. The first essay&rsquo;s caveat ended on evaluations escaping the attention loop because it had an outside customer. This piece generalizes that observation into a line through the whole field.</p>
+
+<p class="lead">The caveat at the end of &ldquo;The Loop No One Chose&rdquo; closed on an observation too large for the sentence it lived in. Evaluations escaped the attention loop without any mirror: labs needed evals to ship models and regulators needed them to write policy, so the direction reoriented around a signal that came from outside the field entirely, and the money &mdash; nearly a hundred million dollars of it &mdash; arrived last. Generalize that and you get a single line through technical AI safety. On one side, work with an outside customer: someone who needs its output for reasons of their own, and will pay. On the other, work with none. Call it the demand line. Where it runs, how directions cross it, and what it asks of the money below it turn out to matter as much as the loop itself.</p>
+
+<figure class="hero">
+  <svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A dashed horizontal line. Above it, three dots hang on taut tethers from solid anchors: work held up by buyers. Below it, dots circle in small attention loops with nothing to hold onto.">
+    <defs>
+      <marker id="dl-loop" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" refX="4" refY="5" orient="auto">
+        <path d="M0,0 L10,5 L0,10 Z" fill="#3b82f6"/>
+      </marker>
+      <marker id="dl-loop2" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="3.5" refY="4.5" orient="auto">
+        <path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/>
+      </marker>
+    </defs>
+
+    <!-- the demand line -->
+    <line x1="14" y1="100" x2="226" y2="100" stroke="#334155" stroke-width="2" stroke-dasharray="7 6" stroke-linecap="round"/>
+
+    <!-- above: buyers and the work that hangs from them -->
+    <rect x="53" y="16" width="14" height="14" rx="3" fill="#2e7d32"/>
+    <rect x="113" y="16" width="14" height="14" rx="3" fill="#2e7d32"/>
+    <rect x="173" y="16" width="14" height="14" rx="3" fill="#2e7d32"/>
+    <line x1="60"  y1="30" x2="60"  y2="61" stroke="#66bb6a" stroke-width="2"/>
+    <line x1="120" y1="30" x2="120" y2="69" stroke="#66bb6a" stroke-width="2"/>
+    <line x1="180" y1="30" x2="180" y2="63" stroke="#66bb6a" stroke-width="2"/>
+    <circle cx="60"  cy="68" r="7" fill="#2e7d32"/>
+    <circle cx="120" cy="76" r="7" fill="#66bb6a"/>
+    <circle cx="180" cy="70" r="7" fill="#2e7d32"/>
+
+    <!-- below: the loops, holding onto each other -->
+    <path d="M 81 136.5 A 17 17 0 1 1 75 136.5" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" marker-end="url(#dl-loop)"/>
+    <circle cx="78" cy="153" r="4.5" fill="#3b82f6"/>
+    <circle cx="68" cy="146" r="3.5" fill="#60a5fa"/>
+    <circle cx="88" cy="147" r="3.5" fill="#2563eb"/>
+
+    <path d="M 170.5 138.5 A 13 13 0 1 1 165.5 138.5" fill="none" stroke="#cbd5e1" stroke-width="2.6" stroke-linecap="round" marker-end="url(#dl-loop2)"/>
+    <circle cx="168" cy="151" r="3" fill="#94a3b8"/>
+  </svg>
+  <figcaption>Above the line, work hangs from a buyer&rsquo;s need. Below it, the only signal is the loop &mdash; and the only money is philanthropy.</figcaption>
+</figure>
+
+<h2>One line, not two kinds of work</h2>
+
+<p>The obvious way to draw the line is between empirical and theoretical work: benchmarks and red-teaming on one side, agent foundations and decision theory on the other. The ledger says otherwise. AI control is as empirical as safety research gets &mdash; Redwood Research runs experiments, publishes measurable results, ships code &mdash; and it is funded almost entirely by philanthropy, about twenty-five million dollars of OpenPhil money across three years, with not a venture dollar in sight. Method is not what the market prices. A buyer is.</p>
+
+<p>Elena Ericheva&rsquo;s <a href="https://www.lesswrong.com/posts/k4i6AibKLT54h5Syr/a-genealogy-of-ai-safety-how-directions-are-born-and-how" rel="noopener" target="_blank">genealogy of AI safety</a> &mdash; the same dataset behind the first essay&rsquo;s caveat &mdash; draws the line without setting out to. Roughly $268 million of disclosed equity has flowed into safety, money that expects a return, and every dollar of it lands on work with a customer: Goodfire&rsquo;s $50 million Series A for interpretability tooling, Gray Swan&rsquo;s $40 million for red-teaming products, Protect AI&rsquo;s $108.5 million on its way to a $634.5 million acquisition. Government money behaves the same way; her institutes &ldquo;enter with precision, mostly into field-building, evaluations and robustness,&rdquo; and procurement is just a customer by another name. Below the line, the ledger&rsquo;s only entries are philanthropic. Not mostly philanthropic &mdash; only.</p>
+
+<p class="statement">Money that expects a return cannot reach work that has no buyer.</p>
+
+<p>This is not a moral fact about investors; it is a definitional one. Equity needs a product, procurement needs a deliverable, and a direction whose output is understanding, or a framework, or a proof that something is impossible has nothing to hand either of them. The demand line is simply the boundary of what return-seeking money can see.</p>
+
+<h2>Directions cross it</h2>
+
+<p>The line would matter less if it were a wall. It is a border, and directions migrate across it &mdash; always in the same direction, and always for the same reason: the work started producing an artifact somebody would pay for.</p>
+
+<p>RLHF is the deepest precedent, and it sits in Ericheva&rsquo;s data as a quiet anomaly: its last discrete event as a safety direction was 2017, yet its publications kept compounding to 1,777 by 2025. The resolution is that it crossed. Somewhere between the original safety papers and ChatGPT, learning from human feedback stopped being an alignment agenda and became how commercial models are made. The market did not fund the safety direction; it swallowed it whole, and the technique now thrives without appearing in any safety ledger at all.</p>
+
+<p>Evaluations crossed in 2024, when Bletchley and the EU AI Act turned evals from a nonprofit&rsquo;s research program into something governments procure &mdash; about $96.7 million of it in two years. Interpretability crossed the same year by the other route: after running on roughly a million dollars of itemized grants while its publications grew tenfold, it acquired a product surface, and the first venture check &mdash; Goodfire&rsquo;s &mdash; was by itself, as Ericheva notes, rival to OpenPhil&rsquo;s entire annual technical budget. Whole organizations make the trip too: Ought, a nonprofit alignment lab, spun its research out as the for-profit Elicit in 2023.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Timeline from 2016 to 2026 with a horizontal demand line across the middle. RLHF, evaluations, and interpretability each rise from the philanthropic region below and cross above the line, RLHF around 2020 and the other two in 2024. Agent foundations runs flat along the bottom and never crosses.">
+  <!-- regions -->
+  <text x="44" y="30" font-size="12.5" font-weight="700" letter-spacing="0.08em" fill="#2e7d32">MARKET &amp; PROCUREMENT</text>
+  <text x="44" y="48" font-size="10.5" fill="#64748b">money that expects a return</text>
+  <text x="44" y="300" font-size="12.5" font-weight="700" letter-spacing="0.08em" fill="#1e40af">PHILANTHROPY</text>
+  <text x="44" y="318" font-size="10.5" fill="#64748b">the only money below the line</text>
+
+  <!-- the demand line -->
+  <line x1="40" y1="170" x2="680" y2="170" stroke="#334155" stroke-width="2.5"/>
+  <text x="44" y="158" font-size="10.5" font-weight="700" letter-spacing="0.14em" fill="#334155">THE DEMAND LINE</text>
+
+  <!-- RLHF: crosses ~2020 by absorption -->
+  <path d="M 104 258 C 180 252, 240 214, 296 170 C 352 126, 520 70, 616 64" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+  <circle cx="296" cy="170" r="4.5" fill="#3b82f6"/>
+  <text x="296" y="190" text-anchor="middle" font-size="10" fill="#64748b">&asymp;2020</text>
+  <text x="640" y="54" text-anchor="end" font-size="11" font-weight="600" fill="#3b82f6">RLHF &middot; absorbed</text>
+
+  <!-- evaluations: crosses 2024 by procurement -->
+  <path d="M 424 262 C 470 258, 512 214, 552 170 C 582 138, 640 108, 676 104" fill="none" stroke="#2e7d32" stroke-width="2.5"/>
+  <circle cx="552" cy="170" r="4.5" fill="#2e7d32"/>
+  <text x="676" y="92" text-anchor="end" font-size="11" font-weight="600" fill="#2e7d32">evaluations &middot; procured</text>
+
+  <!-- interpretability: crosses 2024 by product -->
+  <path d="M 232 268 C 350 264, 500 244, 576 170 C 610 141, 645 138, 678 136" fill="none" stroke="#f59e0b" stroke-width="2.5"/>
+  <circle cx="576" cy="170" r="4.5" fill="#f59e0b"/>
+  <text x="678" y="122" text-anchor="end" font-size="11" font-weight="600" fill="#b45309" stroke="#f8fafc" stroke-width="4" paint-order="stroke">interpretability &middot; productized</text>
+  <text x="564" y="190" text-anchor="middle" font-size="10" fill="#64748b">2024</text>
+
+  <!-- agent foundations: never crosses -->
+  <path d="M 40 246 C 200 240, 480 252, 676 244" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="6 5"/>
+  <text x="676" y="266" text-anchor="end" font-size="10.5" fill="#64748b">agent foundations &middot; nothing to sell</text>
+</svg>
+<figcaption><strong>Crossings.</strong> A direction moves above the line the moment it produces something an outside buyer pays for &mdash; RLHF by absorption, evaluations by procurement, interpretability by product &mdash; and not a moment before. Agent foundations, with nothing to sell, has never moved. Reconstructed from Ericheva&rsquo;s genealogy; crossing years are approximate.</figcaption>
+</figure>
+
+<p>And the rule has a clean negative. Agent foundations spans the full two decades of the dataset and has never produced a company, because there is nothing in it to sell. Conjecture proved the same point from the other side: a venture-funded alignment startup that discovered the market would pay only for its product-shaped work, and pivoted to match. The market does not fund directions. It funds artifacts, and it will carry any direction exactly as far as its artifacts extend.</p>
+
+<p class="statement">A direction crosses the moment it has something to sell &mdash; and not a moment before.</p>
+
+<h2>Philanthropy is staging capital</h2>
+
+<p>Below the line there is exactly one kind of money. That sounds like a complaint about philanthropy&rsquo;s burden, but it is the sharpest fact in the field&rsquo;s economics: every other funding channel &mdash; equity, procurement, revenue &mdash; is structurally unable to reach customerless work. So when a funder asks where the gaps in the nonprofit section are, they are not comparing philanthropy&rsquo;s performance against the market&rsquo;s. They are doing portfolio management for the only capital that operates below the line at all.</p>
+
+<p>Which gives that capital a shape: philanthropy in this field is staging capital. Its job is to carry a direction through the years in which it has no possible customer, and, when the direction crosses, to rotate out and redeploy below the line, where nothing else can follow. The crossings are the system working. RLHF cost philanthropy almost nothing and now runs on industry&rsquo;s budget; interpretability&rsquo;s tooling half is the market&rsquo;s problem now. The failure in interpretability&rsquo;s case was not the handoff &mdash; it was that the staging years went unfunded, attention running thirty-seven times ahead of the grants, so the direction survived on the loop&rsquo;s enthusiasm rather than on anyone&rsquo;s decision.</p>
+
+<p>Two things follow. Some directions are not staging at all but permanent tenants: agent foundations may never cross, not as a failure but as a category &mdash; work whose output can never be an artifact belongs to philanthropy for good. And the map from the first essay acquires a second job. Its first was showing the gaps below the line. Its second is watching the line itself: recording, in the present tense, when a direction acquires a customer, because that is the signal to rotate &mdash; and today the crossings are visible only in retrospect, when someone like Ericheva reconstructs them years after the fact.</p>
+
+<p class="statement">The map&rsquo;s first job is the gaps below the line. Its second is the line itself.</p>
+
+<h2>Above the line is not off the map</h2>
+
+<p>The comfortable conclusion would be a partition: worry about the nonprofit section, let the market&rsquo;s section take care of itself. Half of that is right. Above the line, funding is genuinely not the worry &mdash; nobody needs a neglectedness map to tell them to fund AI security. The mistake is the other half.</p>
+
+<p>The market funds the sellable subset of a direction, not the important subset. Interpretability&rsquo;s buyers pay for debugging, compliance, and model editing &mdash; the uses with invoices attached. Auditing a frontier model for deceptive cognition has no customer yet, and it is the part the mission actually needs. Evaluations&rsquo; buyers are labs that need to ship and regulators who need to certify, which is not the same set as the evaluations that matter most. A customer anchors a direction against the attention loop, but the anchor is attached to the buyer&rsquo;s incentive, and it pulls the work toward what the buyer needs &mdash; which overlaps the mission and never equals it.</p>
+
+<figure class="diagram narrow">
+<svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A single research direction drawn as a block straddling the demand line. The upper half, above the line, is solid: the sellable subset with buyers. The lower half, below the line, is a dashed outline: the part with no buyer, still philanthropy's, now hidden inside a direction the ledger marks as covered.">
+  <!-- the demand line -->
+  <line x1="30" y1="150" x2="530" y2="150" stroke="#334155" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="530" y="140" text-anchor="end" font-size="10" font-weight="700" letter-spacing="0.14em" fill="#334155">THE DEMAND LINE</text>
+
+  <!-- ledger's view -->
+  <text x="150" y="40" font-size="11" font-weight="700" fill="#2e7d32">&#10003; the ledger reads: covered</text>
+
+  <!-- one direction, straddling -->
+  <rect x="150" y="52" width="260" height="98" rx="12" fill="#e8f5e9" stroke="#66bb6a" stroke-width="2"/>
+  <text x="280" y="96" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.03em" fill="#2e7d32">THE SELLABLE SUBSET</text>
+  <text x="280" y="118" text-anchor="middle" font-size="10.5" fill="#3f7a43">tooling &middot; compliance &middot; debugging</text>
+
+  <rect x="150" y="150" width="260" height="98" rx="12" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="280" y="194" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.03em" fill="#b45309">NO BUYER</text>
+  <text x="280" y="216" text-anchor="middle" font-size="10.5" fill="#92702a">auditing for deception &middot; the mission&rsquo;s share</text>
+
+  <text x="280" y="282" text-anchor="middle" font-size="10.5" fill="#64748b">one direction &mdash; the line runs through the middle of it</text>
+</svg>
+<figcaption><strong>Crossing is partial.</strong> The market lifts the subset it can sell; the remainder stays below the line, now harder to see because it is buried inside a success. Above the line the map reads for a different gap: not <em>is anyone funding this</em>, but <em>which part is nobody buying</em>.</figcaption>
+</figure>
+
+<p>So crossing is partial, and the ledger hides it. A direction that crosses reads as covered &mdash; funded, staffed, commercially healthy &mdash; while the remainder nobody buys stays below the line. This is the caveat&rsquo;s warning again, one level up: &ldquo;funded&rdquo; on the money axis can contain &ldquo;neglected&rdquo; on the mission axis. Above the line the map does not retire; it changes what it reads for.</p>
+
+<p class="statement">The market covers the direction. No one checks which part.</p>
+
+<h2>The line and the loop</h2>
+
+<p>The first essay borrowed Soros&rsquo;s point that reflexivity is strongest where fundamentals are hard to observe. The demand line is where the fundamentals begin. Above it, a direction has something outside itself to be checked against: a customer who either pays or does not, a deployment that either holds or breaks. Below it, there is nothing to check against except each other &mdash; which is why the loop rules there, why attention is the only signal, and why the mirror is aimed there rather than at the field in general. Evaluations did not escape the loop because someone built a better map. It escaped because it crossed.</p>
+
+<p>That is the demand line&rsquo;s answer to the question this piece started from &mdash; what are we doing when we look for gaps in the nonprofit section? Allocating the only money that can work below the line, in the only region where the loop runs unopposed. And watching the border while we do it: for the direction that just crossed and no longer needs us, for the remainder it left behind, and for the tenants that will never cross at all.</p>
+
+<a class="readnext" href="/posts/open-in-principle-blind-in-practice/">
+  <p class="rn-label">Read next &rarr;</p>
+  <p class="rn-title">Open in Principle, Blind in Practice</p>
+  <p class="rn-desc">Why not just fund the neglected directions? A funder willing to back overlooked work still needs the map &mdash; and without it reproduces the very loop they mean to escape, only running it in reverse.</p>
+</a>
+
+<a class="readnext" href="/posts/the-loop-no-one-chose/">
+  <p class="rn-label">&larr; The original</p>
+  <p class="rn-title">The Loop No One Chose</p>
+  <p class="rn-desc">Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map that reflects the field back to itself instead of telling it what to do.</p>
+</a>
+
+<footer>
+  <p class="byline">Manu Xaviour Thaisseril Shaju &middot; July 2026</p>
+  <a class="back" href="/">&larr; All writing</a>
+</footer>
+
+</article>
+</body>
+</html>
