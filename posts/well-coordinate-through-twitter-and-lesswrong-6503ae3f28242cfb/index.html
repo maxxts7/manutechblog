@@ -106,6 +106,26 @@ header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); 
 header .dot { color: var(--gray-200); }
 header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
 
+/* ── TL;DR ── */
+.tldr {
+  margin: 0 0 2.25rem;
+  padding: 1.3rem 1.6rem 1.4rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+}
+.tldr .tldr-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.65rem;
+}
+.tldr ul { margin: 0; padding-left: 1.15rem; }
+.tldr li { margin: 0 0 0.5rem; text-wrap: pretty; }
+.tldr li:last-child { margin-bottom: 0; }
+
 /* ── Hero figure ── */
 .hero {
   width: fit-content;
@@ -244,6 +264,17 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
     <span class="meta-date">July 2026</span>
   </div>
 </header>
+
+<aside class="tldr">
+  <p class="tldr-label">TL;DR</p>
+  <ul>
+    <li>Being able to talk is not the same as being able to see. AI safety&rsquo;s largest money flow is field-building, around $326 million in itemized grants; the field&rsquo;s ability to read its own state has no budget line at all.</li>
+    <li>That isn&rsquo;t &ldquo;underfunded.&rdquo; Underfunded means weighed and found short. Field-sensemaking was never weighed, because it was never named: it sits folded inside field-building, so money spent growing the field reads as money spent orienting it.</li>
+    <li>The gap hides itself. In a decentralized field, each actor reads everyone else&rsquo;s attention as a signal of importance, so no one is positioned to see the aggregate skew that results.</li>
+    <li>The one real map of the field to date, a genealogy of 323 events, was built by one volunteer, unpaid and uncommissioned, which is what an unnamed category looks like in practice.</li>
+    <li>Lab and government demand supplies a real external signal, but it prices the saleable subset of safety and comes from a few correlated buyers. So the first task isn&rsquo;t building a map; it&rsquo;s getting the field to grant that its own legibility is a distinct thing worth having.</li>
+  </ul>
+</aside>
 
 <p class="lead">Ask whether the field of AI safety needs a way to know its state, its direction, its distance from where it needs to be, and the usual answer comes back easily: it already does. The important papers get discussed, the good people get followed, the field self-organizes in the open: on Twitter, on the forums, in the threads. I think that answer is mostly true and still quietly skips a question, because being able to <em>talk</em> is not quite the same as being able to <em>see</em>. One place the difference shows up is the budget. There is a large budget for running the field and very little for reading its own map. In technical AI safety, the single largest flow of money is field-building: funds, fellowships, talent pipelines, new organizations, something like $326 million in itemized grants by one recent accounting, more than any research direction. Most of that is fuel: it makes the field bigger and faster, more people and papers and shops. Comparatively little of it goes toward the field&rsquo;s ability to see whether that momentum is carrying it towards a thriving new phase.</p>
 
