@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Coming Epistemic Crisis AI Safety Is Not Ready For | Manu Xaviour Thaisseril Shaju</title>
+<meta name="description" content="Research generation is automating faster than research evaluation, field-building keeps widening the funnel, and a handful of correlated buyers price the field's directions. Observations on a squeeze AI safety's epistemics is not set up to handle.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://manutechblog.netlify.app/posts/the-coming-epistemic-crisis-02941e9a7ee8de78/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Manu Xaviour Thaisseril Shaju">
+<meta property="og:title" content="The Coming Epistemic Crisis AI Safety Is Not Ready For">
+<meta property="og:description" content="Generation is getting cheap while evaluation stays expensive, field-building keeps widening the funnel, and a handful of correlated buyers price the field's directions. Observations on a squeeze the field is not set up to handle.">
+<meta property="og:url" content="https://manutechblog.netlify.app/posts/the-coming-epistemic-crisis-02941e9a7ee8de78/">
+<meta property="og:image" content="https://manutechblog.netlify.app/posts/the-coming-epistemic-crisis-02941e9a7ee8de78/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Coming Epistemic Crisis AI Safety Is Not Ready For: a flood of cheap generation presses on a small judgment layer from one side, a few concentrated buyers from the other, and beneath it no external arbiter.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Coming Epistemic Crisis AI Safety Is Not Ready For">
+<meta name="twitter:description" content="Generation is getting cheap while evaluation stays expensive, and a handful of correlated buyers price the field's directions. Observations on a squeeze the field is not set up to handle.">
+<meta name="twitter:image" content="https://manutechblog.netlify.app/posts/the-coming-epistemic-crisis-02941e9a7ee8de78/og.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400..900&family=Noto+Serif:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --text: #1a1a2e;
+  --text-secondary: #64748b;
+  --bg: #ffffff;
+  --border: #e2e8f0;
+  --blue: #3b82f6;
+  --blue-dark: #1e40af;
+  --blue-light: #dbeafe;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-700: #334155;
+  --blue-muted: #60a5fa;
+  --orange: #f59e0b;
+  --orange-dark: #b45309;
+  --orange-light: #fef3c7;
+
+  /* reading knobs — single source of truth; re-tune here (paste from the typography playground) */
+  --font-head: 'Merriweather', Georgia, serif;
+  --font-body: 'Noto Serif', Georgia, serif;
+  --reading-width: 860px;
+  --reading-size: 15.5px;
+  --reading-lh: 1.55;
+  --h1-size: 36.3px;
+  --h2-size: 26.6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--reading-size);
+  line-height: var(--reading-lh);
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--blue-light); color: var(--blue-dark); }
+
+article { max-width: var(--reading-width); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+
+/* ── Header ── */
+header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+header .eyebrow {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.9rem;
+}
+header h1 {
+  font-family: var(--font-head);
+  font-size: var(--h1-size);
+  font-weight: 800;
+  line-height: 1.12;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  text-wrap: balance;
+}
+header .subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  margin: 0 0 1.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 42ch;
+  text-wrap: pretty;
+}
+header .author-line { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+header .dot { color: var(--gray-200); }
+header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
+header .tags { display: flex; gap: 0.45rem; flex-wrap: wrap; margin: 0 0 1.2rem; }
+header .tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--gray-700);
+  background: var(--gray-100);
+  border-radius: 999px;
+  padding: 0.24rem 0.68rem;
+}
+header .tag .def {
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-secondary);
+}
+
+/* ── Hero figure ── */
+.hero {
+  width: fit-content;
+  max-width: 100%;
+  margin: 2.25rem auto 2.5rem;
+  padding: 1.5rem 1.6rem 1.25rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  text-align: center;
+}
+.hero svg { display: block; width: 230px; max-width: 100%; height: auto; margin: 0 auto; }
+.hero figcaption {
+  margin: 0.9rem auto 0;
+  max-width: 30ch;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ── Typography ── */
+p { margin: 0 0 0.95rem; text-wrap: pretty; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Section headings ── */
+h2 {
+  font-family: var(--font-head);
+  margin: 2.25rem 0 1.3rem;
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--blue);
+}
+
+/* ── Lead paragraph + drop cap ── */
+.lead { font-size: var(--reading-size); line-height: var(--reading-lh); color: var(--text); margin-bottom: 1.4rem; }
+.lead::first-letter {
+  float: left;
+  font-family: var(--font-head);
+  font-size: 3.5rem;
+  line-height: 0.78;
+  font-weight: 800;
+  padding: 0.32rem 0.62rem 0 0;
+  color: var(--blue-dark);
+}
+
+/* ── Display statement ── */
+.statement {
+  font-family: var(--font-head);
+  position: relative;
+  margin: 3.25rem auto;
+  padding-top: 2.1rem;
+  max-width: 33ch;
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.statement::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+
+/* ── Appendix ── */
+.appendix-intro { font-style: italic; color: var(--text-secondary); }
+
+/* ── Read next ── */
+.readnext {
+  display: block;
+  margin: 1.1rem 0 0;
+  padding: 1.4rem 1.65rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--gray-50);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.readnext:first-of-type { margin-top: 3.5rem; }
+.readnext:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(59,130,246,0.08); text-decoration: none; }
+.readnext .rn-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.4rem; }
+.readnext .rn-title { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.35rem; }
+.readnext .rn-desc { font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+/* ── Footer ── */
+footer {
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+footer .byline { margin: 0; font-size: 0.85rem; color: var(--gray-400); }
+footer .back { font-size: 0.85rem; color: var(--text-secondary); }
+footer .back:hover { color: var(--blue); text-decoration: none; }
+
+@media (max-width: 700px) {
+  header h1 { font-size: calc(var(--h1-size) * 0.8); }
+  .lead::first-letter { font-size: 3rem; }
+  .statement { font-size: 1.15rem; }
+}
+</style>
+</head>
+<body>
+<nav style="max-width:var(--reading-width);margin:0 auto;padding:1.5rem 1.5rem 0;">
+  <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
+    <span>&larr;</span> Manu Xaviour Thaisseril Shaju
+  </a>
+</nav>
+<article>
+
+<header>
+  <p class="eyebrow">Essay</p>
+  <h1>The Coming Epistemic Crisis AI Safety Is Not Ready For</h1>
+  <div class="tags"><span class="tag">Speculative<span class="def">&middot; based on untested yet promising ideas</span></span><span class="tag">Diagnosis</span></div>
+  <p class="subtitle">Some observations on research automation and the epistemics of AI safety</p>
+  <div class="author-line">
+    <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
+    <span class="dot">&middot;</span>
+    <span class="meta-date">July 2026</span>
+  </div>
+</header>
+
+<p class="lead">What follows is a set of observations, not a proposal. Individually, most of them are boring. Together, they suggest the field is heading into a squeeze it is not currently set up to handle. I am not confident about the exact form the squeeze will take, only that some version of it looks hard to avoid, and that how it goes will depend on infrastructure that mostly does not exist yet. What is surprising is that every action described here is individually rational, and yet the aftereffects on the field&rsquo;s collective epistemics converge on something close to singular.</p>
+
+<figure class="hero">
+  <svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A swarm of small dots presses toward a small blue cluster from the left; three dark squares press in from the right; beneath the cluster, only a faint dashed line where solid ground should be.">
+    <defs>
+      <marker id="ec-in" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="7" refY="4.5" orient="auto">
+        <path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/>
+      </marker>
+      <marker id="ec-buy" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="7" refY="4.5" orient="auto">
+        <path d="M0,0 L9,4.5 L0,9 Z" fill="#334155"/>
+      </marker>
+    </defs>
+
+    <!-- left: the flood of cheap generation -->
+    <circle cx="16" cy="70"  r="3"   fill="#cbd5e1"/>
+    <circle cx="28" cy="58"  r="2.6" fill="#94a3b8"/>
+    <circle cx="24" cy="92"  r="3.4" fill="#94a3b8"/>
+    <circle cx="14" cy="115" r="2.6" fill="#cbd5e1"/>
+    <circle cx="30" cy="132" r="3"   fill="#94a3b8"/>
+    <circle cx="20" cy="148" r="2.4" fill="#cbd5e1"/>
+    <circle cx="42" cy="74"  r="3.2" fill="#94a3b8"/>
+    <circle cx="46" cy="104" r="2.8" fill="#cbd5e1"/>
+    <circle cx="40" cy="126" r="3.4" fill="#94a3b8"/>
+    <circle cx="52" cy="144" r="2.6" fill="#cbd5e1"/>
+    <circle cx="58" cy="62"  r="2.8" fill="#94a3b8"/>
+    <circle cx="62" cy="90"  r="3.2" fill="#64748b"/>
+    <circle cx="60" cy="118" r="2.8" fill="#94a3b8"/>
+    <circle cx="70" cy="138" r="3"   fill="#64748b"/>
+    <line x1="72" y1="78"  x2="96" y2="88"  stroke="#94a3b8" stroke-width="2" marker-end="url(#ec-in)"/>
+    <line x1="74" y1="104" x2="98" y2="104" stroke="#94a3b8" stroke-width="2" marker-end="url(#ec-in)"/>
+    <line x1="72" y1="130" x2="96" y2="120" stroke="#94a3b8" stroke-width="2" marker-end="url(#ec-in)"/>
+
+    <!-- centre: the judgment layer, a few hundred people -->
+    <circle cx="120" cy="94"  r="8"   fill="#3b82f6"/>
+    <circle cx="110" cy="114" r="5.5" fill="#60a5fa"/>
+    <circle cx="132" cy="117" r="5"   fill="#2563eb"/>
+
+    <!-- right: the few buyers -->
+    <rect x="208" y="58"  width="14" height="14" rx="3" fill="#334155"/>
+    <rect x="208" y="97"  width="14" height="14" rx="3" fill="#334155"/>
+    <rect x="208" y="136" width="14" height="14" rx="3" fill="#334155"/>
+    <line x1="204" y1="68"  x2="152" y2="90"  stroke="#334155" stroke-width="2" marker-end="url(#ec-buy)"/>
+    <line x1="204" y1="104" x2="152" y2="104" stroke="#334155" stroke-width="2" marker-end="url(#ec-buy)"/>
+    <line x1="204" y1="140" x2="152" y2="118" stroke="#334155" stroke-width="2" marker-end="url(#ec-buy)"/>
+
+    <!-- below: no ground to stand on -->
+    <line x1="44" y1="174" x2="196" y2="174" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5 8" stroke-linecap="round"/>
+  </svg>
+  <figcaption>Cheap generation presses from one side, a handful of buyers from the other, and under the layer doing the judging, no external arbiter to stand on.</figcaption>
+</figure>
+
+<h2>1. Research generation is being automated faster than research evaluation</h2>
+
+<p>Language models are becoming genuinely useful across the research pipeline: literature review, experiment scaffolding, analysis, drafting. One underrated upside is that this lowers the cost of moving between fields. When the topic-specific grind gets cheap, a researcher&rsquo;s ability transfers more easily; expertise becomes more topic-agnostic. For AI safety, which recruits most of its people from other disciplines, that is good news.</p>
+
+<p>But the same tools lower the cost of producing plausible-looking research much faster than they lower the cost of judging it. Evaluation still runs on senior human attention: reading, checking, placing work in context, deciding what matters and what gets funded. That attention does not scale with model capability. This asymmetry, generation getting cheap while evaluation stays expensive, is the single inflection point that sets off the cascade into everything else here.</p>
+
+<h2>2. The volume shock is already visible, and institutions are responding by raising the bar</h2>
+
+<p><a href="https://www.pangram.com/blog/pangram-predicts-21-of-iclr-reviews-are-ai-generated" rel="noopener" target="_blank">Detector-based analysis</a> of ICLR 2026 found several hundred submissions written wholly by LLMs, and roughly one in ten with majority-LLM content. arXiv <a href="https://blog.arxiv.org/2025/10/31/attention-authors-updated-practice-for-review-articles-and-position-papers-in-arxiv-cs-category/" rel="noopener" target="_blank">stopped accepting position papers and review articles</a> in computer science without prior peer review, citing the volume. LessWrong <a href="https://www.lesswrong.com/posts/KXujJjnmP85u8eM6B/policy-for-llm-writing-on-lesswrong" rel="noopener" target="_blank">holds LLM-generated content to a higher bar</a> than human writing. Meanwhile, the same analysis found one in five reviews fully LLM-generated, closing a loop nobody designed, in which machine-written papers meet machine-written reviews and human judgment thins at both ends.</p>
+
+<p>These responses are mostly reactionary: they gate work by raising the cost of entry. That puts them in direct tension with the benefit from (1), cheap transitions into the field, and with field-building initiatives, which depend on exactly the opposite: cheap evaluation of newcomers&rsquo; work.</p>
+
+<p class="statement">Nobody is making evaluation cheaper. Everyone is making entry more expensive.</p>
+
+<h2>3. Field-building produces residual cohorts that stress the evaluation infrastructure</h2>
+
+<p>Field-building programs are scaling admissions faster than the field scales absorption. Introductory programs <a href="https://forum.effectivealtruism.org/posts/p4ekwamhsw6jpKEcu/widening-ai-safety-s-talent-pipeline-by-meeting-people-where" rel="noopener" target="_blank">plan to train thousands of people per year</a>; research fellowships like MATS accept applicants at rates in the low single digits, a hyper-selectivity that <a href="https://forum.effectivealtruism.org/posts/jwwrC4n9H53doRjRH/ai-safety-talent-needs-in-2026-insights-for-field-building" rel="noopener" target="_blank">the field&rsquo;s own needs assessment</a> traces to scarce supervision capacity. The people who are trained but not placed do not vanish. Underemployed, motivated, and equipped with the same generation tools as everyone else, their output lands on the field&rsquo;s open surfaces: grant applications, forum posts, conference submissions, cold emails to researchers.</p>
+
+<p>The problem is not that weak work exists; weak work has always existed. The problem is that filtering consumes the scarcest resource the field has, the attention of the people qualified to filter: mentors, admissions committees, grant evaluators, forum moderators. Slop is better understood as a tax on evaluator attention than as pollution.</p>
+
+<h2>4. The field was over its reading capacity before any of this started</h2>
+
+<p>Chris Olah and Shan Carter named the underlying condition years ago: <a href="https://distill.pub/2017/research-debt/" rel="noopener" target="_blank">research debt</a>. Distillation is undersupplied, so papers stay harder to read than they need to be, and the cost compounds with volume. In alignment, the symptom is concrete. The once-annual comprehensive review of the field&rsquo;s literature was discontinued largely because no single person could read it all anymore, and its best-known successor is titled, candidly, a &ldquo;shallow review.&rdquo; The sense-making layer was already struggling with volume, even before the surge.</p>
+
+<h2>5. Alignment, specifically, cannot outsource evaluation to reality</h2>
+
+<p>Most fields get external error correction eventually: the bridge stands or falls, the drug works or doesn&rsquo;t, the market clears or crashes. Alignment&rsquo;s central claims concern systems that do not yet exist and failure modes we hope never to observe. Feedback loops are weak, slow, and contested. When reality cannot arbitrate, collective judgment is the arbiter, and this is deceptively dangerous, because the warning signals may not be obvious, if we get a warning at all before a singular event.</p>
+
+<p class="statement">The field&rsquo;s epistemic processes are not a support function. They are close to being the product.</p>
+
+<p>The quality of the collective epistemics is much of the actual value the field provides, and the way the field is currently structured sharpens the point. Most direct safety work happens inside a handful of frontier labs and a few independent organizations. What the surrounding field mainly supplies is direction, critique, and prioritization. Its technical contributions are marginal; its contributions are epistemic: directly through the discourse, indirectly through the talent the frontier labs absorb.</p>
+
+<h2>6. Grantmakers have the most leverage and the thinnest signal</h2>
+
+<p>Consider what a funder can realistically consult: shallow reviews, forum and Twitter write-ups, yearly organizational reports, grant applications, and personal connections. Is that enough of a view of the field? Probably not, and a funder making the individually rational call on that signal is not necessarily making the call that serves the field. There is precedent for how this goes. Research on science funding documents how ex ante review that rewards legible, bold-sounding proposals narrows the space of what researchers dare to propose, while ex post evaluation prizes novel results and high-risk experiments, so a researcher is squeezed from both sides, left with few routes to funding, and may quietly self-censor whole topics. I am not claiming that exact dynamic will replicate here. But some version of research being squeezed toward a highly correlated direction seems likely, and without any view of the whole research landscape, there would be no way to notice it is happening.</p>
+
+<h2>7. The market for safety research has a handful of buyers, so it correlates by construction</h2>
+
+<p>Strip away the field&rsquo;s self-image and its market structure is this: a few philanthropic funders whose taste propagates through regrantors, a few frontier labs, a few governments. Economists would call the buying side an oligopsony. The nodes read the same forum, share advisors, and hire from one another; newer entrants such as national AI safety institutes staff themselves from the same pool. The talent pipeline compounds this: a small number of mentors&rsquo; taste is replicated into each cohort, a shared curriculum forms the canon, and a few venues host most of the deliberation.</p>
+
+<p>There is also a vertical entanglement most fields do not have. The main funders and hosts of safety research are the entities the research studies, and a critical research input, frontier model access, is allocated by them. Buyer, subject, and infrastructure provider collapse into the same few nodes.</p>
+
+<p>Markets normally aggregate distributed beliefs into prices. Here, the &ldquo;price&rdquo; of a research direction is the judgment of perhaps a few hundred people, or fewer. Some market inefficiency is, unfortunately, eventually inevitable.</p>
+
+<h2>8. Correlation is not the disease. Undiagnosable correlation is</h2>
+
+<p>Concentration is partly load-bearing: it is how a small field moves fast, maintains trust, and filters work. The convergence may even be correct; perhaps the dominant agendas deserve their current weight. In a normal field, false consensus eventually collides with reality; by (5), here it may not. That leaves provenance as the only remaining test: did several funders converge on the same bets independently, or because the bets share three advisors?</p>
+
+<p>Nobody currently measures this. There is no concentration index for the field&rsquo;s collective portfolio, no funder-overlap statistic, no way for any individual funder to know how correlated their bets are with everyone else&rsquo;s. The pre-2008 financial system is the cautionary parallel: every institution looked diversified on its own books, and the correlation lived in a counterparty network no one had mapped. History never repeats, but it often rhymes.</p>
+
+<p class="statement">Funders may rationally choose a concentrated portfolio. Right now, they cannot know whether they hold one.</p>
+
+<h2>9. Some version of this infrastructure gets built regardless. The open question is whether any of it is commons</h2>
+
+<p>Frontier labs have both the incentive and the capability to build internal maps of the research landscape: for hiring, for agenda-setting, for their own automated researchers. So the realistic counterfactual is not &ldquo;no map.&rdquo; It is private maps: strategic awareness as a proprietary asset, in a field whose direct work is already concentrated inside the same organizations. A field&rsquo;s strategic self-awareness is a product of its collective epistemic infrastructure. If the commons version is not built deliberately, awareness privatizes by default.</p>
+
+<h2>10. What building it would mean, stated cautiously</h2>
+
+<p>A map of papers is just a search engine; those exist. The useful unit is claims: what each agenda assumes, where the cruxes are, what evidence would update whom. And the negative space: what nobody is working on, and how correlated the overall portfolio is. Even simple deliverables would be new: a concentration index over agendas, funder-overlap measures, provenance tracking for how bets came to converge, research distillation tools, research data-analysis tools.</p>
+
+<p>The caveats are strong enough that each could kill a naive version. An LLM-built map of LLM-written papers filtered by LLM reviewers is slop with an index, unless provenance and the economics of human spot-checking are designed in from the start. A single canonical map becomes a Goodhart target: people will optimize to be legible on it, recreating the squeeze from (6) one level up. So maps should be plural, forkable, and disagreement-preserving. Transparency can herd: in finance, visible positions create crowded trades, which argues for publishing aggregate metrics while treating the granular graph with care. And in a field of a few hundred people, an entanglement map will be read as a conflict-of-interest dossier unless it aggregates rather than names, and how to aggregate is itself a question to be worked out in the open, as part of the field&rsquo;s contribution to its own strategic awareness and collective epistemics.</p>
+
+<p>There is modest precedent for funding work of this kind: worldview-investigation and forecasting projects were supported when the open question was AI timelines, and Forethought <a href="https://forum.effectivealtruism.org/posts/kTMtnvJGPDAz9ybgE/ai-for-ai-for-epistemics" rel="noopener" target="_blank">has written about strategic awareness and collective epistemics as a category</a>. Those efforts were early. The combination of research automation and field-building residual cohorts makes the next year or two the period in which this stops being early.</p>
+
+<p>The claim, then, stands on three legs: a supply shock (automation plus bycatch), demand concentration (a handful of correlated buyers), and no external arbiter (the feedback vacuum). Any one of these alone is survivable. Together, they mean the field&rsquo;s epistemic error-correction will not emerge from market structure and cannot be delegated to reality. Fields in that position have to build their error-correction deliberately, as infrastructure. This one has not yet started.</p>
+
+<h2>Appendix: sources and notes</h2>
+
+<p class="appendix-intro">The essay compresses several empirical claims into single sentences. This appendix records what each source actually says, and what it adds beyond the sentence it supports.</p>
+
+<p><strong>The gates (2).</strong> The <a href="https://blog.arxiv.org/2025/10/31/attention-authors-updated-practice-for-review-articles-and-position-papers-in-arxiv-cs-category/" rel="noopener" target="_blank">arXiv change</a> (October 2025) requires that review articles and position papers in the CS category complete peer review at a journal or conference before they can be submitted; papers without documentation of that review are rejected. The stated reason is capacity: the category now receives hundreds of review articles a month, most of them, in the moderators&rsquo; description, closer to annotated bibliographies than to synthesis, and a volunteer moderation team cannot absorb the load. Note the mechanism. arXiv is not making evaluation cheaper; it is relocating the cost onto refereed venues. The gate works by making someone else&rsquo;s gate a prerequisite.</p>
+
+<p>The <a href="https://www.pangram.com/blog/pangram-predicts-21-of-iclr-reviews-are-ai-generated" rel="noopener" target="_blank">Pangram analysis</a> (November 2025) covered roughly 19,000 ICLR 2026 submissions and 70,000 reviews. On the paper side: several hundred submissions fully LLM-generated, and about one in ten with majority-LLM content. On the review side: about one in five reviews fully LLM-generated, and more than half showing some level of AI involvement. Two second-order findings matter more than the headline. AI-heavy papers received <em>lower</em> scores; the flood is mostly not fooling anyone yet. But AI-written reviews assigned <em>higher</em> scores and ran longer, meaning part of the gate layer has quietly automated itself, and the automated part is systematically more permissive and less informative. That is the loop of (2) with numbers attached: cheap generation meeting cheap evaluation, and the cheap evaluation waving it through.</p>
+
+<p>The <a href="https://www.lesswrong.com/posts/KXujJjnmP85u8eM6B/policy-for-llm-writing-on-lesswrong" rel="noopener" target="_blank">LessWrong policy</a> (March 2025, since revised) requires that LLM-assisted submissions add significant value beyond the model&rsquo;s output and that a human vouch for every claim; first-time posters may not use AI-generated text at all; moderators reject LLM-looking content by default and report several such submissions arriving daily. Same immune response as arXiv, at forum scale: raise the price of entry, and spend scarce moderator attention patrolling the border.</p>
+
+<p><strong>The bycatch (3).</strong> The <a href="https://forum.effectivealtruism.org/posts/p4ekwamhsw6jpKEcu/widening-ai-safety-s-talent-pipeline-by-meeting-people-where" rel="noopener" target="_blank">TARA retrospective</a> (September 2025) is a useful specimen because it is explicitly a middle-of-funnel program: it exists to bridge the gap between awareness-level courses and selective fellowships. Its own framing cites BlueDot&rsquo;s plan to train 100,000 people in AI safety fundamentals within about five years against MATS&rsquo;s roughly 450 scholars across three and a half (the funnel&rsquo;s two ends, more than two orders of magnitude apart), and TARA itself hopes to scale to over a thousand trained practitioners a year. To its credit, the report names its own weak point: insufficient support and connection after the program ends. Widening programs measure success at entry. Nobody owns the exit, and the exit is where bycatch is created.</p>
+
+<p>The <a href="https://forum.effectivealtruism.org/posts/jwwrC4n9H53doRjRH/ai-safety-talent-needs-in-2026-insights-for-field-building" rel="noopener" target="_blank">MATS talent-needs survey</a> (March 2026; 23 interviews with hiring managers, research leads, and funders) is the field&rsquo;s own diagnosis, and three things stand out when it is read against this essay. First, it concedes the evaluation bottleneck outright: organizations are constrained not by funding or by applicants but by senior researchers able to supervise, each of whom can mentor only a few juniors before quality degrades: the asymmetry of (1), restated as a hiring fact. Second, its guidance doubles down on the trust network. Because organizations cannot afford hiring mistakes, the dominant hiring signal becomes direct collaboration or a calibrated endorsement from an already-known researcher; credentials, interviews, and publications count for little, and fellowships function as extended vetting periods. Under scarce supervision this is individually rational. Collectively, it is the correlation machine of (7): a small set of mentors&rsquo; judgment becomes the field&rsquo;s admission function, replicated into each cohort, a choice whose aggregate cost nobody can price, because the diagnostics of (8) do not exist. High-risk portfolio decisions are easiest to make, individually and rationally, precisely when no one can see the portfolio. Third, it recommends cultivating a broad strategic perspective (which threat models are plausible, which agendas address them, what assumptions each rests on) as an individual skill. That is a demand for precisely the map of (10), addressed to individuals, in a field with no commons to supply it. Each researcher is asked to privately reconstruct a strategic picture that no institution maintains.</p>
+
+<p><strong>The template (9 and 10).</strong> Forethought&rsquo;s <a href="https://forum.effectivealtruism.org/posts/kTMtnvJGPDAz9ybgE/ai-for-ai-for-epistemics" rel="noopener" target="_blank">AI for AI for Epistemics</a> is the closest existing thing to a design document for the commons version. Its argument: as R&amp;D automates, strong epistemic tools become buildable by whoever spends the compute, and the binding problems shift from capability to trust, ground truth, and incumbency. Its risk register maps nearly one-to-one onto the caveats of (10): what it calls epistemic misalignment is the Goodhart worry, and what it calls trust lock-in is the canonical-map worry. Its interventions (open and auditable infrastructure, development in incentive-compatible hands, anticipating future data needs) are the general form of what (10) states for this field in particular. What the template leaves open is the field-specific measurement layer: concentration indices, funder overlap, the provenance of convergence. The generic program says how to build a map people can trust. It does not say what this field&rsquo;s map has to show.</p>
+
+<a class="readnext" href="/posts/the-loop-no-one-chose/">
+  <p class="rn-label">Read next &rarr;</p>
+  <p class="rn-title">The Loop No One Chose</p>
+  <p class="rn-desc">Reflexive dynamics in decentralized nonprofit fields, and why AI safety needs a live, actionable map that reflects the field back to itself instead of telling it what to do.</p>
+</a>
+
+<a class="readnext" href="/posts/paying-down-research-debt/">
+  <p class="rn-label">Related &rarr;</p>
+  <p class="rn-title">Paying Down Research Debt</p>
+  <p class="rn-desc">A tool for reading AI safety research, and the living canon it leaves behind: the undersupplied distillation layer this essay leans on in (4).</p>
+</a>
+
+<footer>
+  <p class="byline">Manu Xaviour Thaisseril Shaju &middot; July 2026</p>
+  <a class="back" href="/">&larr; All writing</a>
+</footer>
+
+</article>
+</body>
+</html>
