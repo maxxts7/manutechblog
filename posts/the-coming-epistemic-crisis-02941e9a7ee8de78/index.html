@@ -141,10 +141,15 @@ header .tag .def {
   border-radius: 14px;
   text-align: center;
 }
-.hero svg { display: block; width: 230px; max-width: 100%; height: auto; margin: 0 auto; }
+.hero svg { display: block; width: 260px; max-width: 100%; height: auto; margin: 0 auto; }
+.hero svg text {
+  font-family: var(--font-body);
+  font-size: 10px;
+  fill: var(--text-secondary);
+}
 .hero figcaption {
   margin: 0.9rem auto 0;
-  max-width: 30ch;
+  max-width: 46ch;
   font-size: 0.8rem;
   line-height: 1.5;
   color: var(--text-secondary);
@@ -284,7 +289,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <header>
   <p class="eyebrow">Essay</p>
   <h1>The Coming Epistemic Crisis AI Safety Is Not Ready For</h1>
-  <div class="tags"><span class="tag">Speculative<span class="def">&middot; based on untested yet promising ideas</span></span><span class="tag">Diagnosis</span></div>
+  <div class="tags"><span class="tag">Observational<span class="def">&middot; grounded in what the field is visibly doing now</span></span><span class="tag">Speculative<span class="def">&middot; based on untested yet promising ideas</span></span></div>
   <p class="subtitle">Some observations on research automation and the epistemics of AI safety</p>
   <div class="author-line">
     <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
@@ -303,7 +308,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 </div>
 
 <figure class="hero">
-  <svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A swarm of small dots presses toward a small blue cluster from the left; three dark squares press in from the right; beneath the cluster, only a faint dashed line where solid ground should be.">
+  <svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A swarm of small dots labeled cheap new research presses toward a small blue cluster labeled the evaluators; three dark squares labeled the buyers press in from the right; beneath the cluster, a faint dashed line labeled no external check where solid ground should be.">
     <defs>
       <marker id="ec-in" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="7" refY="4.5" orient="auto">
         <path d="M0,0 L9,4.5 L0,9 Z" fill="#94a3b8"/>
@@ -347,8 +352,14 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
     <!-- below: no ground to stand on -->
     <line x1="44" y1="174" x2="196" y2="174" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5 8" stroke-linecap="round"/>
+
+    <!-- labels -->
+    <text x="46" y="46" text-anchor="middle">cheap research</text>
+    <text x="120" y="72" text-anchor="middle">the evaluators</text>
+    <text x="215" y="46" text-anchor="middle">the buyers</text>
+    <text x="120" y="192" text-anchor="middle">no external check</text>
   </svg>
-  <figcaption>Cheap generation presses from one side, a handful of buyers from the other, and under the layer doing the judging, no external arbiter to stand on.</figcaption>
+  <figcaption>Research is getting cheap to generate faster than the field&rsquo;s few evaluators can judge it, and a handful of buyers &mdash; grantmakers and labs &mdash; decide what it is worth. The dashed line is the missing floor: no external check, no bridge that stands or falls, to settle who is right.</figcaption>
 </figure>
 
 <h2>1. Research generation is being automated faster than research evaluation</h2>
