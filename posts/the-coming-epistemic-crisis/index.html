@@ -56,6 +56,9 @@
   --reading-lh: 1.55;
   --h1-size: 36.3px;
   --h2-size: 26.6px;
+
+  /* lets the section fold animate height:auto instead of jumping */
+  interpolate-size: allow-keywords;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -206,69 +209,119 @@ h2 {
 .sec { position: relative; }
 /* kept next to its own label so activating it never scrolls the page */
 .sec-brief { position: absolute; top: 0; right: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-/* deliberately not a tag chip: squared, serif, blue, and larger */
+/* the raised edge and press state carry the button, so the fill can stay quiet */
 .sec-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin: -0.4rem 0 1.45rem 0.85rem;
-  padding: 0.44rem 0.9rem;
+  margin: -0.35rem 0 1.5rem 0.85rem;
+  padding: 0.5rem 1rem;
   font-family: var(--font-head);
-  font-size: 0.78rem;
+  font-size: 0.79rem;
   font-weight: 700;
-  color: var(--blue-dark);
-  background: var(--blue-light);
-  border: 1px solid var(--blue-muted);
-  border-radius: 7px;
+  letter-spacing: 0.01em;
+  color: var(--gray-700);
+  background: var(--gray-100);
+  border: 0;
+  border-radius: 8px;
   cursor: pointer;
   user-select: none;
-  box-shadow: 0 1px 3px rgba(59,130,246,0.18);
-  transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+  /* the flat 2px offset is the button's edge; the blurred one is its cast shadow */
+  box-shadow: 0 2px 0 var(--gray-300), 0 2px 5px rgba(15,23,42,0.07);
+  transition: background 0.15s, color 0.15s, transform 0.1s, box-shadow 0.15s;
 }
 .sec-toggle:hover {
-  background: var(--blue);
-  border-color: var(--blue);
-  color: #fff;
-  box-shadow: 0 2px 9px rgba(59,130,246,0.38);
+  background: var(--gray-200);
+  color: var(--text);
+  box-shadow: 0 2px 0 var(--gray-300), 0 4px 10px rgba(15,23,42,0.11);
 }
-.sec-toggle:active { transform: translateY(1px); box-shadow: 0 1px 2px rgba(59,130,246,0.3); }
-.sec-brief:focus-visible ~ .sec-toggle { outline: 2px solid var(--blue); outline-offset: 2px; }
-/* the sign sits in its own filled disc, so the button reads as pressable */
+/* pressing sinks the button onto its own edge */
+.sec-toggle:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 var(--gray-300), 0 1px 3px rgba(15,23,42,0.1);
+}
+.sec-brief:focus-visible ~ .sec-toggle { outline: 2px solid var(--blue); outline-offset: 3px; }
+/* the disc is the one bit of colour, and it sizes the button's left end */
 .sec-toggle::before {
   content: '\2212';
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 21px;
-  height: 21px;
+  width: 19px;
+  height: 19px;
   margin-left: -0.22rem;
   border-radius: 50%;
   background: var(--blue);
   color: #fff;
   font-family: var(--font-body);
-  font-size: 1.02rem;
+  font-size: 0.95rem;
   font-weight: 700;
   line-height: 0;
-  box-shadow: 0 1px 3px rgba(30,64,175,0.35);
-  transition: background 0.15s, color 0.15s;
 }
-.sec-toggle:hover::before { background: var(--bg); color: var(--blue-dark); }
-.sec-toggle::after { content: 'Key points only'; }
+.sec-toggle::after { content: 'Collapse to key points'; }
 .sec-brief:checked ~ .sec-toggle::before { content: '\002B'; }
-.sec-brief:checked ~ .sec-toggle::after { content: 'Read full section'; }
+.sec-brief:checked ~ .sec-toggle::after { content: 'Expand full section'; }
 
-/* collapsed: the prose goes, the points and display lines stay */
+/* collapsed: the prose goes, the points and display lines stay.
+   the swap folds by height instead of snapping out with display:none;
+   interpolate-size (set on :root) is what lets height:auto animate.
+   browsers without it still land on the right end state, just instantly */
+.sec-brief ~ p:not(.statement),
+.sec-brief ~ ul.points .detail,
+.sec-brief ~ .keybox .detail,
+.sec-brief ~ .keybox .brief-only {
+  overflow: hidden;
+  transition: height 0.4s cubic-bezier(0.4,0,0.2,1),
+              margin 0.4s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.24s ease 0.12s,
+              visibility 0s;
+}
+/* open: the prose; folded: the brief-mode list */
+.sec-brief ~ p:not(.statement),
+.sec-brief ~ ul.points .detail,
+.sec-brief ~ .keybox .detail,
+.sec-brief:checked ~ .keybox .brief-only {
+  height: auto;
+  opacity: 1;
+  visibility: visible;
+}
+/* folded: the prose; open: the brief-mode list */
+.sec-brief ~ .keybox .brief-only,
 .sec-brief:checked ~ p:not(.statement),
 .sec-brief:checked ~ ul.points .detail,
-.sec-brief:checked ~ .keybox .detail { display: none; }
-.brief-only { display: none; }
-.sec-brief:checked ~ .keybox .brief-only { display: block; }
+.sec-brief:checked ~ .keybox .detail {
+  height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: height 0.4s cubic-bezier(0.4,0,0.2,1),
+              margin 0.4s cubic-bezier(0.4,0,0.2,1),
+              opacity 0.18s ease,
+              visibility 0s linear 0.4s;
+}
+/* the consequence details take their own line so they fold by height too;
+   shrinking them inline instead makes every item drop a wrapped line at once */
+.sec-brief ~ ul.points .detail { display: block; margin-top: 0.22rem; }
 /* with the prose gone, the points sit closer to the heading */
+.sec-brief ~ ul.keypoints,
+.sec-brief ~ ul.points,
+.sec-brief ~ .statement { transition: margin-top 0.4s cubic-bezier(0.4,0,0.2,1); }
 .sec-brief:checked ~ ul.keypoints,
 .sec-brief:checked ~ ul.points { margin-top: 0.15rem; }
 .sec-brief:checked ~ .statement { margin-top: 2.1rem; }
 .keybox .keypoints { margin: 0.15rem 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sec-brief ~ p:not(.statement),
+  .sec-brief ~ ul.points .detail,
+  .sec-brief ~ .keybox .detail,
+  .sec-brief ~ .keybox .brief-only,
+  .sec-brief ~ ul.keypoints,
+  .sec-brief ~ ul.points,
+  .sec-brief ~ .statement { transition-duration: 1ms; transition-delay: 0s; }
+}
 
 /* ── Section key points ── */
 .keypoints { list-style: none; margin: 1.5rem 0 1.7rem; padding: 0; }
@@ -385,7 +438,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   header h1 { font-size: calc(var(--h1-size) * 0.8); }
   .lead::first-letter { font-size: 3rem; }
   .statement { font-size: 1.15rem; }
-  .sec-toggle { margin-left: 0.85rem; font-size: 0.74rem; padding: 0.4rem 0.8rem; }
+  .sec-toggle { margin-left: 0.85rem; font-size: 0.78rem; padding: 0.5rem 0.95rem; }
 }
 </style>
 </head>
@@ -408,7 +461,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   </div>
 </header>
 
-<p class="lead">What follows is a set of observations, not a proposal. Individually, most of them are boring, like arXiv tightening submission rules, LLM use in peer review, and the competitiveness of the fellowships. Together, they suggest the field is heading into a squeeze whose nature and severity will depend overwhelmingly on a collective epistemic infrastructure that mostly does not exist yet. What is surprising is that every action described here is individually rational, and yet the aftereffects on the field&rsquo;s strategic self-awareness converge on something close to singular.</p>
+<p class="lead">What follows is a set of observations, not a proposal. Individually, most of them are boring, like arXiv tightening submission rules, LLM use in peer review, and the competitiveness of the fellowships. Together, they suggest the field is heading into a squeeze, whose nature and severity will depend, overwhelmingly on a collective epistemic infrastructure that mostly does not exist yet. What is surprising is that every action described here is individually rational, and yet the aftereffects on the field&rsquo;s strategic self-awareness converge on something close to singular.</p>
 
 <figure class="hero">
   <svg viewBox="0 0 240 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A swarm of small dots labeled cheap new research presses toward a small blue cluster labeled the evaluators; three dark squares labeled the buyers press in from the right; beneath the cluster, a faint dashed line labeled no external check where solid ground should be.">
@@ -502,7 +555,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p><a href="https://www.pangram.com/blog/pangram-predicts-21-of-iclr-reviews-are-ai-generated" rel="noopener" target="_blank">Detector-based analysis</a> of ICLR 2026 found several hundred submissions written wholly by LLMs, and roughly one in ten with majority-LLM content. arXiv <a href="https://blog.arxiv.org/2025/10/31/attention-authors-updated-practice-for-review-articles-and-position-papers-in-arxiv-cs-category/" rel="noopener" target="_blank">stopped accepting position papers and review articles</a> in computer science without prior peer review, citing the volume. LessWrong <a href="https://www.lesswrong.com/posts/KXujJjnmP85u8eM6B/policy-for-llm-writing-on-lesswrong" rel="noopener" target="_blank">holds LLM-generated content to a higher bar</a> than human writing. Meanwhile, the same analysis found one in five reviews fully LLM-generated, closing a loop nobody designed, in which machine-written papers meet machine-written reviews and human judgment thins at both ends.</p>
 
-<p>These responses are mostly reactionary: they gate work by raising the cost of entry. That puts them in direct tension with the benefit from (1), cheap transitions into the field, and with field-building initiatives, which depend on exactly the opposite: cheap evaluation of newcomers&rsquo; work.</p>
+<p>These responses are mostly reactionary: they gate work by raising the cost of entry. That collides with the upside from (1): cheap field-switching is worth little if nobody can afford to read what the switcher produces. Field-building runs into the same wall: it keeps widening the funnel on the assumption that newcomers will be integrated into the field, and expensive evaluation of their work is exactly what slows that integration down.</p>
 
 <ul class="keypoints">
 <li>The volume shock is already measurable: at one conference, several hundred submissions were written entirely by models, and about one review in five was as well.</li>
@@ -522,7 +575,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>Field-building programs are scaling admissions faster than the field scales absorption. Introductory programs <a href="https://forum.effectivealtruism.org/posts/p4ekwamhsw6jpKEcu/widening-ai-safety-s-talent-pipeline-by-meeting-people-where" rel="noopener" target="_blank">plan to train thousands of people per year</a>; research fellowships like MATS accept applicants at rates in the low single digits, a hyper-selectivity that <a href="https://forum.effectivealtruism.org/posts/jwwrC4n9H53doRjRH/ai-safety-talent-needs-in-2026-insights-for-field-building" rel="noopener" target="_blank">the field&rsquo;s own needs assessment</a> traces to scarce supervision capacity. The people who are trained but not placed do not vanish. Underemployed, motivated, and equipped with the same generation tools as everyone else, their output lands on the field&rsquo;s open surfaces: grant applications, forum posts, conference submissions, cold emails to researchers.</p>
 
-<p>The problem is not that weak work exists; weak work has always existed. The problem is that filtering consumes the scarcest resource the field has, the attention of the people qualified to filter: mentors, admissions committees, grant evaluators, forum moderators. Slop is better understood as a tax on evaluator attention than as pollution.</p>
+<p>The problem is not that weak work exists; weak work has always existed. The problem is that filtering consumes the scarcest resource the field has, the attention of the people qualified to filter: mentors, admissions committees, grant evaluators, forum moderators. Slop is better understood as the indiscriminate spending of evaluator attention than as pollution.</p>
 
 <ul class="keypoints">
 <li>Training programs are growing much faster than the field&rsquo;s capacity to supervise or hire the people they train.</li>
@@ -541,7 +594,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p class="statement">The field&rsquo;s epistemic processes are not a support function. They are close to being the product.</p>
 
-<p>Most direct safety work happens inside a handful of frontier labs and a few independent organizations. What the surrounding field mainly supplies is direction, critique, and prioritization. Its technical contributions are marginal; its contributions are epistemic: directly through the discourse, indirectly through the talent the frontier labs absorb.</p>
+<p>Most direct safety work happens inside a handful of frontier labs and a few independent organizations. What the surrounding field mainly supplies is direction, critique, and prioritization. Its technical contributions are marginal. Its epistemic ones are not: directly through the discourse, indirectly through the talent the frontier labs absorb.</p>
 
 <p>On the market side, there are a few frontier labs, a few independent safety orgs that supply the frontier labs, and a few governments. The nodes read the same forum, share advisors, and hire from one another; newer entrants such as national AI safety institutes staff themselves from the same pool. The talent pipeline compounds this: a small number of mentors&rsquo; taste is replicated into each cohort, a shared curriculum forms the canon, and a few venues host most of the deliberation.</p>
 
@@ -563,7 +616,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <h2>5. Even though grantmakers have the most leverage, they ironically have the faintest signal</h2>
 <label class="sec-toggle" for="s5-brief"></label>
 
-<p>Consider what a funder can realistically consult: shallow reviews, forum and Twitter write-ups, yearly organizational reports, grant applications, and personal connections. Is that enough of a view of the field? Probably not, and a funder making the individually rational call on that signal is not necessarily making the call that serves the field. There is precedent for how this goes. Research on science funding describes a squeeze that operates from two directions at once. Ex ante review, which determines what gets funded, favors proposals that are not especially speculative and that are bold in the direction of what the field already believes, since those are the proposals a reviewer can assess quickly and score with confidence. Ex post evaluation, which determines what counts as a successful grant, favors novel results, and those generally require speculative, high-risk experiments that change prevailing beliefs rather than confirm them. Because the two criteria point in opposite directions, the space of work a researcher can realistically propose is squeezed from both sides, and the cheapest response is to quietly self-censor whole topics rather than defend them. I am not claiming that exact dynamic will replicate here. But some version of research being squeezed toward a highly correlated direction seems likely, and without any view of the whole research landscape, there would be no way to notice it is happening.</p>
+<p>Consider what a funder can realistically consult: shallow reviews, forum and Twitter write-ups, yearly organizational reports, grant applications, and personal connections. Is that enough of a view of the field? Probably not, and a funder making the individually rational call on that signal is not necessarily making the call that serves the field. There is precedent for how this goes. Research on science funding describes a squeeze that operates from two directions at once. Ex ante review, which determines what gets funded, favors proposals that are not especially speculative and that are bold in the direction of what the field already believes, since those are the proposals a reviewer can assess quickly and score with confidence. Ex post evaluation, which determines what counts as a successful grant, favors novel results, and those generally require speculative, high-risk experiments that change prevailing beliefs rather than confirm them. Because the two criteria point in opposite directions, the space of work a researcher can realistically propose is squeezed from both sides, and the cheapest response, or even the sensible one, is to quietly self-censor whole topics rather than defend them. I am not claiming that exact dynamic will replicate here. But some version of research being squeezed toward a highly correlated direction seems likely, and without any view of the whole research landscape, there would be no way to notice it is happening.</p>
 
 <ul class="keypoints">
 <li>Funders decide the most while seeing the least: their picture of the field comes from shallow reviews, forum posts, annual reports, applications, and people they already know.</li>
