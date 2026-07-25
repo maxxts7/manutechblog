@@ -203,6 +203,120 @@ h2 {
   color: var(--blue-dark);
 }
 
+/* ── Reading-mode dock ── */
+/* pinned in-viewport so activating a label never scrolls the page */
+.mode-radio { position: fixed; right: 1.5rem; top: 1.5rem; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.modedock {
+  position: fixed;
+  right: 1.35rem;
+  top: 1.1rem;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.modedock-options {
+  display: none;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.25rem;
+  background: var(--bg);
+  border: 1px solid var(--blue-light);
+  border-radius: 999px;
+  animation: dock-glow 3s ease-in-out infinite;
+}
+@keyframes dock-glow {
+  0%, 100% { box-shadow: 0 2px 12px rgba(59,130,246,0.20), 0 0 0 0 rgba(59,130,246,0.10); }
+  50%      { box-shadow: 0 2px 22px rgba(59,130,246,0.42), 0 0 0 5px rgba(59,130,246,0.09); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .modedock-options { animation: none; box-shadow: 0 2px 16px rgba(59,130,246,0.30); }
+}
+#mode-open:checked ~ .modedock .modedock-options { display: flex; }
+.modedock-options label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 0.42rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition: background 0.15s, color 0.15s;
+}
+.modedock-options label:hover { background: var(--gray-100); color: var(--text); }
+#mode-brief:checked ~ .modedock label[for="mode-brief"],
+#mode-full:checked ~ .modedock label[for="mode-full"] {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 1px 6px rgba(59,130,246,0.45);
+}
+.modedock-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--blue);
+  background: var(--bg);
+  border: 1px solid var(--blue-light);
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 2px 12px rgba(59,130,246,0.24);
+  transition: border-color 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.modedock-toggle:hover { border-color: var(--blue); color: var(--blue-dark); box-shadow: 0 2px 16px rgba(59,130,246,0.4); }
+.modedock-toggle::after { content: '\2039'; margin-top: -2px; }
+#mode-open:checked ~ .modedock .modedock-toggle::after { content: '\203A'; }
+#mode-open:checked ~ .modedock .modedock-toggle { border-color: var(--gray-200); }
+#mode-open:focus-visible ~ .modedock .modedock-toggle,
+#mode-brief:focus-visible ~ .modedock label[for="mode-brief"],
+#mode-full:focus-visible ~ .modedock label[for="mode-full"] {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* Key-points mode: keep headings, points, and display lines; drop the prose */
+#mode-brief:checked ~ p:not(.lead):not(.statement),
+#mode-brief:checked ~ .appendix,
+#mode-brief:checked ~ ul.points .detail,
+#mode-brief:checked ~ .keybox .detail { display: none; }
+
+/* Full mode: the callout reverts to its prose version */
+#mode-full:checked ~ .keybox .brief-only { display: none; }
+.keybox .keypoints { margin: 0.15rem 0 0; }
+
+/* ── Section key points ── */
+.keypoints { list-style: none; margin: 1.5rem 0 1.7rem; padding: 0; }
+.keypoints li {
+  position: relative;
+  margin-bottom: 0.8rem;
+  padding-left: 1.4rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  text-wrap: pretty;
+}
+.keypoints li:last-child { margin-bottom: 0; }
+.keypoints li::before {
+  content: '';
+  position: absolute;
+  left: 0.2rem;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+
+/* ── Point list ── */
+.points { margin: 0 0 1.6rem; padding-left: 1.3rem; }
+.points li { margin-bottom: 1.1rem; padding-left: 0.2rem; text-wrap: pretty; }
+.points li:last-child { margin-bottom: 0; }
+.points li::marker { color: var(--blue); }
+
 /* ── Key-ideas callout ── */
 .keybox {
   margin: 2.25rem 0 2.5rem;
@@ -290,6 +404,9 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   header h1 { font-size: calc(var(--h1-size) * 0.8); }
   .lead::first-letter { font-size: 3rem; }
   .statement { font-size: 1.15rem; }
+  .modedock { right: 0.8rem; top: 0.65rem; }
+  .modedock-options label { padding: 0.34rem 0.62rem; font-size: 0.68rem; }
+  .modedock-toggle { width: 30px; height: 30px; font-size: 1rem; }
 }
 </style>
 </head>
@@ -300,6 +417,9 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   </a>
 </nav>
 <article>
+<input type="radio" name="readmode" id="mode-brief" class="mode-radio" checked>
+<input type="radio" name="readmode" id="mode-full" class="mode-radio">
+<input type="checkbox" id="mode-open" class="mode-radio" checked>
 
 <header>
   <p class="eyebrow">Essay</p>
@@ -374,20 +494,39 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>Language models are becoming genuinely useful across the research pipeline: literature review, experiment scaffolding, analysis, drafting. One underrated upside is that this lowers the cost of moving between fields. When the topic-specific grind gets cheap, a researcher&rsquo;s ability transfers more easily; expertise becomes more topic-agnostic. For AI safety, which recruits most of its people from other disciplines, that is good news.</p>
 
-<p>But the same tools lower the cost of producing plausible-looking research much faster than they lower the cost of judging it. Evaluation still runs on senior human attention: reading, checking, placing work in context, deciding what matters and what gets funded. That attention does not scale with model capability. <strong>This asymmetry, generation getting cheap while evaluation stays expensive, is the inflection point, and everything in this essay cascades from it.</strong></p>
+<p>But the same tools lower the cost of producing plausible-looking research much faster than they lower the cost of judging it. Evaluation still runs on senior human attention: reading, checking, placing work in context, deciding what matters and what gets funded. That attention does not scale with model capability. This asymmetry, generation getting cheap while evaluation stays expensive, is the inflection point, and everything in this essay cascades from it.</p>
+
+<ul class="keypoints">
+<li>Language models now handle much of the routine work of producing research, and they make it easier for people to move between fields, which helps a field that recruits from other disciplines.</li>
+<li>Judging research still depends on senior human attention, and that does not get cheaper as the models get better.</li>
+<li>The gap between cheap production and expensive judgment is where everything else in this essay begins.</li>
+</ul>
 
 <div class="keybox">
 <p class="keybox-label">Two ideas up front</p>
-<p>Two ideas will carry a lot of weight in what follows, so it is worth being plain about them up front. The first is what I will call the field&rsquo;s <em>collective epistemics</em>: everything a field uses, together, to figure out what is true and what matters. Some of it is formal, like peer review. Most of it is not: the forums where work gets discussed, the instincts of funders, the judgment of mentors, the thousand small decisions about what gets read, cited, and hired. Every field has some version of this machinery, and most can afford to run it loosely, because the real world eventually checks the answers: the bridge stands or it falls, the app works or not, string theory is proven or not, you get the idea.</p>
-<p>The second idea, <em>strategic self-awareness</em>, is what that machinery produces when the field turns it on itself. Not &ldquo;is this paper good?&rdquo; but &ldquo;what are we, all together, betting on?&rdquo; Which problems is the field pouring effort into, what would have to be true for those bets to pay off, and what is nobody working on at all?</p>
-<p>The reason to keep the two ideas separate is that a field can have one without the other. Every paper can be competently reviewed and every grant individually sensible, while no one anywhere can say how much the field&rsquo;s bets have quietly converged on the same few assumptions unless there is a collective epistemic infrastructure.</p>
+<ul class="keypoints brief-only">
+<li>The field&rsquo;s <em>collective epistemics</em> is everything a field uses, together, to work out what is true and what matters: peer review, the forums where work gets discussed, the instincts of funders, the judgment of mentors, and the many small decisions about what gets read, cited, and hired.</li>
+<li>Most fields can afford to run that machinery loosely, because reality eventually checks the answers. The bridge stands or it falls.</li>
+<li>Its <em>strategic self-awareness</em> is what the same machinery produces when the field turns it on itself: what the field as a whole is betting on, what would have to be true for those bets to pay off, and what nobody is working on at all.</li>
+<li>The reason to keep the two ideas separate is that a field&rsquo;s strategic self-awareness depends on its collective epistemics.</li>
+</ul>
+<p class="detail">Two ideas will carry a lot of weight in what follows, so it is worth being plain about them up front. The first is what I will call the field&rsquo;s <em>collective epistemics</em>: everything a field uses, together, to figure out what is true and what matters. Some of it is formal, like peer review. Most of it is not: the forums where work gets discussed, the instincts of funders, the judgment of mentors, the thousand small decisions about what gets read, cited, and hired. Every field has some version of this machinery, and most can afford to run it loosely, because the real world eventually checks the answers: the bridge stands or it falls, the app works or not, string theory is proven or not, you get the idea.</p>
+<p class="detail">The second idea, <em>strategic self-awareness</em>, is what that machinery produces when the field turns it on itself. Not &ldquo;is this paper good?&rdquo; but &ldquo;what are we, all together, betting on?&rdquo; Which problems is the field pouring effort into, what would have to be true for those bets to pay off, and what is nobody working on at all?</p>
+<p class="detail">The reason to keep the two ideas separate is that a field&rsquo;s strategic self-awareness depends on its collective epistemics.</p>
 </div>
 
 <h2>2. The volume shock is already visible, and institutions are responding by raising the bar</h2>
 
-<p><a href="https://www.pangram.com/blog/pangram-predicts-21-of-iclr-reviews-are-ai-generated" rel="noopener" target="_blank">Detector-based analysis</a> of ICLR 2026 found several hundred submissions written wholly by LLMs, and roughly one in ten with majority-LLM content. arXiv <a href="https://blog.arxiv.org/2025/10/31/attention-authors-updated-practice-for-review-articles-and-position-papers-in-arxiv-cs-category/" rel="noopener" target="_blank">stopped accepting position papers and review articles</a> in computer science without prior peer review, citing the volume. LessWrong <a href="https://www.lesswrong.com/posts/KXujJjnmP85u8eM6B/policy-for-llm-writing-on-lesswrong" rel="noopener" target="_blank">holds LLM-generated content to a higher bar</a> than human writing. Meanwhile, the same analysis found one in five reviews fully LLM-generated, <strong>closing a loop nobody designed, in which machine-written papers meet machine-written reviews and human judgment thins at both ends.</strong></p>
+<p><a href="https://www.pangram.com/blog/pangram-predicts-21-of-iclr-reviews-are-ai-generated" rel="noopener" target="_blank">Detector-based analysis</a> of ICLR 2026 found several hundred submissions written wholly by LLMs, and roughly one in ten with majority-LLM content. arXiv <a href="https://blog.arxiv.org/2025/10/31/attention-authors-updated-practice-for-review-articles-and-position-papers-in-arxiv-cs-category/" rel="noopener" target="_blank">stopped accepting position papers and review articles</a> in computer science without prior peer review, citing the volume. LessWrong <a href="https://www.lesswrong.com/posts/KXujJjnmP85u8eM6B/policy-for-llm-writing-on-lesswrong" rel="noopener" target="_blank">holds LLM-generated content to a higher bar</a> than human writing. Meanwhile, the same analysis found one in five reviews fully LLM-generated, closing a loop nobody designed, in which machine-written papers meet machine-written reviews and human judgment thins at both ends.</p>
 
 <p>These responses are mostly reactionary: they gate work by raising the cost of entry. That puts them in direct tension with the benefit from (1), cheap transitions into the field, and with field-building initiatives, which depend on exactly the opposite: cheap evaluation of newcomers&rsquo; work.</p>
+
+<ul class="keypoints">
+<li>The volume shock is already measurable: at one conference, several hundred submissions were written entirely by models, and about one review in five was as well.</li>
+<li>Institutions are responding by making entry more expensive, not by making evaluation cheaper.</li>
+<li>Machine-written work is now being judged by machine-written reviews, which removes human judgment from both sides at once.</li>
+<li>These responses work against field-building, which needs newcomers&rsquo; work to be cheap to assess.</li>
+</ul>
 
 <p class="statement">Nobody is making evaluation cheaper. Everyone is making entry more expensive.</p>
 
@@ -395,11 +534,17 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>Field-building programs are scaling admissions faster than the field scales absorption. Introductory programs <a href="https://forum.effectivealtruism.org/posts/p4ekwamhsw6jpKEcu/widening-ai-safety-s-talent-pipeline-by-meeting-people-where" rel="noopener" target="_blank">plan to train thousands of people per year</a>; research fellowships like MATS accept applicants at rates in the low single digits, a hyper-selectivity that <a href="https://forum.effectivealtruism.org/posts/jwwrC4n9H53doRjRH/ai-safety-talent-needs-in-2026-insights-for-field-building" rel="noopener" target="_blank">the field&rsquo;s own needs assessment</a> traces to scarce supervision capacity. The people who are trained but not placed do not vanish. Underemployed, motivated, and equipped with the same generation tools as everyone else, their output lands on the field&rsquo;s open surfaces: grant applications, forum posts, conference submissions, cold emails to researchers.</p>
 
-<p>The problem is not that weak work exists; weak work has always existed. The problem is that filtering consumes the scarcest resource the field has, the attention of the people qualified to filter: mentors, admissions committees, grant evaluators, forum moderators. <strong>Slop is better understood as a tax on evaluator attention than as pollution.</strong></p>
+<p>The problem is not that weak work exists; weak work has always existed. The problem is that filtering consumes the scarcest resource the field has, the attention of the people qualified to filter: mentors, admissions committees, grant evaluators, forum moderators. Slop is better understood as a tax on evaluator attention than as pollution.</p>
+
+<ul class="keypoints">
+<li>Training programs are growing much faster than the field&rsquo;s capacity to supervise or hire the people they train.</li>
+<li>Those who are trained but not placed keep producing work, and it arrives on the field&rsquo;s open surfaces: applications, forum posts, submissions, cold emails.</li>
+<li>The real cost is not the weak work itself but the evaluator attention spent filtering it, which is the scarcest resource the field has.</li>
+</ul>
 
 <h2>4. No external check, a handful of buyers, and no way to measure the correlation</h2>
 
-<p><strong>AI alignment is not a field with external signals the way computer science or civil engineering are:</strong> most of its concerns are about systems that do not exist yet.</p>
+<p>AI alignment is not a field with external signals the way computer science or civil engineering are: most of its concerns are about systems that do not exist yet.</p>
 
 <p class="statement">The field&rsquo;s epistemic processes are not a support function. They are close to being the product.</p>
 
@@ -409,19 +554,34 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>Concentration is partly load-bearing: it is how a small field moves fast, maintains trust, and filters work. The convergence may even be correct; perhaps the dominant agendas deserve their current weight. In a normal field, false consensus eventually collides with reality; here it may not. That leaves provenance as the only remaining test: did several funders converge on the same bets independently, or because the bets share three advisors?</p>
 
-<p><strong>Nobody currently measures this.</strong> There is no concentration index for the field&rsquo;s collective portfolio, no funder-overlap statistic, no way for any individual funder to know how correlated their bets are with everyone else&rsquo;s. The pre-2008 financial system is the cautionary parallel: every institution looked diversified on its own books, and the correlation lived in a counterparty network no one had mapped. History never repeats, but it often rhymes.</p>
+<p>Nobody currently measures this. There is no concentration index for the field&rsquo;s collective portfolio, no funder-overlap statistic, no way for any individual funder to know how correlated their bets are with everyone else&rsquo;s. The pre-2008 financial system is the cautionary parallel: every institution looked diversified on its own books, and the correlation lived in a counterparty network no one had mapped. History never repeats, but it often rhymes.</p>
+
+<ul class="keypoints">
+<li>Alignment cannot wait for reality to settle its disagreements, because its claims are about systems that do not exist yet.</li>
+<li>That makes the field&rsquo;s collective judgment most of what it actually produces, rather than a support function around the research.</li>
+<li>The buying side is small and interconnected, so research directions end up correlated whether or not anyone intends it.</li>
+<li>Concentration is not automatically bad, but nobody measures it here, so no funder can tell how concentrated the field&rsquo;s bets already are.</li>
+</ul>
 
 <h2>5. Even though grantmakers have the most leverage, they ironically have the faintest signal</h2>
 
-<p>Consider what a funder can realistically consult: shallow reviews, forum and Twitter write-ups, yearly organizational reports, grant applications, and personal connections. Is that enough of a view of the field? Probably not, and a funder making the individually rational call on that signal is not necessarily making the call that serves the field. There is precedent for how this goes. Research on science funding documents how ex ante review that rewards legible, bold-sounding proposals narrows the space of what researchers dare to propose, while ex post evaluation prizes novel results and high-risk experiments, so a researcher is squeezed from both sides, left with few routes to funding, and may quietly self-censor whole topics. I am not claiming that exact dynamic will replicate here. <strong>But some version of research being squeezed toward a highly correlated direction seems likely, and without any view of the whole research landscape, there would be no way to notice it is happening.</strong></p>
+<p>Consider what a funder can realistically consult: shallow reviews, forum and Twitter write-ups, yearly organizational reports, grant applications, and personal connections. Is that enough of a view of the field? Probably not, and a funder making the individually rational call on that signal is not necessarily making the call that serves the field. There is precedent for how this goes. Research on science funding describes a squeeze that operates from two directions at once. Ex ante review, which determines what gets funded, favors proposals that are not especially speculative and that are bold in the direction of what the field already believes, since those are the proposals a reviewer can assess quickly and score with confidence. Ex post evaluation, which determines what counts as a successful grant, favors novel results, and those generally require speculative, high-risk experiments that change prevailing beliefs rather than confirm them. Because the two criteria point in opposite directions, the space of work a researcher can realistically propose is squeezed from both sides, and the cheapest response is to quietly self-censor whole topics rather than defend them. I am not claiming that exact dynamic will replicate here. But some version of research being squeezed toward a highly correlated direction seems likely, and without any view of the whole research landscape, there would be no way to notice it is happening.</p>
+
+<ul class="keypoints">
+<li>Funders decide the most while seeing the least: their picture of the field comes from shallow reviews, forum posts, annual reports, applications, and people they already know.</li>
+<li>Research on science funding suggests the criteria pull in opposite directions: grants favor proposals that are bold in the direction of what the field already believes, while success afterwards is judged on novel results that overturn those beliefs.</li>
+<li>Squeezed from both sides, a researcher&rsquo;s cheapest response is to quietly self-censor whole topics rather than defend them.</li>
+<li>Each funding decision can be individually sensible and still push the field toward a single correlated direction.</li>
+<li>Without a view of the whole landscape, nobody would notice that narrowing while it was happening.</li>
+</ul>
 
 <h2>6. Starting points and a general direction for what collective epistemic infrastructure could look like</h2>
 
-<p><strong>The collective version is not mysterious, and it does not have to be a map.</strong> It starts with a data layer: continuously updated records of research output, funding flows, which organizations work on which agendas, and which venues host what. Not snapshots. The field changes faster than any annual review can track, which is part of why the annual reviews died (8).</p>
+<p>The collective version is not mysterious, and it does not have to be a map. It starts with a data layer: continuously updated records of research output, funding flows, which organizations work on which agendas, and which venues host what. Not snapshots. The field changes faster than any annual review can track, which is part of why the annual reviews lost their charm (8).</p>
 
-<p>On top of the data go tools that make understanding and evaluating research cheaper for humans, without handing either over to the models. The asymmetry of (1) is that generation got cheap while evaluation stayed expensive; the fix is to multiply scarce evaluator attention, not to delegate the gate to the systems that produced the volume. (2) already shows how that loop closes.</p>
+<p>On top of the data layer, we can build a tool layer that makes understanding and evaluating research cheaper for humans, without handing either over to the models. The asymmetry of (1) is that generation got cheap while evaluation stayed expensive; the fix is to multiply scarce evaluator attention, not to delegate the gate to the frontier models that produced the volume. (2) already shows how that loop closes.</p>
 
-<p>The test for corpus-level analysis is speed. Today, anyone who wants to know where the field is heading either runs a three-month project with four FTEs or trusts someone who did. <strong>Seeing the field&rsquo;s direction should be a query, not a research program.</strong> Funding data deserves the same standard: the concentration and overlap measures of (4) should be standing instruments anyone can consult, not bespoke studies commissioned after the worry has surfaced.</p>
+<p>The test for corpus-level analysis is speed. Today, anyone who wants to know where the field is heading either runs a three-month project with four FTEs or trusts someone who did. Seeing the field&rsquo;s direction should be a query, not a research program. Funding data deserves the same standard: the concentration and overlap measures of (4) should be standing instruments anyone can consult, not bespoke studies commissioned after the worry has surfaced.</p>
 
 <p>The labor for this already exists, and (3) described it. The residual cohort, trained and motivated and unplaced, is suited to exactly this work: ingesting new research, distilling it, situating it within the field. The work orients them in return, pays down the research debt of (8), and gives newcomers a public surface on which to demonstrate judgment, the quality the field&rsquo;s filters currently assess only in private.</p>
 
@@ -429,38 +589,60 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>There is modest precedent for funding work of this kind: worldview-investigation and forecasting projects were supported when the open question was AI timelines, those efforts were early, and recently, Forethought <a href="https://forum.effectivealtruism.org/posts/kTMtnvJGPDAz9ybgE/ai-for-ai-for-epistemics" rel="noopener" target="_blank">has written about strategic awareness and collective epistemics as a category</a>. The combination of research automation and field-building residual cohorts makes the next year or two the period in which this stops being early.</p>
 
+<ul class="keypoints">
+<li>Start with a live data layer: who is working on what, funded by whom, and published where, updated continuously rather than once a year.</li>
+<li>Add tools that make research cheaper for people to read and judge, instead of handing the judging over to the models.</li>
+<li>Keep the measures standing and queryable, so learning where the field is heading is not itself a three-month research project.</li>
+<li>Staff it with the people field-building has already trained, and run it as an active community rather than a finished artifact.</li>
+</ul>
+
 <p class="statement">A field&rsquo;s strategic self-awareness is a product of its collective epistemic infrastructure.</p>
 
 <h2>7. What happens if nothing is built</h2>
 
 <p>Sorted by confidence: the first items are visible trends continuing, the middle ones need assumptions, the last are long shots included for their size.</p>
 
-<p><strong>Entry gets harder for anyone outside the network.</strong> Overloaded evaluators close open channels &mdash; referrals replace open calls, cold outreach stops working, venues raise bars. This is individual triage, not policy.</p>
+<ul class="points">
+<li><strong>Entry gets harder for anyone outside the network.</strong> <span class="detail">Overloaded evaluators close open channels &mdash; referrals replace open calls, cold outreach stops working, venues raise bars. This is individual triage, not policy.</span></li>
 
-<p><strong>Evaluation retreats to channels where trust is already established.</strong> Talks, conversations, vouching: the channels where provenance is cheap to check. It is the standard response to a market where quality is hard to observe &mdash; costly signals take over, and the costly signal here is trust.</p>
+<li><strong>Evaluation retreats to channels where trust is already established.</strong> <span class="detail">Talks, conversations, vouching: the channels where provenance is cheap to check. It is the standard response to a market where quality is hard to observe &mdash; costly signals take over, and the costly signal here is trust.</span></li>
 
-<p><strong>The field&rsquo;s existing concentration gets worse.</strong> The trust network becomes the fallback filter, and (4) argued it is already concentrated. The cheap field-switching from (1) then accrues mostly to insiders.</p>
+<li><strong>The field&rsquo;s existing concentration gets worse.</strong> <span class="detail">The trust network becomes the fallback filter, and (4) argued it is already concentrated. The cheap field-switching from (1) then accrues mostly to insiders.</span></li>
 
-<p><strong>Quality gets judged by proxy rather than by content.</strong> People who cannot read everything judge by affiliation, endorsement, and familiar framing. All of these correlate with the existing network.</p>
+<li><strong>Quality gets judged by proxy rather than by content.</strong> <span class="detail">People who cannot read everything judge by affiliation, endorsement, and familiar framing. All of these correlate with the existing network.</span></li>
 
-<p><strong>Alignment research slows down relative to capabilities research.</strong> Capabilities is evaluated cheaply &mdash; benchmarks, loss curves, products. Alignment&rsquo;s filter is human judgment, per (4). The same volume shock taxes one field and barely touches the other, and automation widens the gap by accelerating whatever is generation-limited. A hygiene problem becomes a race problem. I hold this loosely, since lab-internal safety work has more empirical feedback than the surrounding field.</p>
+<li><strong>Duplicated work and unstaffed gaps both go unnoticed.</strong> <span class="detail">With no live record of who is working on what, several groups can spend a year converging on the same problem while other problems sit untouched. Neither the overlap nor the gap is anybody&rsquo;s job to see.</span></li>
 
-<p><strong>Research bends toward work that is easy to evaluate.</strong> Overloaded gates pass legible, incremental, agenda-adjacent work and stall pre-paradigmatic work. If important problems sit in the second category, the field gets pointed away from them without anyone deciding it. This may matter more than the slowdown.</p>
+<li><strong>Criticism gets more expensive than the claims it would correct.</strong> <span class="detail">Rebutting work means reading it closely, and reading is the scarce thing. Weak claims then go unchallenged rather than refuted, which is not the same as being accepted, but has the same effect on what newcomers read as consensus.</span></li>
 
-<p><strong>Long shot: the field ends up confidently wrong exactly when it matters.</strong> Correlated judgment plus weak feedback makes an uncaught, substantially wrong consensus possible here in a way it is not in most fields. No probability offered; included for its size.</p>
+<li><strong>The field&rsquo;s memory of what was already tried thins out.</strong> <span class="detail">Which approaches were attempted and abandoned, and why, lives mostly in the heads of people who were there. As they move on, the record leaves with them, and later cohorts re-run the same reasoning without knowing it is a repeat.</span></li>
 
-<p><strong>The benign branch: the field adapts on its own, as other fields have.</strong> Physics absorbed arXiv; biology absorbed cheap sequencing by growing new evaluation professions. Verification and distillation could become respected specializations here too. The catch is speed: those adjustments took a decade or more, and it is not obvious this field has one.</p>
+<li><strong>Alignment research slows down relative to capabilities research.</strong> <span class="detail">Capabilities is evaluated cheaply &mdash; benchmarks, loss curves, products. Alignment&rsquo;s filter is human judgment, per (4). The same volume shock taxes one field and barely touches the other, and automation widens the gap by accelerating whatever is generation-limited. A hygiene problem becomes a race problem. I hold this loosely, since lab-internal safety work has more empirical feedback than the surrounding field.</span></li>
+
+<li><strong>Research bends toward work that is easy to evaluate.</strong> <span class="detail">Overloaded gates pass legible, incremental, agenda-adjacent work and stall pre-paradigmatic work. If important problems sit in the second category, the field gets pointed away from them without anyone deciding it. This may matter more than the slowdown.</span></li>
+
+<li><strong>Course correction gets slower than the thing it is correcting.</strong> <span class="detail">When an agenda quietly loses its rationale, nothing surfaces that fact on any particular date. Funding continues, cohorts keep being trained into it, and the correction arrives whenever enough individuals drift away on their own judgment.</span></li>
+
+<li><strong>Long shot: the field ends up confidently wrong exactly when it matters.</strong> <span class="detail">Correlated judgment plus weak feedback makes an uncaught, substantially wrong consensus possible here in a way it is not in most fields. No probability offered; included for its size.</span></li>
+
+<li><strong>The benign branch: the field adapts on its own, as other fields have.</strong> <span class="detail">Physics absorbed arXiv; biology absorbed cheap sequencing by growing new evaluation professions. Verification and distillation could become respected specializations here too. The catch is speed: those adjustments took a decade or more, and it is not obvious this field has one.</span></li>
+</ul>
 
 <h2>8. Is it worth it?</h2>
 
-<p>It is also cheap. Field-building alone <a href="https://www.lesswrong.com/posts/k4i6AibKLT54h5Syr/a-genealogy-of-ai-safety-how-directions-are-born-and-how" rel="noopener" target="_blank">has absorbed roughly $320 million</a>. The parts described here would cost a small fraction of that: a data pipeline, a few standing tools, a channel, and stipends for people the field has already paid to train. And it goes straight at the problem in (5): funders have the most leverage and the worst view of the field, and this is the cheapest way to improve the view. Since, by (4), the field&rsquo;s collective judgment is most of what it produces, better judgment raises the value of everything else. <strong>It may be the highest-leverage money the field can spend.</strong></p>
+<p>It is not going to cost much, in absolute terms or relative ones: a data pipeline, a few standing tools, a channel, and stipends for people the field has already paid to train. Field-building alone <a href="https://www.lesswrong.com/posts/k4i6AibKLT54h5Syr/a-genealogy-of-ai-safety-how-directions-are-born-and-how" rel="noopener" target="_blank">has absorbed roughly $320 million</a>. The parts described here would cost a small fraction of that, and unlike a cohort or a conference, infrastructure keeps paying out for as long as the field uses it. And it goes straight at the problem in (5): funders have the most leverage and the worst view of the field, and this is the cheapest way to improve the view. Since, by (4), the field&rsquo;s collective judgment is most of what it produces, better judgment raises the value of everything else. It may be the highest-leverage money the field can spend.</p>
 
 <p>Chris Olah and Shan Carter named the underlying condition years ago: <a href="https://distill.pub/2017/research-debt/" rel="noopener" target="_blank">research debt</a>. Distillation is undersupplied, so papers stay harder to read than they need to be, and the cost compounds with volume. In alignment, the symptom is concrete. The once-annual comprehensive review of the field&rsquo;s literature was discontinued largely because no single person could read it all anymore, and its best-known successor is titled, candidly, a &ldquo;shallow review.&rdquo; The sense-making layer was already struggling with volume, even before the surge.</p>
 
-<p>The $320 million figure comes from one researcher&rsquo;s solo reconstruction of two decades of the field&rsquo;s directions and funding flows: careful, rigorous, and done by hand. That provenance makes the point by itself: this is what it currently takes to get a view of the field, and even then the result is a snapshot, not something live. The researcher was not trying to build epistemic infrastructure. But the skill set and the process are exactly the ones the infrastructure needs, which means <strong>the people who can build the live version already exist.</strong></p>
+<p>The $320 million figure comes from one researcher&rsquo;s solo reconstruction of two decades of the field&rsquo;s directions and funding flows: careful, rigorous, and done by hand. That provenance makes the point by itself: this is what it currently takes to get a view of the field, and even then the result is a snapshot, not something live. The researcher was not trying to build epistemic infrastructure. But the skill set and the process are exactly the ones the infrastructure needs, which means the people who can build the live version already exist.</p>
 
-<p>So the potential costs are trivial, since an ecosystem that demands this work and a community that can supply it already exist. The potential upsides are many: better research progress, and more clarity about where the field stands. And if we do not build it, the downsides are very high: in the worst case, a field unable to prevent the catastrophic events it exists to prevent.</p>
+<ul class="keypoints">
+<li>The potential costs are trivial, since an ecosystem that demands this work and a community that can supply it already exist.</li>
+<li>The potential upsides are many: better research progress, and more clarity about where the field stands.</li>
+<li>And if we do not build it, the downsides are very high: in the worst case, a field unable to prevent the catastrophic events it exists to prevent.</li>
+</ul>
 
+<div class="appendix">
 <h2>Appendix: sources and notes</h2>
 
 <p class="appendix-intro">The essay compresses several empirical claims into single sentences. This appendix records what each source actually says, and what it adds beyond the sentence it supports.</p>
@@ -476,6 +658,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <p>The <a href="https://forum.effectivealtruism.org/posts/jwwrC4n9H53doRjRH/ai-safety-talent-needs-in-2026-insights-for-field-building" rel="noopener" target="_blank">MATS talent-needs survey</a> (March 2026; 23 interviews with hiring managers, research leads, and funders) is the field&rsquo;s own diagnosis, and three things stand out when it is read against this essay. First, it concedes the evaluation bottleneck outright: organizations are constrained not by funding or by applicants but by senior researchers able to supervise, each of whom can mentor only a few juniors before quality degrades: the asymmetry of (1), restated as a hiring fact. Second, its guidance doubles down on the trust network. Because organizations cannot afford hiring mistakes, the dominant hiring signal becomes direct collaboration or a calibrated endorsement from an already-known researcher; credentials, interviews, and publications count for little, and fellowships function as extended vetting periods. Under scarce supervision this is individually rational. Collectively, it is the correlation machine of (4): a small set of mentors&rsquo; judgment becomes the field&rsquo;s admission function, replicated into each cohort, a choice whose aggregate cost nobody can price, because the diagnostics that would price it do not exist. High-risk portfolio decisions are easiest to make, individually and rationally, precisely when no one can see the portfolio. Third, it recommends cultivating a broad strategic perspective (which threat models are plausible, which agendas address them, what assumptions each rests on) as an individual skill. That is a demand for precisely the infrastructure of (6), addressed to individuals, in a field with no commons to supply it. Each researcher is asked to privately reconstruct a strategic picture that no institution maintains.</p>
 
 <p><strong>The template (6).</strong> Forethought&rsquo;s <a href="https://forum.effectivealtruism.org/posts/kTMtnvJGPDAz9ybgE/ai-for-ai-for-epistemics" rel="noopener" target="_blank">AI for AI for Epistemics</a> is the closest existing thing to a design document for the commons version. Its argument: as R&amp;D automates, strong epistemic tools become buildable by whoever spends the compute, and the binding problems shift from capability to trust, ground truth, and incumbency. Its risk register names the two ways a build like (6) fails: what it calls epistemic misalignment is the Goodhart worry, people optimizing to look legible on a canonical map, and what it calls trust lock-in is the worry that one such map becomes unquestionable. Its interventions (open and auditable infrastructure, development in incentive-compatible hands, anticipating future data needs) are the general form of what (6) states for this field in particular. What the template leaves open is the field-specific measurement layer: concentration indices, funder overlap, the provenance of convergence. The generic program says how to build a map people can trust. It does not say what this field&rsquo;s map has to show.</p>
+</div>
 
 <a class="readnext" href="/posts/the-loop-no-one-chose/">
   <p class="rn-label">Read next &rarr;</p>
@@ -493,6 +676,14 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   <p class="byline">Manu Xaviour Thaisseril Shaju &middot; July 2026</p>
   <a class="back" href="/">&larr; All writing</a>
 </footer>
+
+<div class="modedock">
+  <div class="modedock-options" role="group" aria-label="Reading mode">
+    <label for="mode-brief">Key points</label>
+    <label for="mode-full">Full essay</label>
+  </div>
+  <label class="modedock-toggle" for="mode-open" title="Show or hide the reading-mode switch" aria-label="Show or hide the reading-mode switch"></label>
+</div>
 
 </article>
 </body>
