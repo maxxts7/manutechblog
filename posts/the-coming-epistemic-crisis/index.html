@@ -206,39 +206,40 @@ h2 {
 .sec { position: relative; }
 /* kept next to its own label so activating it never scrolls the page */
 .sec-brief { position: absolute; top: 0; right: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+/* deliberately not a tag chip: squared, serif, blue, and larger */
 .sec-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  margin: -0.55rem 0 1.35rem 0.85rem;
-  padding: 0.28rem 0.7rem 0.28rem 0.6rem;
-  font-size: 0.71rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  border-radius: 999px;
-  cursor: pointer;
-  user-select: none;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-.sec-toggle:hover {
+  gap: 0.5rem;
+  margin: -0.4rem 0 1.45rem 0.85rem;
+  padding: 0.44rem 0.9rem;
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+  font-weight: 700;
   color: var(--blue-dark);
   background: var(--blue-light);
-  border-color: var(--blue-light);
+  border: 1px solid var(--blue-muted);
+  border-radius: 7px;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 1px 3px rgba(59,130,246,0.18);
+  transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.sec-toggle:hover {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  box-shadow: 0 2px 9px rgba(59,130,246,0.38);
 }
 .sec-brief:focus-visible ~ .sec-toggle { outline: 2px solid var(--blue); outline-offset: 2px; }
 .sec-toggle::before {
-  content: '\2212';
-  font-size: 0.85rem;
-  line-height: 0.6;
-  color: var(--blue);
+  content: '\25B4';
+  font-size: 0.72rem;
+  line-height: 1;
 }
 .sec-toggle::after { content: 'Key points only'; }
-.sec-brief:checked ~ .sec-toggle::before { content: '\002B'; }
-.sec-brief:checked ~ .sec-toggle::after { content: 'Full section'; }
+.sec-brief:checked ~ .sec-toggle::before { content: '\25BE'; }
+.sec-brief:checked ~ .sec-toggle::after { content: 'Read full section'; }
 
 /* collapsed: the prose goes, the points and display lines stay */
 .sec-brief:checked ~ p:not(.statement),
@@ -367,7 +368,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   header h1 { font-size: calc(var(--h1-size) * 0.8); }
   .lead::first-letter { font-size: 3rem; }
   .statement { font-size: 1.15rem; }
-  .sec-toggle { margin-left: 0.85rem; font-size: 0.68rem; }
+  .sec-toggle { margin-left: 0.85rem; font-size: 0.74rem; padding: 0.4rem 0.8rem; }
 }
 </style>
 </head>
