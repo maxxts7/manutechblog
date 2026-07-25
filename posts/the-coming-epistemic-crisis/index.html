@@ -231,14 +231,31 @@ h2 {
   color: #fff;
   box-shadow: 0 2px 9px rgba(59,130,246,0.38);
 }
+.sec-toggle:active { transform: translateY(1px); box-shadow: 0 1px 2px rgba(59,130,246,0.3); }
 .sec-brief:focus-visible ~ .sec-toggle { outline: 2px solid var(--blue); outline-offset: 2px; }
+/* the sign sits in its own filled disc, so the button reads as pressable */
 .sec-toggle::before {
-  content: '\25B4';
-  font-size: 0.72rem;
-  line-height: 1;
+  content: '\2212';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 21px;
+  height: 21px;
+  margin-left: -0.22rem;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 0;
+  box-shadow: 0 1px 3px rgba(30,64,175,0.35);
+  transition: background 0.15s, color 0.15s;
 }
+.sec-toggle:hover::before { background: var(--bg); color: var(--blue-dark); }
 .sec-toggle::after { content: 'Key points only'; }
-.sec-brief:checked ~ .sec-toggle::before { content: '\25BE'; }
+.sec-brief:checked ~ .sec-toggle::before { content: '\002B'; }
 .sec-brief:checked ~ .sec-toggle::after { content: 'Read full section'; }
 
 /* collapsed: the prose goes, the points and display lines stay */
