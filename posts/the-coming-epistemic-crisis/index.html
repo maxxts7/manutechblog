@@ -216,29 +216,46 @@ h2 {
 }
 .modedock-options {
   display: none;
+  position: relative;
   align-items: center;
   gap: 0.2rem;
   padding: 0.25rem;
   background: var(--bg);
   border: 1px solid var(--blue-light);
   border-radius: 999px;
-  box-shadow: 0 2px 12px rgba(59,130,246,0.20);
-  /* three pulses shortly after load, then it settles */
-  animation: dock-glow 1.8s ease-in-out 0.95s 3 both;
+  box-shadow: 0 2px 14px rgba(59,130,246,0.26);
+  /* four quick flares shortly after load, then it settles */
+  animation: dock-glow 1.15s ease-in-out 0.55s 4 both;
 }
 @keyframes dock-glow {
-  0%, 100% { box-shadow: 0 2px 12px rgba(59,130,246,0.20), 0 0 0 0 rgba(59,130,246,0.12); }
-  50%      { box-shadow: 0 2px 24px rgba(59,130,246,0.46), 0 0 0 6px rgba(59,130,246,0.10); }
+  0%, 100% { box-shadow: 0 2px 14px rgba(59,130,246,0.26); }
+  50%      { box-shadow: 0 3px 30px rgba(59,130,246,0.75); }
 }
-/* the dock arrives a beat after the page does */
-.modedock { animation: dock-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both; }
+/* expanding rings, so the eye catches movement and not just a shadow */
+.modedock-options::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 999px;
+  border: 2px solid var(--blue);
+  opacity: 0;
+  pointer-events: none;
+  animation: dock-ping 1.15s ease-out 0.55s 4 both;
+}
+@keyframes dock-ping {
+  0%        { transform: scale(1);    opacity: 0.9; }
+  75%, 100% { transform: scale(1.24); opacity: 0; }
+}
+/* the dock drops in with a small overshoot */
+.modedock { animation: dock-enter 0.75s cubic-bezier(0.2, 1.5, 0.4, 1) 0.2s both; }
 @keyframes dock-enter {
-  from { opacity: 0; transform: translateX(16px) scale(0.96); }
+  from { opacity: 0; transform: translate(34px, -10px) scale(0.86); }
   to   { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .modedock, .modedock-options { animation: none; }
+  .modedock, .modedock-options, .modedock-options::before { animation: none; }
   .modedock-options { box-shadow: 0 2px 16px rgba(59,130,246,0.28); }
+  .modedock-options::before { display: none; }
 }
 #mode-open:checked ~ .modedock .modedock-options { display: flex; }
 .modedock-options label {
