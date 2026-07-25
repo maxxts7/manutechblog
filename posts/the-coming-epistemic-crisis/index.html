@@ -202,133 +202,54 @@ h2 {
   color: var(--blue-dark);
 }
 
-/* ── Reading-mode dock ── */
-/* pinned in-viewport so activating a label never scrolls the page */
-.mode-radio { position: fixed; right: 1.5rem; top: 1.5rem; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-.modedock {
-  position: fixed;
-  right: 1.35rem;
-  top: 1.1rem;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-.modedock-options {
-  display: none;
-  position: relative;
-  align-items: center;
-  gap: 0.2rem;
-  padding: 0.25rem;
-  background: var(--bg);
-  border: 1px solid var(--blue-light);
-  border-radius: 999px;
-  box-shadow: 0 2px 14px rgba(59,130,246,0.26);
-  /* flares while it crosses the page, then it settles */
-  animation: dock-glow 1.15s ease-in-out 0.4s 5 both;
-}
-@keyframes dock-glow {
-  0%, 100% { box-shadow: 0 2px 14px rgba(59,130,246,0.26); }
-  50%      { box-shadow: 0 3px 30px rgba(59,130,246,0.75); }
-}
-/* expanding rings, so the eye catches movement and not just a shadow */
-.modedock-options::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 999px;
-  border: 2px solid var(--blue);
-  opacity: 0;
-  pointer-events: none;
-  animation: dock-ping 1.15s ease-out 0.4s 5 both;
-}
-@keyframes dock-ping {
-  0%        { transform: scale(1);    opacity: 0.9; }
-  75%, 100% { transform: scale(1.24); opacity: 0; }
-}
-/* the dock appears mid-screen, holds there, then flies to its corner */
-.modedock { animation: dock-arrive 2.1s cubic-bezier(0.55, 0, 0.2, 1) 0.25s both; }
-@keyframes dock-arrive {
-  0% {
-    opacity: 0;
-    transform: translate(calc(-50vw + 1.35rem + 50%), calc(50vh - 1.1rem - 50%)) scale(1.1);
-  }
-  12%, 50% {
-    opacity: 1;
-    transform: translate(calc(-50vw + 1.35rem + 50%), calc(50vh - 1.1rem - 50%)) scale(1.45);
-  }
-  100% { opacity: 1; transform: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .modedock, .modedock-options, .modedock-options::before,
-  .modedock-options label[for="mode-brief"] { animation: none; }
-  .modedock-options { box-shadow: 0 2px 16px rgba(59,130,246,0.28); }
-  .modedock-options::before { display: none; }
-}
-#mode-open:checked ~ .modedock .modedock-options { display: flex; }
-.modedock-options label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  padding: 0.42rem 0.85rem;
-  border-radius: 999px;
-  cursor: pointer;
-  white-space: nowrap;
-  user-select: none;
-  transition: background 0.15s, color 0.15s;
-}
-.modedock-options label:hover { background: var(--gray-100); color: var(--text); }
-/* !important so the active state still wins if you click mid-blink */
-#mode-brief:checked ~ .modedock label[for="mode-brief"],
-#mode-full:checked ~ .modedock label[for="mode-full"] {
-  background: var(--blue) !important;
-  color: #fff !important;
-  box-shadow: 0 1px 6px rgba(59,130,246,0.45);
-}
-/* the unselected mode blinks, so the eye lands on the button the hint means */
-.modedock-options label[for="mode-brief"] {
-  animation: hint-blink 1.15s ease-in-out 0.5s 4 both;
-}
-@keyframes hint-blink {
-  0%, 100% { background: transparent; color: var(--text-secondary); }
-  50%      { background: var(--blue-light); color: var(--blue-dark); }
-}
-.modedock-toggle {
+/* ── Per-section collapse ── */
+.sec { position: relative; }
+/* kept next to its own label so activating it never scrolls the page */
+.sec-brief { position: absolute; top: 0; right: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.sec-toggle {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  font-size: 1.15rem;
-  line-height: 1;
-  color: var(--blue);
-  background: var(--bg);
-  border: 1px solid var(--blue-light);
+  gap: 0.4rem;
+  margin: -0.55rem 0 1.35rem 0.85rem;
+  padding: 0.28rem 0.7rem 0.28rem 0.6rem;
+  font-size: 0.71rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
   border-radius: 999px;
   cursor: pointer;
   user-select: none;
-  box-shadow: 0 2px 12px rgba(59,130,246,0.24);
-  transition: border-color 0.15s, color 0.15s, box-shadow 0.15s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
-.modedock-toggle:hover { border-color: var(--blue); color: var(--blue-dark); box-shadow: 0 2px 16px rgba(59,130,246,0.4); }
-.modedock-toggle::after { content: '\2039'; margin-top: -2px; }
-#mode-open:checked ~ .modedock .modedock-toggle::after { content: '\203A'; }
-#mode-open:checked ~ .modedock .modedock-toggle { border-color: var(--gray-200); }
-#mode-open:focus-visible ~ .modedock .modedock-toggle,
-#mode-brief:focus-visible ~ .modedock label[for="mode-brief"],
-#mode-full:focus-visible ~ .modedock label[for="mode-full"] {
-  outline: 2px solid var(--blue);
-  outline-offset: 2px;
+.sec-toggle:hover {
+  color: var(--blue-dark);
+  background: var(--blue-light);
+  border-color: var(--blue-light);
 }
+.sec-brief:focus-visible ~ .sec-toggle { outline: 2px solid var(--blue); outline-offset: 2px; }
+.sec-toggle::before {
+  content: '\2212';
+  font-size: 0.85rem;
+  line-height: 0.6;
+  color: var(--blue);
+}
+.sec-toggle::after { content: 'Key points only'; }
+.sec-brief:checked ~ .sec-toggle::before { content: '\002B'; }
+.sec-brief:checked ~ .sec-toggle::after { content: 'Full section'; }
 
-/* Key-points mode: keep headings, points, and display lines; drop the prose */
-#mode-brief:checked ~ p:not(.lead):not(.statement),
-#mode-brief:checked ~ .appendix,
-#mode-brief:checked ~ ul.points .detail,
-#mode-brief:checked ~ .keybox .detail { display: none; }
-
-/* Full mode: the callout reverts to its prose version */
-#mode-full:checked ~ .keybox .brief-only { display: none; }
+/* collapsed: the prose goes, the points and display lines stay */
+.sec-brief:checked ~ p:not(.statement),
+.sec-brief:checked ~ ul.points .detail,
+.sec-brief:checked ~ .keybox .detail { display: none; }
+.brief-only { display: none; }
+.sec-brief:checked ~ .keybox .brief-only { display: block; }
+/* with the prose gone, the points sit closer to the heading */
+.sec-brief:checked ~ ul.keypoints,
+.sec-brief:checked ~ ul.points { margin-top: 0.15rem; }
+.sec-brief:checked ~ .statement { margin-top: 2.1rem; }
 .keybox .keypoints { margin: 0.15rem 0 0; }
 
 /* ── Section key points ── */
@@ -446,9 +367,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   header h1 { font-size: calc(var(--h1-size) * 0.8); }
   .lead::first-letter { font-size: 3rem; }
   .statement { font-size: 1.15rem; }
-  .modedock { right: 0.8rem; top: 0.65rem; }
-  .modedock-options label { padding: 0.34rem 0.62rem; font-size: 0.68rem; }
-  .modedock-toggle { width: 30px; height: 30px; font-size: 1rem; }
+  .sec-toggle { margin-left: 0.85rem; font-size: 0.68rem; }
 }
 </style>
 </head>
@@ -459,10 +378,6 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   </a>
 </nav>
 <article>
-<input type="radio" name="readmode" id="mode-brief" class="mode-radio">
-<input type="radio" name="readmode" id="mode-full" class="mode-radio" checked>
-<input type="checkbox" id="mode-open" class="mode-radio" checked>
-
 <header>
   <p class="eyebrow">Essay</p>
   <h1>The Coming Epistemic Crisis AI Safety Is Not Ready For</h1>
@@ -532,7 +447,10 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   <figcaption>Research is getting cheap to generate faster than the field&rsquo;s few evaluators can judge it, and a handful of buyers &mdash; grantmakers and labs &mdash; decide what it is worth. The dashed line is the missing floor: no external check, no bridge that stands or falls, to settle who is right.</figcaption>
 </figure>
 
+<section class="sec">
+<input type="checkbox" class="sec-brief" id="s1-brief">
 <h2>1. Research generation is being automated faster than research evaluation</h2>
+<label class="sec-toggle" for="s1-brief"></label>
 
 <p>Language models are becoming genuinely useful across the research pipeline: literature review, experiment scaffolding, analysis, drafting. One underrated upside is that this lowers the cost of moving between fields. When the topic-specific grind gets cheap, a researcher&rsquo;s ability transfers more easily; expertise becomes more topic-agnostic. For AI safety, which recruits most of its people from other disciplines, that is good news.</p>
 
@@ -557,7 +475,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <p class="detail">The reason to keep the two ideas separate is that a field&rsquo;s strategic self-awareness depends on its collective epistemics.</p>
 </div>
 
+</section>
+
+<section class="sec">
+<input type="checkbox" class="sec-brief" id="s2-brief">
 <h2>2. The volume shock is already visible, and institutions are responding by raising the bar</h2>
+<label class="sec-toggle" for="s2-brief"></label>
 
 <p><a href="https://www.pangram.com/blog/pangram-predicts-21-of-iclr-reviews-are-ai-generated" rel="noopener" target="_blank">Detector-based analysis</a> of ICLR 2026 found several hundred submissions written wholly by LLMs, and roughly one in ten with majority-LLM content. arXiv <a href="https://blog.arxiv.org/2025/10/31/attention-authors-updated-practice-for-review-articles-and-position-papers-in-arxiv-cs-category/" rel="noopener" target="_blank">stopped accepting position papers and review articles</a> in computer science without prior peer review, citing the volume. LessWrong <a href="https://www.lesswrong.com/posts/KXujJjnmP85u8eM6B/policy-for-llm-writing-on-lesswrong" rel="noopener" target="_blank">holds LLM-generated content to a higher bar</a> than human writing. Meanwhile, the same analysis found one in five reviews fully LLM-generated, closing a loop nobody designed, in which machine-written papers meet machine-written reviews and human judgment thins at both ends.</p>
 
@@ -572,7 +495,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p class="statement">Nobody is making evaluation cheaper. Everyone is making entry more expensive.</p>
 
+</section>
+
+<section class="sec">
+<input type="checkbox" class="sec-brief" id="s3-brief">
 <h2>3. Field-building trains more candidates than the field can absorb, and their output is straining evaluation capacity</h2>
+<label class="sec-toggle" for="s3-brief"></label>
 
 <p>Field-building programs are scaling admissions faster than the field scales absorption. Introductory programs <a href="https://forum.effectivealtruism.org/posts/p4ekwamhsw6jpKEcu/widening-ai-safety-s-talent-pipeline-by-meeting-people-where" rel="noopener" target="_blank">plan to train thousands of people per year</a>; research fellowships like MATS accept applicants at rates in the low single digits, a hyper-selectivity that <a href="https://forum.effectivealtruism.org/posts/jwwrC4n9H53doRjRH/ai-safety-talent-needs-in-2026-insights-for-field-building" rel="noopener" target="_blank">the field&rsquo;s own needs assessment</a> traces to scarce supervision capacity. The people who are trained but not placed do not vanish. Underemployed, motivated, and equipped with the same generation tools as everyone else, their output lands on the field&rsquo;s open surfaces: grant applications, forum posts, conference submissions, cold emails to researchers.</p>
 
@@ -584,7 +512,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <li>The real cost is not the weak work itself but the evaluator attention spent filtering it, which is the scarcest resource the field has.</li>
 </ul>
 
+</section>
+
+<section class="sec">
+<input type="checkbox" class="sec-brief" id="s4-brief">
 <h2>4. No external check, a handful of buyers, and no way to measure the correlation</h2>
+<label class="sec-toggle" for="s4-brief"></label>
 
 <p>AI alignment is not a field with external signals the way computer science or civil engineering are: most of its concerns are about systems that do not exist yet.</p>
 
@@ -605,7 +538,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <li>Concentration is not automatically bad, but nobody measures it here, so no funder can tell how concentrated the field&rsquo;s bets already are.</li>
 </ul>
 
+</section>
+
+<section class="sec">
+<input type="checkbox" class="sec-brief" id="s5-brief">
 <h2>5. Even though grantmakers have the most leverage, they ironically have the faintest signal</h2>
+<label class="sec-toggle" for="s5-brief"></label>
 
 <p>Consider what a funder can realistically consult: shallow reviews, forum and Twitter write-ups, yearly organizational reports, grant applications, and personal connections. Is that enough of a view of the field? Probably not, and a funder making the individually rational call on that signal is not necessarily making the call that serves the field. There is precedent for how this goes. Research on science funding describes a squeeze that operates from two directions at once. Ex ante review, which determines what gets funded, favors proposals that are not especially speculative and that are bold in the direction of what the field already believes, since those are the proposals a reviewer can assess quickly and score with confidence. Ex post evaluation, which determines what counts as a successful grant, favors novel results, and those generally require speculative, high-risk experiments that change prevailing beliefs rather than confirm them. Because the two criteria point in opposite directions, the space of work a researcher can realistically propose is squeezed from both sides, and the cheapest response is to quietly self-censor whole topics rather than defend them. I am not claiming that exact dynamic will replicate here. But some version of research being squeezed toward a highly correlated direction seems likely, and without any view of the whole research landscape, there would be no way to notice it is happening.</p>
 
@@ -617,7 +555,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <li>Without a view of the whole landscape, nobody would notice that narrowing while it was happening.</li>
 </ul>
 
+</section>
+
+<section class="sec">
+<input type="checkbox" class="sec-brief" id="s6-brief">
 <h2>6. Starting points and a general direction for what collective epistemic infrastructure could look like</h2>
+<label class="sec-toggle" for="s6-brief"></label>
 
 <p>The collective version is not mysterious, and it does not have to be a map. It starts with a data layer: continuously updated records of research output, funding flows, which organizations work on which agendas, and which venues host what. Not snapshots. The field changes faster than any annual review can track, which is part of why the annual reviews lost their charm (8).</p>
 
@@ -640,7 +583,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p class="statement">A field&rsquo;s strategic self-awareness is a product of its collective epistemic infrastructure.</p>
 
+</section>
+
+<section class="sec">
+<input type="checkbox" class="sec-brief" id="s7-brief">
 <h2>7. What happens if nothing is built</h2>
+<label class="sec-toggle" for="s7-brief"></label>
 
 <p>Sorted by confidence: the first items are visible trends continuing, the middle ones need assumptions, the last are long shots included for their size.</p>
 
@@ -670,7 +618,12 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <li><strong>The benign branch: the field adapts on its own, as other fields have.</strong> <span class="detail">Physics absorbed arXiv; biology absorbed cheap sequencing by growing new evaluation professions. Verification and distillation could become respected specializations here too. The catch is speed: those adjustments took a decade or more, and it is not obvious this field has one.</span></li>
 </ul>
 
+</section>
+
+<section class="sec">
+<input type="checkbox" class="sec-brief" id="s8-brief">
 <h2>8. Is it worth it?</h2>
+<label class="sec-toggle" for="s8-brief"></label>
 
 <p>It is not going to cost much, in absolute terms or relative ones: a data pipeline, a few standing tools, a channel, and stipends for people the field has already paid to train. Field-building alone <a href="https://www.lesswrong.com/posts/k4i6AibKLT54h5Syr/a-genealogy-of-ai-safety-how-directions-are-born-and-how" rel="noopener" target="_blank">has absorbed roughly $320 million</a>. The parts described here would cost a small fraction of that, and unlike a cohort or a conference, infrastructure keeps paying out for as long as the field uses it. And it goes straight at the problem in (5): funders have the most leverage and the worst view of the field, and this is the cheapest way to improve the view. Since, by (4), the field&rsquo;s collective judgment is most of what it produces, better judgment raises the value of everything else. It may be the highest-leverage money the field can spend.</p>
 
@@ -683,6 +636,8 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <li>The potential upsides are many: better research progress, and more clarity about where the field stands.</li>
 <li>And if we do not build it, the downsides are very high: in the worst case, a field unable to prevent the catastrophic events it exists to prevent.</li>
 </ul>
+
+</section>
 
 <div class="appendix">
 <h2>Appendix: sources and notes</h2>
@@ -718,14 +673,6 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   <p class="byline">Manu Xaviour Thaisseril Shaju &middot; July 2026</p>
   <a class="back" href="/">&larr; All writing</a>
 </footer>
-
-<div class="modedock">
-  <div class="modedock-options" role="group" aria-label="Reading mode">
-    <label for="mode-brief">Key points</label>
-    <label for="mode-full">Full essay</label>
-  </div>
-  <label class="modedock-toggle" for="mode-open" title="Show or hide the reading-mode switch" aria-label="Show or hide the reading-mode switch"></label>
-</div>
 
 </article>
 </body>
