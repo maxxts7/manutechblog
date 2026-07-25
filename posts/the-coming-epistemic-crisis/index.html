@@ -253,9 +253,13 @@ h2 {
   to   { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .modedock, .modedock-options, .modedock-options::before { animation: none; }
+  .modedock, .modedock-options, .modedock-options::before,
+  .modedock-options label[for="mode-brief"] { animation: none; }
   .modedock-options { box-shadow: 0 2px 16px rgba(59,130,246,0.28); }
   .modedock-options::before { display: none; }
+  /* the hint still appears and still goes away, it just does not slide */
+  .modedock-hint { animation: hint-fade 5.6s steps(1, end) 0.9s both; }
+  @keyframes hint-fade { 0%, 90% { opacity: 1; } 100% { opacity: 0; } }
 }
 #mode-open:checked ~ .modedock .modedock-options { display: flex; }
 .modedock-options label {
@@ -270,11 +274,49 @@ h2 {
   transition: background 0.15s, color 0.15s;
 }
 .modedock-options label:hover { background: var(--gray-100); color: var(--text); }
+/* !important so the active state still wins if you click mid-blink */
 #mode-brief:checked ~ .modedock label[for="mode-brief"],
 #mode-full:checked ~ .modedock label[for="mode-full"] {
-  background: var(--blue);
-  color: #fff;
+  background: var(--blue) !important;
+  color: #fff !important;
   box-shadow: 0 1px 6px rgba(59,130,246,0.45);
+}
+/* the unselected mode blinks, so the eye lands on the button the hint means */
+.modedock-options label[for="mode-brief"] {
+  animation: hint-blink 1.15s ease-in-out 0.9s 3 both;
+}
+@keyframes hint-blink {
+  0%, 100% { background: transparent; color: var(--text-secondary); }
+  50%      { background: var(--blue-light); color: var(--blue-dark); }
+}
+/* a one-off label saying what the control is for */
+.modedock-hint {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  left: 0;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  background: var(--blue-light);
+  border-radius: 8px;
+  padding: 0.36rem 0.62rem;
+  pointer-events: none;
+  opacity: 0;
+  animation: hint-show 5.6s ease-in-out 0.9s both;
+}
+.modedock-hint::after {
+  content: '';
+  position: absolute;
+  left: 1.7rem;
+  bottom: 100%;
+  border: 5px solid transparent;
+  border-bottom-color: var(--blue-light);
+}
+@keyframes hint-show {
+  0%        { opacity: 0; transform: translateY(-5px); }
+  7%, 86%   { opacity: 1; transform: none; }
+  100%      { opacity: 0; transform: translateY(-3px); }
 }
 .modedock-toggle {
   display: inline-flex;
@@ -708,6 +750,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
     <label for="mode-full">Full essay</label>
   </div>
   <label class="modedock-toggle" for="mode-open" title="Show or hide the reading-mode switch" aria-label="Show or hide the reading-mode switch"></label>
+  <span class="modedock-hint" aria-hidden="true">Or read just the key points</span>
 </div>
 
 </article>
