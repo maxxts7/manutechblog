@@ -420,6 +420,27 @@ h2 {
 .readnext .rn-title { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.35rem; }
 .readnext .rn-desc { font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
 
+/* ── About the author ── */
+.authorbio {
+  margin-top: 3.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+}
+.authorbio .ab-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.4rem;
+}
+.authorbio .ab-name { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; color: var(--text); margin: 0 0 0.7rem; }
+.authorbio p { font-size: 0.9rem; line-height: 1.65; color: var(--text-secondary); margin: 0 0 0.7rem; }
+.authorbio p:last-child { margin-bottom: 0; }
+/* the prose citation markers belong to the essay, not to the bio */
+.authorbio p a { color: var(--blue); font-weight: 500; }
+.authorbio p a::after { content: none; counter-increment: none; }
+
 /* ── Footer ── */
 footer {
   margin-top: 2.5rem;
@@ -747,6 +768,15 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
   <p class="rn-title">Paying Down Research Debt</p>
   <p class="rn-desc">A tool for reading AI safety research, and the living canon it leaves behind: the undersupplied distillation layer this essay leans on in (8).</p>
 </a>
+
+<section class="authorbio">
+  <p class="ab-label">About the author</p>
+  <p class="ab-name">Manu Xaviour Thaisseril Shaju</p>
+  <p>I came to AI safety from customer service: several years as a technical support engineer, then a master&rsquo;s in AI in 2022. My first piece of research was <a href="/posts/cross-axis-capping/">Cross-Axis Capping</a>, an experiment on what happens when jailbreak detection and correction stop sharing a single direction.</p>
+  <p>Since then I have mostly been building the infrastructure I wished existed. I wanted a map of where the field is actually heading, and a parsable one: something I could slice by whatever I was trying to find out, so that a different question returns a different view of the same field. That is <a href="https://aisafteymap.netlify.app/" rel="noopener" target="_blank">AI Safety Map</a>, which came out of <a href="/posts/the-loop-no-one-chose/">The Loop No One Chose</a> and the two pieces that followed it, <a href="/posts/how-to-build-a-mirror-without-holding-it/">How to Build a Mirror Without Holding It</a> on how such a map gets built and <a href="/posts/open-in-principle-blind-in-practice/">Open in Principle, Blind in Practice</a> on why a funder needs one. I also wanted help with the papers themselves, the prerequisite-heavy ones written with almost no exposition, which is <a href="https://exploreaisafety.netlify.app/" rel="noopener" target="_blank">Explore</a>, the research explorer that came out of <a href="/posts/paying-down-research-debt/">Paying Down Research Debt</a>.</p>
+  <p>At some point these stopped looking like two separate annoyances. They are symptoms of the same systemic problem, so I did my own digging and decided to write about it. I have not heard anyone discussing it in these terms, and I think it is worth discussing.</p>
+  <p>Two caveats I would rather state than hide. This essay may itself be part of the slop it warns about; if it is, it is at least a specimen that makes the point. And I do not know whether grantmakers hold a picture of the field that I cannot see. I think that is unlikely, since I have not found the discourse that would suggest it, but I may be wrong.</p>
+</section>
 
 <footer>
   <p class="byline">Manu Xaviour Thaisseril Shaju &middot; July 2026</p>
