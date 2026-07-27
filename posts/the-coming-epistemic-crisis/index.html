@@ -439,6 +439,8 @@ h2 {
 /* the prose citation markers belong to the essay, not to the bio */
 .authorbio p a { color: var(--blue); font-weight: 500; }
 .authorbio p a::after { content: none; counter-increment: none; }
+/* the disclosure sits with the bio rather than as its own slab */
+.llmnote + .authorbio { margin-top: 2.25rem; padding-top: 1.5rem; }
 
 /* ── Footer ── */
 footer {
@@ -778,6 +780,11 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p><strong>The debt (8).</strong> Chris Olah and Shan Carter&rsquo;s <a href="https://distill.pub/2017/research-debt/" rel="noopener" target="_blank">Research Debt</a> (Distill, March 2017) defines the condition as &ldquo;the accumulation of missing interpretive labor&rdquo; and separates it into four kinds: poor exposition, undigested ideas, bad abstractions and notation, and the noise of more papers than anyone can read. The mechanism is a tradeoff the essay states plainly, between the energy put into explaining an idea and the energy needed to understand it: one explainer&rsquo;s fixed cost against every future reader&rsquo;s, which is why distillation pays off at scale and why almost nobody supplies it. Distillers, it notes, lack &ldquo;a career path, places to learn, examples and role models,&rdquo; because the work is not seen as a real research contribution. Two things follow here. The first is the date. 2017 is well before the volume shock, so cheap generation did not create research debt; it compounded a deficit the field already carried. The second is that (6) asks for funding for precisely the role Distill described as structurally unrewarded, and (3) names the first group with both the skills and the reason to take it.</p>
 </div>
+
+<section class="authorbio llmnote">
+  <p class="ab-label">LLM policy</p>
+  <p>The appendix was written entirely by a language model, and then verified carefully: every claim in it checked against the source it cites. The essay itself was LLM-assisted and edited word by word, so if you do not find it tasteful, you can confidently blame my literary faculties and sensibilities.</p>
+</section>
 
 <section class="authorbio">
   <p class="ab-label">About the author</p>
