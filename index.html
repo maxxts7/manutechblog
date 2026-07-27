@@ -53,6 +53,25 @@ body {
 
 section > h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.75rem; color: var(--text); }
 
+.current { margin-bottom: 3rem; }
+.current p { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin: 0 0 0.75rem; }
+.current p:last-child { margin-bottom: 0; }
+.current h3 {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--gray-700);
+  margin: 1.6rem 0 0.6rem;
+}
+.current ul { padding-left: 1.1rem; margin: 0 0 0.75rem; }
+.current li { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin: 0 0 0.5rem; }
+.current li:last-child { margin-bottom: 0; }
+.current li::marker { color: var(--gray-400); }
+.current strong { color: var(--text); font-weight: 600; }
+.current a { color: var(--blue); text-decoration: none; font-weight: 500; }
+.current a:hover { text-decoration: underline; }
+
 .post-grid { display: grid; gap: 1rem; }
 
 .post-card {
@@ -121,7 +140,30 @@ section > h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; mar
     <p>I come from a customer service background &mdash; I spent several years as a Technical Support Engineer, working across SaaS products. In early 2022 I became interested in AI and decided to pursue a master&rsquo;s degree in the field &mdash; an MSc in Advanced Computer Science with AI at the <strong>University of Strathclyde</strong>. One month into the programme, ChatGPT was released, and the world I&rsquo;d just entered changed overnight.</p>
     <p>For the next couple of years I leaned toward building &mdash; prototyping apps with AI, learning to ship things, picking up the engineering side. But the research questions kept pulling me back. In early 2025 I found my way to AI safety: the problem of making sure these systems do what we actually want, especially as they grow more capable.</p>
     <p>In 2026 I joined the <strong>BlueDot Impact</strong> Technical AI Safety Project Sprint, where I completed a research project on activation-space interventions for jailbreak defence. That work is below.</p>
-    <p>My current work is on the infrastructure the field uses to read itself. <a href="https://aisafteymap.netlify.app/">AI Safety Map</a> is a live map of where AI safety research is heading, built to be sliced by the question being asked rather than fixed to a single view. <a href="https://exploreaisafety.netlify.app/">Explore: An AI Safety Wiki</a> takes on the other half of the problem: research that is prerequisite-heavy and thin on exposition, which makes the field expensive to enter. Both began as tools I wanted and could not find, and I have come to think they address one problem rather than two &mdash; which is what most of the writing below is about. I came at it backwards: I noticed a need of my own going unmet, took it for a gap in the field, and went to the public record to see whether it was. The problem already had names. Forethought calls the general version <a href="https://www.forethought.org/research/design-sketches-collective-epistemics">collective epistemics</a>, and calls what it buys you <a href="https://www.forethought.org/research/design-sketches-tools-for-strategic-awareness">strategic awareness</a>; BlueDot asks the field for the same thing one step further on, a <a href="https://blog.bluedot.org/p/5-ways-to-develop-ai-safety-plan">field strategy</a> concrete enough to be wrong. The idea I want to introduce is <em>strategic self-awareness</em>: what strategic awareness becomes when a field turns it on itself. The difference is not scope but subject &mdash; every actor in a field can hold an accurate picture of the landscape and the field still not know what it is collectively betting on, because no private view contains the aggregate. I think a field gets it as a byproduct of its collective epistemics rather than by deciding to have it. A field that has it is what I am working towards. Not a strategy for the field to adopt, but the machinery it would need to arrive at one, which is what both tools are trying to supply.</p>
+  </section>
+
+  <section class="current">
+    <h2>What I am currently doing</h2>
+    <p>My current work is on the infrastructure the field uses to read itself.</p>
+
+    <h3>The tools</h3>
+    <ul>
+      <li><a href="https://aisafteymap.netlify.app/">AI Safety Map</a> &mdash; a live map of where AI safety research is heading, built to be sliced by the question being asked rather than fixed to a single view.</li>
+      <li><a href="https://exploreaisafety.netlify.app/">Explore: An AI Safety Wiki</a> &mdash; the other half of the problem: research that is prerequisite-heavy and thin on exposition, which makes the field expensive to enter.</li>
+    </ul>
+    <p>Both began as tools I wanted and could not find, and I have come to think they address one problem rather than two &mdash; which is what most of the writing below is about.</p>
+
+    <h3>The problem already had names</h3>
+    <p>I came at it backwards: I noticed a need of my own going unmet, took it for a gap in the field, and went to the public record to see whether it was.</p>
+    <ul>
+      <li><a href="https://www.forethought.org/research/design-sketches-collective-epistemics">Collective epistemics</a> and <a href="https://www.forethought.org/research/design-sketches-tools-for-strategic-awareness">strategic awareness</a> &mdash; Forethought&rsquo;s names for the general version, and for what it buys you.</li>
+      <li><a href="https://blog.bluedot.org/p/5-ways-to-develop-ai-safety-plan">Field strategy</a> &mdash; BlueDot asking the field for the same thing one step further on: a plan concrete enough to be wrong.</li>
+      <li><strong>Strategic self-awareness</strong> &mdash; the idea I want to introduce: what strategic awareness becomes when a field turns it on itself.</li>
+    </ul>
+    <p>The difference is not scope but subject &mdash; every actor in a field can hold an accurate picture of the landscape and the field still not know what it is collectively betting on, because no private view contains the aggregate. I think a field gets it as a byproduct of its collective epistemics rather than by deciding to have it.</p>
+
+    <h3>What I am working towards</h3>
+    <p>A field that has it. Not a strategy for the field to adopt, but the machinery it would need to arrive at one, which is what both tools are trying to supply.</p>
   </section>
 
   <section>
