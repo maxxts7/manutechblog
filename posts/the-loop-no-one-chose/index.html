@@ -296,6 +296,18 @@ h2 {
 .appendix h2 { margin-top: 0; margin-bottom: 1rem; }
 .appendix-intro { font-style: italic; color: var(--text-secondary); }
 
+/* ── LLM policy ── */
+.llmnote { margin-top: 3.5rem; padding-top: 1.75rem; border-top: 1px solid var(--border); }
+.llmnote .ab-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.4rem;
+}
+.llmnote p { font-size: 0.9rem; line-height: 1.65; color: var(--text-secondary); margin: 0; }
+
 /* ── Footer ── */
 footer {
   margin-top: 4rem;
@@ -555,7 +567,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p class="appendix-intro">The essay borrows several named concepts from other fields and compresses each into a clause. This appendix records what each source actually argued, and where the transfer to a research field holds or bends.</p>
 
-<p><strong>Reflexivity (Soros).</strong> From <em>The Alchemy of Finance</em> (1987), restated in his 2009 Central European University lectures as <a href="https://www.opensocietyfoundations.org/uploads/9ae17912-2262-4646-8ffc-d01afc934c36/george-soros-general-theory-of-reflexivity-transcript.pdf" rel="noopener" target="_blank">a general theory of reflexivity</a>. The structure is two functions running in opposite directions: a <em>cognitive</em> function, in which participants form a picture of the situation, and a <em>manipulative</em> function, in which they act on that picture and change the situation they were trying to read. Soros&rsquo;s point is what the interference does to truth: once the second function is running, the facts are no longer an independent criterion, because the facts may themselves be a product of what people believed about them. The transfer to a research field is close but not exact, and the difference matters. In markets the manipulative function runs through price, and price eventually settles against something; a position is scored, and the belief that produced it is scored with it. Attention has no settlement. Nothing marks a direction to market, so the loop described here can run considerably longer than a market one before anything contradicts it.</p>
+<p><strong>Reflexivity (Soros).</strong> From <em>The Alchemy of Finance</em> (1987), restated in <a href="https://www.georgesoros.com/2014/01/13/fallibility-reflexivity-and-the-human-uncertainty-principle-2/" rel="noopener" target="_blank">&ldquo;Fallibility, Reflexivity, and the Human Uncertainty Principle&rdquo;</a> (2014). The structure is two functions running in opposite directions: a <em>cognitive</em> function, the attempt to understand the world one lives in, and a <em>manipulative</em> function, the attempt to make an impact on that world and advance one&rsquo;s own interests. Soros&rsquo;s point is what the interference between them does to truth: with the manipulative function running, &ldquo;the facts no longer serve as an independent criterion because the statement may be the product of the manipulative function.&rdquo; The transfer to a research field is close but not exact, and the difference matters. In markets the manipulative function runs through price, and price eventually settles against something; a position is scored, and the belief that produced it is scored with it. Attention has no settlement. Nothing marks a direction to market, so the loop described here can run considerably longer than a market one before anything contradicts it.</p>
 
 <p><strong>The Matthew effect (Merton).</strong> <a href="https://www.science.org/doi/10.1126/science.159.3810.56" rel="noopener" target="_blank">&ldquo;The Matthew Effect in Science&rdquo;</a> (<em>Science</em>, 5 January 1968, 159:3810, 56&ndash;63). The paper is usually remembered for its claim about <em>reward</em>: eminent scientists collect disproportionate credit for collaborative work and for discoveries made independently by several people. That is not the half this essay uses. Merton takes a second pass on the <em>communication</em> system, observing that the effect raises the visibility of contributions from scientists of established standing while lowering the visibility of contributions from the less well known. The claim here is not that famous researchers are over-credited but that visibility is itself doing the allocating, which is Merton&rsquo;s communication-system version rather than his reward-system one.</p>
 
@@ -565,8 +577,13 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p><strong>Goodhart&rsquo;s law.</strong> Charles Goodhart, at a Sydney conference in 1975: &ldquo;Any observed statistical regularity will tend to collapse once pressure is placed upon it for control purposes.&rdquo; He later called it a throw-away line. The compressed version everyone quotes, that when a measure becomes a target it ceases to be a good measure, is Marilyn Strathern&rsquo;s, from <a href="https://gwern.net/doc/statistics/decision/1997-strathern.pdf" rel="noopener" target="_blank">&ldquo;&lsquo;Improving ratings&rsquo;: audit in the British University system&rdquo;</a> (<em>European Review</em> 5:3, 1997, 305&ndash;321), an anthropological account of the audit explosion in British higher education. Two details bear directly on the argument. Goodhart&rsquo;s original wording puts the failure in <em>control</em>: the regularity collapses when the measure is used to steer, which is the prescribe/describe line this essay draws, and the reason a description is not automatically subject to the law. And Strathern&rsquo;s setting was academic audit, so the law&rsquo;s sharpest formulation was written about a research field being measured. On this terrain it is not an analogy.</p>
 
-<p><strong>Epistemic misalignment (Forethought).</strong> <a href="https://forum.effectivealtruism.org/posts/kTMtnvJGPDAz9ybgE/ai-for-ai-for-epistemics" rel="noopener" target="_blank">AI for AI for Epistemics</a> argues that as R&amp;D automates, strong epistemic tools become buildable by whoever spends the compute, and the binding constraints move from capability to trust, ground truth, and incumbency. Its risk register names two failure modes, and the section above is an answer to both. <em>Epistemic misalignment</em> is work optimizing to look legible on a canonical description of the field. <em>Trust lock-in</em> is one such description becoming unquestionable. The word carrying the weight in both is <em>canonical</em>: neither risk is a claim about maps, and both are claims about a map that is the only one, which is why plurality rather than accuracy is the answer offered here.</p>
+<p><strong>Epistemic misalignment (Forethought).</strong> <a href="https://forum.effectivealtruism.org/posts/kTMtnvJGPDAz9ybgE/ai-for-ai-for-epistemics" rel="noopener" target="_blank">AI for AI for Epistemics</a>. Its risk register names two failure modes, both stated more generally there than this essay uses them. <em>Epistemic misalignment</em> is the worry that powerful tools steer thinking in directions that are not truth-tracking, in ways their users fail to detect, because there is no ground truth to check them against: Goodhart, with the compounding problem that the optimization is invisible from inside it. <em>Trust lock-in</em>, which the piece treats as its central concern, is the worry that people come to trust tools or ecosystems that do not deserve it, and that the trust becomes self-perpetuating because those tools keep recommending themselves; anything widely trusted to adjudicate what is true holds enormous influence and, if the trust is misplaced, is very hard to dislodge. Note that both risks are about a source that is the only one rather than about a source that is wrong, which is why the answer offered above is plurality rather than accuracy, and why the piece&rsquo;s own prescription is that such infrastructure be open and auditable.</p>
 </div>
+
+<section class="llmnote">
+  <p class="ab-label">LLM policy</p>
+  <p>The appendix was written entirely by a language model, and then verified carefully: every claim in it checked against the source it cites. The essay itself was LLM-assisted and edited word by word, so if you do not find it tasteful, you can confidently blame my literary faculties and sensibilities.</p>
+</section>
 
 <a class="readnext" href="/posts/open-in-principle-blind-in-practice/">
   <p class="rn-label">Read next &rarr;</p>
