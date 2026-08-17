@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What is the next big crisis AI safety is going to face very soon? | Manu Xaviour Thaisseril Shaju</title>
+<meta name="description" content="AI safety cannot currently tell whether it is moving towards a safer future. As automated research raises the volume, the field&rsquo;s manual, centralised sensemaking is what gets strained - an argument routed through 2008. Posted to LessWrong; written entirely without LLM assistance.">
+<link rel="canonical" href="https://manutechblog.netlify.app/posts/the-next-big-crisis/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Manu Xaviour Thaisseril Shaju">
+<meta property="og:title" content="What is the next big crisis AI safety is going to face very soon?">
+<meta property="og:description" content="AI safety cannot currently tell whether it is moving towards a safer future. As automated research raises the volume, the field&rsquo;s manual, centralised sensemaking is what gets strained - an argument routed through 2008.">
+<meta property="og:url" content="https://manutechblog.netlify.app/posts/the-next-big-crisis/">
+<meta property="og:image" content="https://manutechblog.netlify.app/posts/the-next-big-crisis/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="What is the next big crisis AI safety is going to face very soon? - essay title card.">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What is the next big crisis AI safety is going to face very soon?">
+<meta name="twitter:description" content="AI safety cannot currently tell whether it is moving towards a safer future. As automated research raises the volume, the field&rsquo;s manual, centralised sensemaking is what gets strained - an argument routed through 2008.">
+<meta name="twitter:image" content="https://manutechblog.netlify.app/posts/the-next-big-crisis/og.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400..900&family=Noto+Serif:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --text: #1a1a2e;
+  --text-secondary: #64748b;
+  --bg: #ffffff;
+  --border: #e2e8f0;
+  --blue: #3b82f6;
+  --blue-dark: #1e40af;
+  --blue-light: #dbeafe;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-400: #94a3b8;
+  --gray-700: #334155;
+  --blue-muted: #60a5fa;
+  --orange: #f59e0b;
+  --orange-dark: #b45309;
+  --orange-light: #fef3c7;
+
+  /* reading knobs — single source of truth; re-tune here (paste from the typography playground) */
+  --font-head: 'Merriweather', Georgia, serif;
+  --font-body: 'Noto Serif', Georgia, serif;
+  --reading-width: 860px;
+  --reading-size: 15.5px;
+  --reading-lh: 1.55;
+  --h1-size: 36.3px;
+  --h2-size: 26.6px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--reading-size);
+  line-height: var(--reading-lh);
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--blue-light); color: var(--blue-dark); }
+
+article { max-width: var(--reading-width); margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+
+/* ── Header ── */
+header { margin-bottom: 3.25rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+header .eyebrow {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.9rem;
+}
+header h1 {
+  font-family: var(--font-head);
+  font-size: var(--h1-size);
+  font-weight: 800;
+  line-height: 1.12;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.035em;
+  color: var(--text);
+  text-wrap: balance;
+}
+header .author-line { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
+header .dot { color: var(--gray-200); }
+header .meta-date { font-size: 0.92rem; color: var(--gray-400); }
+header .tags { display: flex; gap: 0.45rem; flex-wrap: wrap; margin: 0 0 1.2rem; }
+header .tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--gray-700);
+  background: var(--gray-100);
+  border-radius: 999px;
+  padding: 0.24rem 0.68rem;
+}
+header .tag .def {
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-secondary);
+}
+header .tag.tag-llm { background: rgba(239, 68, 68, 0.12); color: #b91c1c; }
+header .tag.tag-human { background: rgba(16, 185, 129, 0.14); color: #047857; }
+
+/* ── Typography ── */
+p { margin: 0 0 0.95rem; text-wrap: pretty; }
+strong { font-weight: 600; }
+em { font-style: italic; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Section headings ── */
+h2 {
+  font-family: var(--font-head);
+  margin: 2.25rem 0 1.3rem;
+  font-size: var(--h2-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+  padding-left: 0.85rem;
+  border-left: 3px solid var(--blue);
+}
+
+/* ── Lead paragraph + drop cap ── */
+.lead { font-size: var(--reading-size); line-height: var(--reading-lh); color: var(--text); margin-bottom: 1.4rem; }
+.lead::first-letter {
+  float: left;
+  font-family: var(--font-head);
+  font-size: 3.5rem;
+  line-height: 0.78;
+  font-weight: 800;
+  padding: 0.32rem 0.62rem 0 0;
+  color: var(--blue-dark);
+}
+
+/* ── TL;DR block ── */
+.tldr {
+  margin: 0 0 3rem;
+  padding: 2rem 2rem 1.75rem;
+  position: relative;
+  background-image:
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text)),
+    linear-gradient(var(--text), var(--text));
+  background-size:
+    32px 2px, 32px 2px, 32px 2px, 32px 2px,
+    2px 32px, 2px 32px, 2px 32px, 2px 32px;
+  background-position:
+    top left, top right, bottom left, bottom right,
+    top left, top right, bottom left, bottom right;
+  background-repeat: no-repeat;
+}
+.tldr .tldr-label {
+  position: absolute;
+  top: -0.7rem;
+  left: 2.25rem;
+  font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: var(--bg);
+  padding: 0 0.75rem;
+  z-index: 1;
+  line-height: 1;
+}
+.tldr p {
+  margin: 0 0 1.15rem;
+  font-size: 0.97rem;
+  line-height: 1.72;
+  color: var(--gray-700);
+}
+.tldr p:last-child { margin-bottom: 0; }
+.tldr p strong { color: var(--text); font-weight: 600; }
+.tldr ul { margin: 0 0 1.15rem; padding-left: 1.3rem; }
+.tldr li {
+  font-size: 0.97rem;
+  line-height: 1.72;
+  color: var(--gray-700);
+  margin: 0 0 0.6rem;
+}
+.tldr li:last-child { margin-bottom: 0; }
+.tldr li::marker { color: var(--gray-400); }
+
+/* ── Footnotes ── */
+sup.fnref { line-height: 0; }
+sup.fnref a { font-size: 0.72rem; font-weight: 600; }
+.footnotes { margin-top: 4rem; padding-top: 1.75rem; border-top: 1px solid var(--border); }
+.footnotes .fn-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.75rem;
+}
+.footnotes ol { margin: 0; padding-left: 1.35rem; }
+.footnotes li {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin: 0 0 0.7rem;
+}
+.footnotes li:last-child { margin-bottom: 0; }
+.footnotes li::marker { color: var(--gray-400); }
+.footnotes a { word-break: break-all; }
+.footnotes .fn-back { margin-left: 0.35rem; word-break: normal; }
+
+/* ── LLM policy ── */
+.llmnote { margin-top: 3.5rem; padding-top: 1.75rem; border-top: 1px solid var(--border); }
+.llmnote .ab-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.4rem;
+}
+.llmnote p { font-size: 0.9rem; line-height: 1.65; color: var(--text-secondary); margin: 0; }
+
+/* ── Footer ── */
+footer {
+  margin-top: 4rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+footer .byline { margin: 0; font-size: 0.85rem; color: var(--gray-400); }
+footer .back { font-size: 0.85rem; color: var(--text-secondary); }
+footer .back:hover { color: var(--blue); text-decoration: none; }
+
+/* ── Read next ── */
+.readnext {
+  display: block;
+  margin: 3.5rem 0 0;
+  padding: 1.4rem 1.65rem;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  background: var(--gray-50);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.readnext:hover { border-color: var(--blue); box-shadow: 0 2px 12px rgba(59,130,246,0.08); text-decoration: none; }
+.readnext .rn-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin: 0 0 0.4rem; }
+.readnext .rn-title { font-size: 1.18rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin: 0 0 0.35rem; }
+.readnext .rn-desc { font-size: 0.9rem; color: var(--text-secondary); margin: 0; line-height: 1.5; }
+
+@media (max-width: 700px) {
+  header h1 { font-size: calc(var(--h1-size) * 0.8); }
+  .lead::first-letter { font-size: 3rem; }
+}
+</style>
+</head>
+<body>
+<nav style="max-width:var(--reading-width);margin:0 auto;padding:1.5rem 1.5rem 0;">
+  <a href="/" style="font-size:0.85rem;color:var(--gray-400);text-decoration:none;display:inline-flex;align-items:center;gap:0.35rem;">
+    <span>&larr;</span> Manu Xaviour Thaisseril Shaju
+  </a>
+</nav>
+<article>
+
+<header>
+  <p class="eyebrow">Essay</p>
+  <h1>What is the next big crisis AI safety is going to face very soon?</h1>
+  <div class="tags"><span class="tag">LessWrong<span class="def">&middot; as posted to LessWrong</span></span><span class="tag tag-human">Entirely human written</span></div>
+  <div class="author-line">
+    <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
+    <span class="dot">&middot;</span>
+    <span class="meta-date">August 2026</span>
+  </div>
+</header>
+
+<aside class="tldr">
+<span class="tldr-label">TL;DR</span>
+
+<p>I can clearly see models are getting better just by using the new one. I don&rsquo;t know whether they are actually getting safer or not; I just hope that frontier labs are doing the best they can and being honest about it. AI safety as a field should be able to gauge whether we are actually moving towards a safer future. Currently, some obstacles prevent AI safety from doing so.</p>
+
+<p>The points below explain why the field may operate suboptimally in the future</p>
+
+<ul>
+<li>Automated AI research is going to gain momentum in the near future; the scale at which this is going to happen is highly likely to stress the existing epistemic infrastructure of the AI safety field.</li>
+<li>The field lacks the epistemic infrastructure that is effective enough to scale the sensemaking efforts of its own outputs in terms of research, funding, and talent, which implies that the generation of new research is getting cheaper, but evaluation and understanding are not. How we solve this asymmetry is going to be consequential in deciding the future of AI safety.</li>
+</ul>
+
+<p>The points below explain why we cannot afford the field to operate suboptimally</p>
+
+<ul>
+<li>Current infrastructure may be optimal for a field that has real-world feedback, like civil or aerospace engineering, or market feedback, like a social media platform, but AI safety unfortunately lacks such feedback. It relies on benchmarks and evaluations, which are proxies for how safe the system will be in a future scenario.</li>
+<li>The correlated nature of the field, where talent almost always comes from the same pool, and funding being dominated by grantmakers that are adjacent to the same pool, is a peculiarity that is very advantageous in various ways, but also fragile at scale.</li>
+</ul>
+
+<p>The central theme here is how individually rational decisions may not be collectively optimal, so we need a clearer view of the field as a whole to avoid epistemic catastrophes.</p>
+</aside>
+
+<p class="lead">Before answering our central question, let me take you back to 2008 and tell you what caused the financial meltdown and what is so interesting about it. If you are wondering why on earth we are talking about a completely unrelated event that happened roughly 20 years back, instead of working on pressing research questions that could prevent AI from taking over the world, I am going to explain that very soon. I would really appreciate your patience. First, let me explain what was unsettling about the crisis and why it may or may not have relevance to AI safety.</p>
+
+<p>For hundreds of years, banks have lent money that people never paid back. But how the same thing could grind the entire global financial system to a halt is still a mystery to a layman, or sometimes even to an economist. I will try to unravel that mystery a little bit here.</p>
+
+<h2>History rarely repeats, but it often rhymes</h2>
+
+<p>This catastrophic meltdown was partly enabled by highly complex derivatives, such as synthetic CDOs and over-the-counter credit default swaps. They were so complex, so much so that even seasoned experts often struggled to explain how these instruments worked or what role they played in the crisis. Nonetheless, I believe that if you prompt the frontier models enough, you can hope to get a decent understanding of them, or alternatively, you can choose to watch &lsquo;The Big Short&rsquo; movie, depending on your free time, attention span and the status of your Netflix subscription. Back in early 2007, policymakers and the lenders were regularly seeing defaults of individual loans. They quickly understood the risk those defaults posed to their own organisation. However, they were completely oblivious to the extent of the risks it posed to the interconnected global financial networks. So they low-key missed the bigger picture, and they missed it with spectacular flamboyance, as you all know.</p>
+
+<p>There were valid reasons for this structural blindness that persisted among the regulators, lenders and bankers. Firstly, it was really hard to access granular data, and secondly, it was painstaking to analyse it even when they could access it. So the system relied on aggregate data and proxies, like agency ratings, algorithms, and mathematical models, in order to understand market direction and the extent of the risks they were taking. Regardless, Michael Burry, the investor who predicted and profited from the financial crisis, could read the situation clearly only because he was willing to put himself through the pain of reading documents that the rest of the system deemed too obscure to read. Such as the bond prospectuses (to understand the nature of the bonds) and the loan tape (to understand the individual borrower behaviours like delinquency). The point here is that individually, institutions were able to competently assess the risks to their own organisation, yet collectively no one really could see a faithful picture of the systemic risks except for a handful of people. So the obscurity of the critical information or inability to recognise the criticality of the visible information contributed directly to the crisis, as much as or even more than the intentional malpractices.</p>
+
+<p>Now, back to 2026: does AI safety suffer from the same epistemic issues the 2008 financial crisis had? Absolutely not. In 2008, the rating agencies were intentionally rating bad bonds as AAA, and then the banks intentionally sold those AAA-rated CDOs to pension funds even though they believed it was subprime. I don&rsquo;t think AI safety has such malicious practices; everyone is by default assumed to be acting in good faith, and it&rsquo;s not centralised, meaning there are no rating agencies. If there are no malicious actors or centralised control, can we say AI safety is immune to such epistemic risks? Can we, at least now, focus on more relevant issues like prevention of takeover by a superintelligence? I am going to answer those questions in a while. We are almost there. Please bear with me. You have top-notch patience, by the way. You could easily work in Comcast customer service if it were 2008.</p>
+
+<h2>If AI safety is not going in the right direction, would we know?</h2>
+
+<p>Or, in other words, what would be the best way to check AI safety is going in the right direction?</p>
+
+<p>The obvious answer is to analyse the inputs into the field and the outputs it produces.</p>
+
+<p>The inputs are effort put in by the researchers and field builders, funds deployed by the grantmakers, proposals created by the field strategists, etc.</p>
+
+<p>Outputs are research output produced by the researchers, talent attracted and placed by field builders, performance of the funded orgs and individuals, etc.</p>
+
+<p>The problem is that we don&rsquo;t have access to live, granular data on both; the second problem is we don&rsquo;t have the right tools to parse it. The third problem is that even after collecting it and parsing it, we don&rsquo;t have the right tools to present it.</p>
+
+<p>What we have is a manual, slow process of people manually collecting the data and parsing it and presenting it as LessWrong posts and annual safety reports. So the current epistemic infrastructure directly relies on reports which are centralised, or on informal discussion in forums like LessWrong, or even on private interactions between the top researchers.</p>
+
+<h2>The current epistemic infrastructure of the field</h2>
+
+<p>Can we ascertain the direction the field is heading from such practices and analysis? In principle, yes, as long as the data is live, the analysis is bias-free, comprehensive and easy to understand. Often, in the real world, by the time these posts or reports come out, they lag behind the data, and there is enormous effort behind this; and, since these are centralised efforts, they are still susceptible to bias.</p>
+
+<p>Usually, these reports are presented in a generic format, which may not be optimal from a specific perspective, because a grantmaker, a researcher, or a field builder expects different information from a report. A researcher wants to know which open problems are underexplored; a field builder wants to know where talent is bottlenecked. A grantmaker may want to know how his deployed capital is augmenting the rest of the field&rsquo;s efforts. On top of that, current sensemaking efforts indirectly rely on the instincts of funders, the judgment of mentors, the thousand small decisions about what gets read, how it gets cited, and who gets hired, etc. All these are part of the epistemic infrastructure which decides the direction the field is going as a whole.</p>
+
+<p>Here, valuable information is being obscured by presentation and distorted by stale data. Another issue here is that we are relying on the creators of the report for insights regarding the health of the field, or on someone who publishes a post in LessWrong or a similar forum after doing a lot of this work individually.</p>
+
+<p>One of the structural problems with AI safety is that it&rsquo;s not real-world feedback-based, like civil engineering or aerospace engineering; if the underlying science is wrong or the engineering is imprecise, we can observe this from the quality testing in other fields. We don&rsquo;t have such avenues for AI research; what we have are proxies such as benchmarks and evaluations that the field believes accurately represent future real-world scenarios. Another issue is that we can verify individual papers; that&rsquo;s why we have a peer review system, but the problem is that even though all the individual papers are right, we might be collectively steering away from the critical path. Because in peer reviews, they validate whether the claims are right or how the paper advances the research frontier, not whether the frontier research itself reduces the x-risk from a superintelligence. The latter part is done by the field as a whole through collective discourses; there is no formal process for this. So how that consensus is reached through that collective discourse is of extreme importance if we want to make sure the field is actively contributing to reducing risks from AI capabilities.</p>
+
+<p>Since most of the technical safety work is done within a few orgs that are working very closely, it is possible that the research directions might skew to a particular direction not by choice but because of the interconnected nature of active organisations, i.e. frontier labs, AISIs etc. Correlation itself is not a bad sign; that is how the field moves fast and coordinates effortlessly with minimal bureaucracy. So what the rest of the AI safety field provides is direction, critique and prioritisation, and the main contribution of the AI safety field is of an epistemic nature rather than technical, directly through the discussions it facilitates and mentorship it provides and indirectly through the talent the labs or safety institutes absorb.</p>
+
+<h2>If the existing systems somehow work, why should we worry about this so-called epistemic infrastructure at all?</h2>
+
+<p>AI is increasingly automating research. The volume of research is going to increase exponentially, and we are already seeing signs of this in NeurIPS submissions and LessWrong posts<sup class="fnref" id="fnref1"><a href="#fn1">[1]</a></sup>. Current epistemic infrastructure relies on scarce manual labour from even scarcer experts. Although it is functional as of now, it is fragile. On top of this, the field is growing fast. A lot of field builders are working hard to attract talent<sup class="fnref" id="fnref2"><a href="#fn2">[2]</a></sup>. The new talent is going to produce new automated research, and it is going to severely strain the already fragile system. The system was never designed to handle this level of volume. The key asymmetry is that the generation of new research got really cheap, but the verification of that research did not, and the act of putting that research into the context of existing work also did not. The closing of the loop, where a frontier model creates and evaluates its own research, has not started happening yet in AI safety as it has in capability research. It might happen after a while, even though it&rsquo;s debatable whether automated AI safety is a reasonable choice or not. Regardless, the idea is to have safety research positioned ahead of capabilities research before models that are capable of recursive self-improvement arrive.</p>
+
+<p>Another issue with the research that is not contextualised to existing work is that the discovery of new relevant work becomes difficult, and very soon, attention would start becoming a cheap proxy for value, which becomes a loop where some genuine research directions starve and some directions get more attention than they deserve, just because they were visible or because it was able to generate a discussion around it<sup class="fnref" id="fnref3"><a href="#fn3">[3]</a></sup>. Here, there are no malicious actors, no central authority to blame, no one to criticise, everyone is acting in good faith, yet the same information obscurity that afflicted the global financial system quietly presents itself in a new form. The role of malicious actors is being played by the volume of LLM-generated research and the self-reinforcing attention loops<sup class="fnref" id="fnref4"><a href="#fn4">[4]</a></sup>.</p>
+
+<p>In scientific research, it is documented that proposals that confirm existing beliefs get approved easily<sup class="fnref" id="fnref5"><a href="#fn5">[5]</a></sup>, while what gets counted as a successful outcome once the experiment is done has to be something that challenges the existing belief<sup class="fnref" id="fnref6"><a href="#fn6">[6]</a></sup>. This presents the researchers with a dilemma, where the proposal has to confirm existing beliefs and the actual experiment has to challenge the existing beliefs. This predicament restricts their research directions severely. Most of the time, instead of arguing with the system and defending their idea, the researchers end up self-censoring certain topics, which has either a chance to get rejected at the proposal stage for being too novel, or during the venue submission for &lsquo;not&rsquo; being novel.</p>
+
+<p>Here in AI safety, a response to a higher volume of applications or research output is almost always reactionary rather than foresightful. Most obvious responses will be raising the bar to entry or resorting to easier evaluation techniques. For example, grantmakers might favour topics that are easier to evaluate or use proxies like personal references in order to aggressively filter the volume. If such patterns emerge, proxies like personal references work in isolation, but they will add to the correlation risk the field already has. It could cause the funded projects to look skewed in a particular direction. Similarly, if grantmakers favour a certain type of application or projects in order to combat the volume, even though it is a reasonable approach individually, it can easily become a Goodhart target, and researchers will self-censor the rest of the research directions and produce content that is more likely to get a grant. I am not saying that all of this is guaranteed to happen, but it is a possibility; its likelihood increases as the volume strains the current infrastructure.</p>
+
+<p>There are going to be competing worldviews among the researchers and funders, so a lack of transparency on how the consensus is made, whether there exists consensus at all, or how to double-check the reached consensus &mdash; all of this is going to be extremely important. This is a field that is going to be faced with multi-faceted risks such as skewed research directions by correlation, inaccurate proxies for future real-world scenarios, high velocity volume produced by automated research.</p>
+
+<p>We do have a niche category of field strategists who keep track of the field and make sure that everyone is working on the leveraged problems; they too are working with less-than-optimal visibility because of the same structural issues. Ironically, they lack the right epistemic tools needed to make sure their bets are made with all the available information. Right now, they talk to researchers or do their own parsing of public data, probably all of this manually. If two researchers have competing worldviews, they may have to rely on proxies like credentials, or put in a lot of manual effort. Field strategist work can be very difficult without a reference frame. Without a clear understanding of where the field stands now, it will be difficult to plot future trajectory. There should be a proper pipeline for extracting the tacit information from the researchers into a consolidated format in order for them to work consistently on identifying highly leveraged problems.</p>
+
+<h2>Who benefits</h2>
+
+<p>This is something I believe currently has the least attention, but it has the potential to be the highest leverage activity if we prioritise it. The consequences of the 2008 financial meltdown were actually exacerbated more by the fact that there was a lack of epistemic infrastructure than by malicious practices. If everyone had a clearer view and knew what was about to happen, it may not have devolved into a full-blown global meltdown. If we have a clear way to measure the progress of AI safety, it will actually help the capability research to accelerate rather than slow down, instead of having an endless debate on whether to pause AI or not, or we need more regulations or not, etc. It&rsquo;s very easy for a highly correlated field which has no real-world feedback to drift off the critical path. We certainly don&rsquo;t want this, since all agree that the stakes are too high.</p>
+
+<p><strong>Researchers</strong> &mdash; Easy to discover relevant new work, enabling fast collaborations or follow-up work. Similarly, relevant work does not have to wait in arXiv to gather enough citations to get discovered</p>
+
+<p><strong>Grantmakers</strong> &mdash; They get a reference frame to appraise the grant proposals they receive. They get visibility to the rest of the field to see whether the current proposal makes strategic sense</p>
+
+<p><strong>Field strategists</strong> &mdash; They will benefit from this enormously, as they get a clear view of the field, so their suggestions and plans are more grounded in reality, and it also helps them identify promising directions fast or understand why a certain direction failed to deliver. With the current infrastructure, it is extremely difficult to see why a certain direction failed to deliver or quickly spot a new promising research direction without putting in tremendous manual effort.</p>
+
+<p><strong>New talent</strong> &mdash; How to orient themselves to the field by understanding the state-of-the-art research. This can help them tremendously to get up to speed with existing work and start providing value immediately, instead of waiting on the sidelines or being a part of the slope.</p>
+
+<div class="footnotes">
+<p class="fn-label">Footnotes</p>
+<ol>
+<li id="fn1">arXiv blog (Oct 2025). &ldquo;Attention authors: updated practice for review articles and position papers in arXiv CS category.&rdquo; <a href="https://blog.arxiv.org/2025/10/31/attention-authors-updated-practice-for-review-articles-and-position-papers-in-arxiv-cs-category/" rel="noopener" target="_blank">https://blog.arxiv.org/2025/10/31/attention-authors-updated-practice-for-review-articles-and-position-papers-in-arxiv-cs-category/</a><a class="fn-back" href="#fnref1" aria-label="Back to text">&#8617;</a></li>
+<li id="fn2">&ldquo;AI safety talent needs in 2026: insights for field-building.&rdquo; EA Forum. <a href="https://forum.effectivealtruism.org/posts/jwwrC4n9H53doRjRH/ai-safety-talent-needs-in-2026-insights-for-field-building" rel="noopener" target="_blank">https://forum.effectivealtruism.org/posts/jwwrC4n9H53doRjRH/ai-safety-talent-needs-in-2026-insights-for-field-building</a><a class="fn-back" href="#fnref2" aria-label="Back to text">&#8617;</a></li>
+<li id="fn3">Frank, R. H., &amp; Cook, P. J. (1995). The Winner-Take-All Society. Free Press.<a class="fn-back" href="#fnref3" aria-label="Back to text">&#8617;</a></li>
+<li id="fn4">Merton, R. K. (1968). &ldquo;The Matthew Effect in Science.&rdquo; Science, 159(3810), 56-63. <a href="https://www.science.org/doi/10.1126/science.159.3810.56" rel="noopener" target="_blank">https://www.science.org/doi/10.1126/science.159.3810.56</a><a class="fn-back" href="#fnref4" aria-label="Back to text">&#8617;</a></li>
+<li id="fn5">Boudreau, K. J., Guinan, E. C., Lakhani, K. R., &amp; Riedl, C. (2016). &ldquo;Looking Across and Looking Beyond the Knowledge Frontier: Intellectual Distance, Novelty, and Resource Allocation in Science.&rdquo; Management Science, 62(10), 2765-2783. <a href="https://pubsonline.informs.org/doi/10.1287/mnsc.2015.2285" rel="noopener" target="_blank">https://pubsonline.informs.org/doi/10.1287/mnsc.2015.2285</a><a class="fn-back" href="#fnref5" aria-label="Back to text">&#8617;</a></li>
+<li id="fn6">Gross, K., &amp; Bergstrom, C. T. (2021). &ldquo;Why ex post peer review encourages high-risk research while ex ante review discourages it.&rdquo; PNAS, 118(51), e2111615118. <a href="https://www.pnas.org/doi/full/10.1073/pnas.2111615118" rel="noopener" target="_blank">https://www.pnas.org/doi/full/10.1073/pnas.2111615118</a><a class="fn-back" href="#fnref6" aria-label="Back to text">&#8617;</a></li>
+</ol>
+</div>
+
+<section class="llmnote">
+  <p class="ab-label">LLM policy</p>
+  <p>Unlike the other essays on this site, this one was written entirely by hand: no language model wrote or reworded any sentence of it. The machine contributions to this page are the HTML it is wrapped in and a copyedit I asked for &mdash; spelling, punctuation and grammar, with the prose left as written.</p>
+</section>
+
+<a class="readnext" href="/posts/the-coming-epistemic-crisis/">
+  <p class="rn-label">Read next &rarr;</p>
+  <p class="rn-title">The Coming Epistemic Crisis AI Safety Is Not Ready For</p>
+  <p class="rn-desc">The longer treatment of the same squeeze: research generation automating faster than evaluation, a widening talent funnel, and a handful of correlated buyers pricing the field&rsquo;s directions.</p>
+</a>
+
+<footer>
+  <p class="byline">Manu Xaviour Thaisseril Shaju &middot; August 2026</p>
+  <a class="back" href="/">&larr; All writing</a>
+</footer>
+
+</article>
+</body>
+</html>
