@@ -107,6 +107,19 @@ header .subtitle {
   max-width: 42ch;
   text-wrap: pretty;
 }
+header .tags { display: flex; gap: 0.45rem; flex-wrap: wrap; margin: 0 0 1.2rem; }
+header .tag {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 0.24rem 0.68rem;
+}
+header .tag.tag-llm { background: rgba(239, 68, 68, 0.12); color: #b91c1c; }
+header .tag.tag-human { background: rgba(16, 185, 129, 0.14); color: #047857; }
 header .author-line { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
 header .author-name { font-size: 0.92rem; font-weight: 600; color: var(--text); }
 header .dot { color: var(--gray-200); }
@@ -286,6 +299,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <header>
   <p class="eyebrow">Essay &middot; Companion</p>
   <h1>The Demand Line</h1>
+  <div class="tags"><span class="tag tag-llm">LLM-written</span><span class="tag tag-human">Human ideas &amp; edits</span></div>
   <p class="subtitle">Which safety work the market will carry, which it never will &mdash; and why watching the border is the map&rsquo;s second job</p>
   <div class="author-line">
     <span class="author-name">Manu Xaviour Thaisseril Shaju</span>

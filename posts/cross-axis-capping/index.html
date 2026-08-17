@@ -60,6 +60,10 @@ header .github-link:hover { color: var(--text); }
 header .github-link svg { width: 16px; height: 16px; fill: currentColor; }
 header .meta-note { font-size: 0.82rem; color: var(--gray-400); margin: 0.75rem 0 0; font-style: italic; }
 header .meta-note strong { color: var(--text-secondary); font-weight: 600; font-style: normal; }
+header .tags { display: flex; gap: 0.45rem; flex-wrap: wrap; margin: 0 0 1.2rem; }
+header .tag { display: inline-flex; align-items: baseline; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--gray-700); background: var(--gray-100); border-radius: 999px; padding: 0.24rem 0.68rem; }
+header .tag.tag-llm { background: rgba(239, 68, 68, 0.12); color: #b91c1c; }
+header .tag.tag-human { background: rgba(16, 185, 129, 0.14); color: #047857; }
 
 /* ── Typography ── */
 h2 { font-family: 'Merriweather', Georgia, serif; font-size: 1.5rem; font-weight: 700; margin: 2.25rem 0 1.2rem; letter-spacing: -0.02em; padding-left: 0.75rem; border-left: 3px solid var(--blue); }
@@ -398,6 +402,7 @@ details[open] > summary { border-bottom: 1px solid var(--gray-200); }
 
 <header>
   <h1>Cross-Axis Capping: What happens when you stop using one axis for two jobs</h1>
+  <div class="tags"><span class="tag tag-llm">LLM-written</span><span class="tag tag-human">Human ideas &amp; edits</span></div>
   <p class="subtitle">What the geometry of constructed directions tells us about matching each axis to its role: cross-axis capping to detect and correct jailbreaks</p>
   <div class="author-line">
     <span class="author-name">Manu Xaviour Thaisseril Shaju</span>
