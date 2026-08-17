@@ -154,6 +154,74 @@ h2 {
   color: var(--blue-dark);
 }
 
+/* ── Hero figure ── */
+.hero {
+  width: fit-content;
+  max-width: 100%;
+  margin: 2.25rem auto 2.5rem;
+  padding: 1.5rem 1.6rem 1.25rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  text-align: center;
+}
+.hero svg { display: block; width: 230px; max-width: 100%; height: auto; margin: 0 auto; }
+.hero figcaption {
+  margin: 0.9rem auto 0;
+  max-width: 28ch;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ── Inline diagrams ── */
+.diagram {
+  margin: 2.75rem -1.5rem;
+  padding: 1.75rem 1.6rem 1.5rem;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+}
+.diagram svg { display: block; width: 100%; height: auto; }
+.diagram svg text { font-family: var(--font-body); }
+.diagram figcaption {
+  margin: 1.15rem auto 0;
+  max-width: 56ch;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.diagram figcaption strong { color: var(--gray-700); font-weight: 600; }
+.diagram figcaption em { font-style: italic; }
+
+/* ── Display statement ── */
+.statement {
+  font-family: var(--font-head);
+  position: relative;
+  margin: 3.25rem auto;
+  padding-top: 2.1rem;
+  max-width: 33ch;
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.statement::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--blue);
+}
+
 /* ── TL;DR block ── */
 .tldr {
   margin: 0 0 3rem;
@@ -280,6 +348,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 @media (max-width: 700px) {
   header h1 { font-size: calc(var(--h1-size) * 0.8); }
   .lead::first-letter { font-size: 3rem; }
+  .statement { font-size: 1.15rem; }
 }
 </style>
 </head>
@@ -326,6 +395,23 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p class="lead">Before answering our central question, let me take you back to 2008 and tell you what caused the financial meltdown and what is so interesting about it. If you are wondering why on earth we are talking about a completely unrelated event that happened roughly 20 years back, instead of working on pressing research questions that could prevent AI from taking over the world, I am going to explain that very soon. I would really appreciate your patience. First, let me explain what was unsettling about the crisis and why it may or may not have relevance to AI safety.</p>
 
+<figure class="hero">
+  <svg viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A seesaw tipped by a growing stack of papers on one end, while a single small magnifying glass sits high on the other end.">
+    <path d="M 45 222 L 255 185" stroke="#334155" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 150 204 L 135 238 L 165 238 Z" fill="#64748b"/>
+    <rect x="52" y="202" width="46" height="13" rx="2" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+    <rect x="56" y="188" width="46" height="13" rx="2" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+    <rect x="50" y="174" width="46" height="13" rx="2" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+    <rect x="57" y="160" width="46" height="13" rx="2" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+    <rect x="52" y="146" width="46" height="13" rx="2" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+    <rect x="58" y="128" width="46" height="13" rx="2" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" opacity="0.55"/>
+    <rect x="53" y="110" width="46" height="13" rx="2" fill="#ffffff" stroke="#60a5fa" stroke-width="1.5" opacity="0.35"/>
+    <circle cx="232" cy="158" r="17" fill="#dbeafe" stroke="#1e40af" stroke-width="3"/>
+    <path d="M 244 170 L 258 186" stroke="#1e40af" stroke-width="4.5" stroke-linecap="round"/>
+  </svg>
+  <figcaption>The generation of new research is getting cheaper, but evaluation and understanding are not.</figcaption>
+</figure>
+
 <p>For hundreds of years, banks have lent money that people never paid back. But how the same thing could grind the entire global financial system to a halt is still a mystery to a layman, or sometimes even to an economist. I will try to unravel that mystery a little bit here.</p>
 
 <h2>History rarely repeats, but it often rhymes</h2>
@@ -333,6 +419,27 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <p>This catastrophic meltdown was partly enabled by highly complex derivatives, such as synthetic CDOs and over-the-counter credit default swaps. They were so complex, so much so that even seasoned experts often struggled to explain how these instruments worked or what role they played in the crisis. Nonetheless, I believe that if you prompt the frontier models enough, you can hope to get a decent understanding of them, or alternatively, you can choose to watch &lsquo;The Big Short&rsquo; movie, depending on your free time, attention span and the status of your Netflix subscription. Back in early 2007, policymakers and the lenders were regularly seeing defaults of individual loans. They quickly understood the risk those defaults posed to their own organisation. However, they were completely oblivious to the extent of the risks it posed to the interconnected global financial networks. So they low-key missed the bigger picture, and they missed it with spectacular flamboyance, as you all know.</p>
 
 <p>There were valid reasons for this structural blindness that persisted among the regulators, lenders and bankers. Firstly, it was really hard to access granular data, and secondly, it was painstaking to analyse it even when they could access it. So the system relied on aggregate data and proxies, like agency ratings, algorithms, and mathematical models, in order to understand market direction and the extent of the risks they were taking. Regardless, Michael Burry, the investor who predicted and profited from the financial crisis, could read the situation clearly only because he was willing to put himself through the pain of reading documents that the rest of the system deemed too obscure to read. Such as the bond prospectuses (to understand the nature of the bonds) and the loan tape (to understand the individual borrower behaviours like delinquency). The point here is that individually, institutions were able to competently assess the risks to their own organisation, yet collectively no one really could see a faithful picture of the systemic risks except for a handful of people. So the obscurity of the critical information or inability to recognise the criticality of the visible information contributed directly to the crisis, as much as or even more than the intentional malpractices.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three boxes labelled lenders, banks and regulators, each marked own risk visible. Dashed lines connect them below, meeting at a question mark: the systemic risk sat in the connections and no one held the picture.">
+  <path d="M 110 102 C 200 210, 520 210, 610 102" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 5" opacity="0.9"/>
+  <path d="M 110 102 C 160 172, 310 172, 360 102" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 5" opacity="0.9"/>
+  <path d="M 360 102 C 410 172, 560 172, 610 102" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 5" opacity="0.9"/>
+  <circle cx="360" cy="183" r="17" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="360" y="189" text-anchor="middle" font-size="16" font-weight="700" fill="#64748b">?</text>
+  <rect x="35" y="28" width="150" height="74" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="110" y="60" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">LENDERS</text>
+  <text x="110" y="82" text-anchor="middle" font-size="10.5" fill="#64748b">own risk: visible</text>
+  <rect x="285" y="28" width="150" height="74" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="360" y="60" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">BANKS</text>
+  <text x="360" y="82" text-anchor="middle" font-size="10.5" fill="#64748b">own risk: visible</text>
+  <rect x="535" y="28" width="150" height="74" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="610" y="60" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">REGULATORS</text>
+  <text x="610" y="82" text-anchor="middle" font-size="10.5" fill="#64748b">own risk: visible</text>
+  <text x="360" y="235" text-anchor="middle" font-size="12.5" font-style="italic" fill="#64748b">they low-key missed the bigger picture</text>
+</svg>
+<figcaption><strong>Structural blindness.</strong> Individually, institutions were able to competently assess the risks to their own organisation, yet collectively no one really could see a faithful picture of the systemic risks except for a handful of people.</figcaption>
+</figure>
 
 <p>Now, back to 2026: does AI safety suffer from the same epistemic issues the 2008 financial crisis had? Absolutely not. In 2008, the rating agencies were intentionally rating bad bonds as AAA, and then the banks intentionally sold those AAA-rated CDOs to pension funds even though they believed it was subprime. I don&rsquo;t think AI safety has such malicious practices; everyone is by default assumed to be acting in good faith, and it&rsquo;s not centralised, meaning there are no rating agencies. If there are no malicious actors or centralised control, can we say AI safety is immune to such epistemic risks? Can we, at least now, focus on more relevant issues like prevention of takeover by a superintelligence? I am going to answer those questions in a while. We are almost there. Please bear with me. You have top-notch patience, by the way. You could easily work in Comcast customer service if it were 2008.</p>
 
@@ -350,6 +457,37 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>What we have is a manual, slow process of people manually collecting the data and parsing it and presenting it as LessWrong posts and annual safety reports. So the current epistemic infrastructure directly relies on reports which are centralised, or on informal discussion in forums like LessWrong, or even on private interactions between the top researchers.</p>
 
+<figure class="diagram">
+<svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Inputs flow into the field and outputs flow out, but the reading layer between them is missing: no live data, no tools to parse it, no tools to present it.">
+  <defs>
+    <marker id="io-fwd" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#3b82f6"/></marker>
+  </defs>
+  <line x1="209" y1="72" x2="267" y2="72" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#io-fwd)"/>
+  <line x1="449" y1="72" x2="507" y2="72" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#io-fwd)"/>
+  <line x1="360" y1="116" x2="360" y2="142" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 4"/>
+  <line x1="150" y1="142" x2="570" y2="142" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="150" y1="142" x2="150" y2="148" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="570" y1="142" x2="570" y2="148" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <rect x="35" y="30" width="170" height="84" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="120" y="66" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">INPUTS</text>
+  <text x="120" y="88" text-anchor="middle" font-size="10.5" fill="#64748b">effort, funds, proposals</text>
+  <rect x="275" y="30" width="170" height="84" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="360" y="66" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">THE FIELD</text>
+  <text x="360" y="88" text-anchor="middle" font-size="10.5" font-style="italic" fill="#64748b">going in the right direction?</text>
+  <rect x="515" y="30" width="170" height="84" rx="11" fill="#ffffff" stroke="#1e40af" stroke-width="1.5"/>
+  <text x="600" y="66" text-anchor="middle" font-size="13" font-weight="700" letter-spacing="0.04em" fill="#1e40af">OUTPUTS</text>
+  <text x="600" y="88" text-anchor="middle" font-size="10.5" fill="#64748b">research, talent, performance</text>
+  <rect x="55" y="148" width="190" height="34" rx="17" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="150" y="169" text-anchor="middle" font-size="11.5" font-weight="600" fill="#b45309">no live, granular data</text>
+  <rect x="265" y="148" width="190" height="34" rx="17" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="360" y="169" text-anchor="middle" font-size="11.5" font-weight="600" fill="#b45309">no tools to parse it</text>
+  <rect x="475" y="148" width="190" height="34" rx="17" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="570" y="169" text-anchor="middle" font-size="11.5" font-weight="600" fill="#b45309">no tools to present it</text>
+  <text x="360" y="215" text-anchor="middle" font-size="12.5" font-style="italic" fill="#64748b">what we have is a manual, slow process</text>
+</svg>
+<figcaption><strong>Would we know?</strong> The obvious answer is to analyse the inputs into the field and the outputs it produces.</figcaption>
+</figure>
+
 <h2>The current epistemic infrastructure of the field</h2>
 
 <p>Can we ascertain the direction the field is heading from such practices and analysis? In principle, yes, as long as the data is live, the analysis is bias-free, comprehensive and easy to understand. Often, in the real world, by the time these posts or reports come out, they lag behind the data, and there is enormous effort behind this; and, since these are centralised efforts, they are still susceptible to bias.</p>
@@ -360,13 +498,34 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <p>One of the structural problems with AI safety is that it&rsquo;s not real-world feedback-based, like civil engineering or aerospace engineering; if the underlying science is wrong or the engineering is imprecise, we can observe this from the quality testing in other fields. We don&rsquo;t have such avenues for AI research; what we have are proxies such as benchmarks and evaluations that the field believes accurately represent future real-world scenarios. Another issue is that we can verify individual papers; that&rsquo;s why we have a peer review system, but the problem is that even though all the individual papers are right, we might be collectively steering away from the critical path. Because in peer reviews, they validate whether the claims are right or how the paper advances the research frontier, not whether the frontier research itself reduces the x-risk from a superintelligence. The latter part is done by the field as a whole through collective discourses; there is no formal process for this. So how that consensus is reached through that collective discourse is of extreme importance if we want to make sure the field is actively contributing to reducing risks from AI capabilities.</p>
 
+<p class="statement">Even though all the individual papers are right, we might be collectively steering away from the critical path.</p>
+
 <p>Since most of the technical safety work is done within a few orgs that are working very closely, it is possible that the research directions might skew to a particular direction not by choice but because of the interconnected nature of active organisations, i.e. frontier labs, AISIs etc. Correlation itself is not a bad sign; that is how the field moves fast and coordinates effortlessly with minimal bureaucracy. So what the rest of the AI safety field provides is direction, critique and prioritisation, and the main contribution of the AI safety field is of an epistemic nature rather than technical, directly through the discussions it facilitates and mentorship it provides and indirectly through the talent the labs or safety institutes absorb.</p>
 
 <h2>If the existing systems somehow work, why should we worry about this so-called epistemic infrastructure at all?</h2>
 
 <p>AI is increasingly automating research. The volume of research is going to increase exponentially, and we are already seeing signs of this in NeurIPS submissions and LessWrong posts<sup class="fnref" id="fnref1"><a href="#fn1">[1]</a></sup>. Current epistemic infrastructure relies on scarce manual labour from even scarcer experts. Although it is functional as of now, it is fragile. On top of this, the field is growing fast. A lot of field builders are working hard to attract talent<sup class="fnref" id="fnref2"><a href="#fn2">[2]</a></sup>. The new talent is going to produce new automated research, and it is going to severely strain the already fragile system. The system was never designed to handle this level of volume. The key asymmetry is that the generation of new research got really cheap, but the verification of that research did not, and the act of putting that research into the context of existing work also did not. The closing of the loop, where a frontier model creates and evaluates its own research, has not started happening yet in AI safety as it has in capability research. It might happen after a while, even though it&rsquo;s debatable whether automated AI safety is a reasonable choice or not. Regardless, the idea is to have safety research positioned ahead of capabilities research before models that are capable of recursive self-improvement arrive.</p>
 
+<figure class="diagram">
+<svg viewBox="0 0 720 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A curve of automated research volume rises steeply away from a nearly flat line of manual evaluation capacity; the widening wedge between them is the strain on the already fragile system.">
+  <defs>
+    <marker id="asym-blue" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#1e40af"/></marker>
+    <marker id="asym-gray" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#64748b"/></marker>
+  </defs>
+  <path d="M 60 180 C 300 176, 500 148, 640 46 L 634 170 L 60 180 Z" fill="#dbeafe" opacity="0.5"/>
+  <line x1="60" y1="210" x2="660" y2="210" stroke="#e2e8f0" stroke-width="2"/>
+  <path d="M 60 180 L 634 170" fill="none" stroke="#64748b" stroke-width="3" stroke-linecap="round" marker-end="url(#asym-gray)"/>
+  <path d="M 60 180 C 300 176, 500 148, 640 46" fill="none" stroke="#1e40af" stroke-width="3.5" stroke-linecap="round" marker-end="url(#asym-blue)"/>
+  <text x="420" y="62" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="0.04em" fill="#1e40af">AUTOMATED RESEARCH VOLUME</text>
+  <text x="350" y="200" text-anchor="middle" font-size="11.5" font-weight="700" letter-spacing="0.04em" fill="#475569">MANUAL EVALUATION CAPACITY</text>
+  <text x="360" y="240" text-anchor="middle" font-size="12.5" font-style="italic" fill="#64748b">it is going to severely strain the already fragile system</text>
+</svg>
+<figcaption><strong>The key asymmetry.</strong> The generation of new research got really cheap, but the verification of that research did not, and the act of putting that research into the context of existing work also did not.</figcaption>
+</figure>
+
 <p>Another issue with the research that is not contextualised to existing work is that the discovery of new relevant work becomes difficult, and very soon, attention would start becoming a cheap proxy for value, which becomes a loop where some genuine research directions starve and some directions get more attention than they deserve, just because they were visible or because it was able to generate a discussion around it<sup class="fnref" id="fnref3"><a href="#fn3">[3]</a></sup>. Here, there are no malicious actors, no central authority to blame, no one to criticise, everyone is acting in good faith, yet the same information obscurity that afflicted the global financial system quietly presents itself in a new form. The role of malicious actors is being played by the volume of LLM-generated research and the self-reinforcing attention loops<sup class="fnref" id="fnref4"><a href="#fn4">[4]</a></sup>.</p>
+
+<p class="statement">The role of malicious actors is being played by the volume of LLM-generated research and the self-reinforcing attention loops.</p>
 
 <p>In scientific research, it is documented that proposals that confirm existing beliefs get approved easily<sup class="fnref" id="fnref5"><a href="#fn5">[5]</a></sup>, while what gets counted as a successful outcome once the experiment is done has to be something that challenges the existing belief<sup class="fnref" id="fnref6"><a href="#fn6">[6]</a></sup>. This presents the researchers with a dilemma, where the proposal has to confirm existing beliefs and the actual experiment has to challenge the existing beliefs. This predicament restricts their research directions severely. Most of the time, instead of arguing with the system and defending their idea, the researchers end up self-censoring certain topics, which has either a chance to get rejected at the proposal stage for being too novel, or during the venue submission for &lsquo;not&rsquo; being novel.</p>
 
@@ -379,6 +538,8 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 <h2>Who benefits</h2>
 
 <p>This is something I believe currently has the least attention, but it has the potential to be the highest leverage activity if we prioritise it. The consequences of the 2008 financial meltdown were actually exacerbated more by the fact that there was a lack of epistemic infrastructure than by malicious practices. If everyone had a clearer view and knew what was about to happen, it may not have devolved into a full-blown global meltdown. If we have a clear way to measure the progress of AI safety, it will actually help the capability research to accelerate rather than slow down, instead of having an endless debate on whether to pause AI or not, or we need more regulations or not, etc. It&rsquo;s very easy for a highly correlated field which has no real-world feedback to drift off the critical path. We certainly don&rsquo;t want this, since all agree that the stakes are too high.</p>
+
+<p class="statement">If everyone had a clearer view and knew what was about to happen, it may not have devolved into a full-blown global meltdown.</p>
 
 <p><strong>Researchers</strong> &mdash; Easy to discover relevant new work, enabling fast collaborations or follow-up work. Similarly, relevant work does not have to wait in arXiv to gather enough citations to get discovered</p>
 
@@ -402,7 +563,7 @@ footer .back:hover { color: var(--blue); text-decoration: none; }
 
 <section class="llmnote">
   <p class="ab-label">LLM policy</p>
-  <p>Unlike the other essays on this site, this one was written entirely by hand: no language model wrote or reworded any sentence of it. The machine contributions to this page are the HTML it is wrapped in and a copyedit I asked for &mdash; spelling, punctuation and grammar, with the prose left as written.</p>
+  <p>Unlike the other essays on this site, this one was written entirely by hand: no language model wrote or reworded any sentence of it. The machine contributions to this page are the HTML it is wrapped in, a copyedit I asked for &mdash; spelling, punctuation and grammar, with the prose left as written &mdash; and the diagrams; their captions and the pull-quotes reuse the essay&rsquo;s own sentences verbatim.</p>
 </section>
 
 <a class="readnext" href="/posts/the-coming-epistemic-crisis/">
