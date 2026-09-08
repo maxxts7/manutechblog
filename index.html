@@ -64,10 +64,6 @@ section > h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; mar
   color: var(--gray-700);
   margin: 1.6rem 0 0.6rem;
 }
-.current ul { padding-left: 1.1rem; margin: 0 0 0.75rem; }
-.current li { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin: 0 0 0.5rem; }
-.current li:last-child { margin-bottom: 0; }
-.current li::marker { color: var(--gray-400); }
 .current strong { color: var(--text); font-weight: 600; }
 .current a { color: var(--blue); text-decoration: none; font-weight: 500; }
 .current a:hover { text-decoration: underline; }
@@ -146,15 +142,11 @@ section > h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; mar
 
   <section class="current">
     <h2>What I am currently doing</h2>
-    <p>My current work is on the infrastructure the field uses to read itself: the records, maps and explanations a field needs before it can say what it is doing in aggregate, rather than one project at a time. Two of those are built and running.</p>
+    <p>A research paper is written for people who already understand it. That is most of what makes AI safety expensive to enter: the prerequisites are in other papers, and skipping one makes the next section cost more.</p>
 
-    <h3>The tools</h3>
-    <ul>
-      <li><a href="https://aisafteymap.netlify.app/">AI Safety Map</a> &mdash; a live map of where AI safety research is heading, built to be sliced by the question being asked rather than fixed to a single view.</li>
-      <li><a href="https://exploreaisafety.netlify.app/">Explore: An AI Safety Wiki</a> &mdash; the other half of the problem: research that is prerequisite-heavy and thin on exposition, which is much of what makes the field expensive to enter.</li>
-    </ul>
-    <p>Both began as tools I wanted and could not find, and I have come to think they address one problem rather than two.</p>
-    <p>I write my vision and build tools around it; that is what I do here. If you want the rationale behind them, it is in the writing below, at length: mostly how the field communicates with itself, and how it makes sure it is on the right path.</p>
+    <h3>The tool</h3>
+    <p><a href="https://skimmaxxer.netlify.app/viewer/">Skimmaxxer</a> takes one paper &mdash; a PDF, or a page on the web &mdash; and produces a site that re-explains it. <strong>No unexplained prerequisite term.</strong> Anything the paper assumes is explained where it is used or one click away. Every figure reads on its own. The argument is there as a summary and at full length.</p>
+    <p>It began as a tool I wanted and could not find. The rationale is in the writing below.</p>
   </section>
 
   <section>
