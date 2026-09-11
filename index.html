@@ -43,30 +43,37 @@ body {
 .site-links a { font-size: 0.85rem; color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
 .site-links a:hover { color: var(--blue); }
 
-.about { margin-bottom: 3rem; }
-.about h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.75rem; color: var(--text); }
-.about p { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin: 0 0 0.75rem; }
-.about p:last-child { margin-bottom: 0; }
-.about strong { color: var(--text); font-weight: 600; }
-.about p a { color: var(--blue); text-decoration: none; font-weight: 500; }
-.about p a:hover { text-decoration: underline; }
-
-section > h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.75rem; color: var(--text); }
-
-.current { margin-bottom: 3rem; }
-.current p { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin: 0 0 0.75rem; }
-.current p:last-child { margin-bottom: 0; }
-.current h3 {
+.timeline { margin-bottom: 3rem; }
+.tl-item { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0 1.4rem; padding-bottom: 2.1rem; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-date {
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--gray-700);
-  margin: 1.6rem 0 0.6rem;
+  text-align: right;
+  padding-top: 0.32rem;
 }
-.current strong { color: var(--text); font-weight: 600; }
-.current a { color: var(--blue); text-decoration: none; font-weight: 500; }
-.current a:hover { text-decoration: underline; }
+.tl-body { position: relative; border-left: 1px solid var(--gray-200); padding-left: 1.4rem; }
+.tl-body::before {
+  content: '';
+  position: absolute;
+  left: -4.5px;
+  top: 0.5rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+.tl-body h3 { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.6rem; color: var(--text); }
+.tl-body p { font-size: 0.92rem; color: var(--text-secondary); line-height: 1.7; margin: 0 0 0.75rem; }
+.tl-body p:last-child { margin-bottom: 0; }
+.tl-body strong { color: var(--text); font-weight: 600; }
+.tl-body a { color: var(--blue); text-decoration: none; font-weight: 500; }
+.tl-body a:hover { text-decoration: underline; }
+
+section > h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.75rem; color: var(--text); }
 
 .post-grid { display: grid; gap: 1rem; }
 
@@ -116,6 +123,10 @@ section > h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; mar
 
 @media (max-width: 700px) {
   .site-header h1 { font-size: 1.6rem; }
+  .tl-item { grid-template-columns: 1fr; padding-bottom: 1.9rem; }
+  .tl-date { text-align: left; padding-top: 0; margin-bottom: 0.4rem; }
+  .tl-body { border-left: none; padding-left: 0; }
+  .tl-body::before { display: none; }
   .post-card { padding: 1.25rem; }
 }
 </style>
@@ -133,20 +144,53 @@ section > h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; mar
     </div>
   </header>
 
-  <section class="about">
-    <h2>About</h2>
-    <p>I come from a customer service background &mdash; I spent several years as a Technical Support Engineer, working across SaaS products. In early 2022 I became interested in AI and decided to pursue a master&rsquo;s degree in the field &mdash; an MSc in Advanced Computer Science with AI at the <strong>University of Strathclyde</strong>. One month into the programme, ChatGPT was released, and the world I&rsquo;d just entered changed overnight.</p>
-    <p>For the next couple of years I leaned toward building &mdash; prototyping apps with AI, learning to ship things, picking up the engineering side. But the research questions kept pulling me back. In early 2025 I found my way to AI safety: the problem of making sure these systems do what we actually want, especially as they grow more capable.</p>
-    <p>In 2026 I joined the <strong>BlueDot Impact</strong> Technical AI Safety Project Sprint, where I completed a research project on activation-space interventions for jailbreak defence. That work is below.</p>
-  </section>
+  <section class="timeline">
 
-  <section class="current">
-    <h2>What I am currently doing</h2>
-    <p>A research paper is written for people who already understand it. That is most of what makes AI safety expensive to enter: the prerequisites are in other papers, and skipping one makes the next section cost more.</p>
+    <div class="tl-item">
+      <div class="tl-date">2010&ndash;2021</div>
+      <div class="tl-body">
+        <h3>Customer service</h3>
+        <p>My first job was as a game programmer. After a year I had an epiphany: trading cognitive skill for money was not a proposition I enjoyed. My belief at the time was that cognitive ability is personal property, meant only for work one personally enjoys. Looking for a job that demanded minimal cognitive skill, I moved into customer service and spent nearly a decade there.</p>
+      </div>
+    </div>
 
-    <h3>The tool</h3>
-    <p><a href="https://skimmaxxer.netlify.app/viewer/">Skimmaxxer</a> takes one paper &mdash; a PDF, or a page on the web &mdash; and produces a site that re-explains it. <strong>No unexplained prerequisite term.</strong> Anything the paper assumes is explained where it is used or one click away. Every figure reads on its own. The argument is there as a summary and at full length.</p>
-    <p>It began as a tool I wanted and could not find. The rationale is in the writing below.</p>
+    <div class="tl-item">
+      <div class="tl-date">2022&ndash;2025</div>
+      <div class="tl-body">
+        <h3>MSc in AI</h3>
+        <p>In late 2021 I noticed people talking about AI and its potential impact on my job as a customer service executive, and decided to look into it. There was a lot of activity, most of it on Kaggle and in ML for data science. I had heard of GPT-3 and was convinced it was a PR stunt &mdash; but at the back of my mind, if it were true, it was my dream of commoditised intelligence, where human intelligence is only used for the purposes people actually want. The trend was hard to miss.</p>
+        <p>I decided to get to the bottom of it and started an <strong>MSc in AI at the University of Strathclyde</strong> in late 2022. Two months into the programme ChatGPT was released, and I knew this was not hype.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2025&ndash;2026</div>
+      <div class="tl-body">
+        <h3>AI safety</h3>
+        <p>I got interested in technical AI safety in early 2025. The risk is asymmetrical: the risk of absolute ruin grows exponentially with capability, which means the future of humanity depends increasingly on how technical AI safety achieves its goal. I attended a <strong>BlueDot Impact</strong> course and completed <a href="/posts/cross-axis-capping/">a project on persona vectors</a>.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">2026&ndash;present</div>
+      <div class="tl-body">
+        <h3>Epistemic infrastructure</h3>
+        <p>I now think about this differently. AI safety research is going to be automated very fast, and there is little value in being an expert on one specific research area when AI can do that research better than anyone else. The value is in making sense of the research that gets generated, and in finding directions that meaningfully reduce catastrophic risk.</p>
+        <p>Generating new research is getting cheaper, and evaluation is expected to get cheaper too. But <strong>distillation</strong> &mdash; understanding the implications of new research &mdash; and <strong>exposition</strong> &mdash; how that research augments the rest of the field and reduces existential risk &mdash; are not getting the attention they deserve, and are not being automated fast enough. Whether to automate them fully is itself a heavily debated question. I hold the strong opinion that handing frontier models the responsibility for making sure frontier models are safe is a terrible choice.</p>
+        <p>There are other epistemic aspects: the discovery and distribution of new work, and the way attention dynamics bias research effort. Certain directions get more attention because they are already legible and have a critical mass of papers and talent; others starve for lack of both &mdash; there is no existing research because there is not enough talent, and talent is discouraged because there is no ecosystem to support that kind of research.</p>
+        <p>The amount of research AI is going to generate is staggering, and we need the right epistemic infrastructure to handle that volume. <a href="/posts/the-next-big-crisis/">I have written an article about why this matters.</a> It is what I am currently focused on.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">Now</div>
+      <div class="tl-body">
+        <h3>Skimmaxxer</h3>
+        <p>One example of such a tool. <a href="https://skimmaxxer.netlify.app/viewer/">Skimmaxxer</a> is a distillation tool that helps you read research papers which require understanding complex prerequisites. I use it myself and have shared it publicly.</p>
+        <p>In future I may build others to augment the epistemic infrastructure &mdash; possibly a tool for exposition: making sense of a new result, its implications, and what it enables.</p>
+      </div>
+    </div>
+
   </section>
 
   <section>
